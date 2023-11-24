@@ -234,10 +234,11 @@ async def check_balance(_, message):
 
 @bot.on_message(filters.command("tx"))
 async def start_taixiu(_, message):
-    while True:
-	    await game_timer()
-    else:
-	    await bot.send_message(group_chat_id, "test.")
+	#await game_timer()
+	timer_thread = threading.Thread(target=game_timer)
+    	timer_thread.start()
+    #else:
+	    #await bot.send_message(group_chat_id, "test.")
 
 def ls_cau(cau, result):
     total_score = sum(result)
