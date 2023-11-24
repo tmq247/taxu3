@@ -235,8 +235,8 @@ async def check_balance(_, message):
 @bot.on_message(filters.command("tx"))
 async def start_taixiu(_, message):
 	#await game_timer()
-	timer_thread = threading.Thread(target=game_timer)
-	timer_thread.start()
+	await timer_thread = threading.Thread(target=game_timer)
+	await timer_thread.start()
     #else:
 	    #await bot.send_message(group_chat_id, "test.")
 
