@@ -168,7 +168,7 @@ Tổng thua: {total_bet_T + total_bet_X}đ
 
 # Function to handle the game timing
 def game_timer():
-    bot.send_message(chat_id, "Bắt đầu game.")
+    bot.send_message(group_chat_id, "Bắt đầu game.")
     bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
     time.sleep(20)  # Wait for 120 seconds
 
