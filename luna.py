@@ -1,5 +1,6 @@
 import re
 import os
+import asyncio
 from asyncio import gather, get_event_loop, sleep
 
 from aiohttp import ClientSession
