@@ -236,13 +236,15 @@ async def start_taixiu(_, message):
     #chat_id = message.chat.id
     while True:
 	# acquire the condition
-	with condition:
+	#with condition:
 		# check condition
-		if game_timer():
-			break
-		else:
+	if game_timer():
+		break
+	else:
 			# block with a timeout
-			condition.wait(timeout=10)
+		await bot.send_message(message.chat.id, f"test")
+
+		time.sleep(10) #condition.wait(timeout=10)
     #await asyncio.gather(game_timer(), time.sleep(10))
         #await loop.create_task(game_timer())
     #if game_timer()
