@@ -115,26 +115,26 @@ async def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     load_balance_from_file()
 
 # Function to start the dice game
-def start_game():
+async def start_game():
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
 
     #bot.send_message(group_chat_id, f"⚫️ Tổng cược bên TÀI: {total_bet_T}đ")
     #bot.send_message(group_chat_id, f"⚪️ Tổng cược bên XỈU: {total_bet_X}đ")
-    bot.send_message(group_chat_id, f"""
+    await bot.send_message(group_chat_id, f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
-    bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
+    await bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
 
     time.sleep(3)  # Simulating dice rolling
 
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
     #kq_cau = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}"
-    bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
+    await bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     #bot.send_message(group_chat_id, f"{kq_cau}")
     cau = (calculate_tai_xiu(total_score))
     ls_cau(cau, result)
@@ -160,7 +160,7 @@ def start_game():
     # Save updated balances to the file
     save_balance_to_file()
 
-    bot.send_message(group_chat_id, f"""
+    await bot.send_message(group_chat_id, f"""
 Tổng thắng: {total_win}đ
 Tổng thua: {total_bet_T + total_bet_X}đ
 """)
@@ -168,12 +168,12 @@ Tổng thua: {total_bet_T + total_bet_X}đ
     return
 
 # Function to handle the game timing
-def game_timer():
-    bot.send_message(group_chat_id, "Bắt đầu game.")
-    bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
+async def game_timer():
+    await bot.send_message(group_chat_id, "Bắt đầu game.")
+    await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
     time.sleep(20)  # Wait for 120 seconds
 
-    bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
+    await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
     start_game()
 
 # Function to handle user messages
