@@ -235,7 +235,7 @@ async def check_balance(_, message):
 @bot.on_message(filters.command("tx"))
 async def start_taixiu(_, message):
     while True:
-	    game_timer()
+	    await game_timer()
 
 
 def ls_cau(cau, result):
