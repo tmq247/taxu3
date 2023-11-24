@@ -169,7 +169,7 @@ Tổng thua: {total_bet_T + total_bet_X}đ
 
 # Function to handle the game timing
 async def game_timer():
-	while true:
+	while True:
 		await bot.send_message(group_chat_id, "Bắt đầu game.")
 		await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
 		time.sleep(20)  # Wait for 120 seconds
@@ -235,9 +235,8 @@ async def check_balance(_, message):
 @bot.on_message(filters.command("tx"))
 async def start_taixiu(_, message):
     while True:
-	game_timer()
-    
-    
+	    game_timer()
+
 
 def ls_cau(cau, result):
     total_score = sum(result)
