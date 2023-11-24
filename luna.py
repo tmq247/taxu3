@@ -169,12 +169,13 @@ Tổng thua: {total_bet_T + total_bet_X}đ
 
 # Function to handle the game timing
 async def game_timer():
-    await bot.send_message(group_chat_id, "Bắt đầu game.")
-    await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
-    time.sleep(20)  # Wait for 120 seconds
-
-    await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
-    start_game()
+	while true:
+		await bot.send_message(group_chat_id, "Bắt đầu game.")
+		await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
+		time.sleep(20)  # Wait for 120 seconds
+		await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
+		start_game()
+	
 
 # Function to handle user messages
 @bot.on_message(filters.command(["t", "x"]) & filters.text)
@@ -235,20 +236,7 @@ async def check_balance(_, message):
 async def start_taixiu(_, message):
     #chat_id = message.chat.id
     while True:
-	# acquire the condition
-	#with condition:
-		# check condition
-	if game_timer():
-		break
-	else:
-			# block with a timeout
-		await bot.send_message(message.chat.id, f"test")
-
-		time.sleep(10) #condition.wait(timeout=10)
-    #await asyncio.gather(game_timer(), time.sleep(10))
-        #await loop.create_task(game_timer())
-    #if game_timer()
-    #time.sleep(10)
+	game_timer()
     
     
 
