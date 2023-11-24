@@ -230,10 +230,10 @@ async def check_balance(_, message):
     #check_balance()
 
 
-@bot.on_message(filters.command("tx") & time.sleep(1))
+@bot.on_message(filters.command("tx"))
 def start_taixiu(_, message):
     chat_id = message.chat.id
-    
+    time.sleep(10)
     game_timer()
     
 
