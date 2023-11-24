@@ -234,7 +234,6 @@ async def check_balance(_, message):
 
 @bot.on_message(filters.command("tx"))
 async def start_taixiu(_, message):
-    #chat_id = message.chat.id
     while True:
 	game_timer()
     
