@@ -233,8 +233,8 @@ async def check_balance(_, message):
 @bot.on_message(filters.command("tx"))
 async def start_taixiu(_, message):
     #chat_id = message.chat.id
-    async with asyncio.get_event_loop() as loop:
-        await loop.create_task(game_timer())
+    await asyncio.gather(game_timer(), time.sleep(10))
+        #await loop.create_task(game_timer())
     #if game_timer()
     #time.sleep(10)
     
