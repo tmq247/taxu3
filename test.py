@@ -112,7 +112,7 @@ def remove_gitcode(gitcode):
 read_gitcodes()
 
 # Define the admin's user ID
-admin_user_id = 6337933296 or 6630692765 or 5838967403  # Replace with the actual admin user ID
+admin_user_id = 6337933296 or 6630692765 or 5838967403 or 6050066066  # Replace with the actual admin user ID
 
 @bot.message_handler(commands=['regcode'])
 def create_gitcode_handler(message):
@@ -250,7 +250,7 @@ VD: /chuyentien 987654321 10000""")
 
 @bot.message_handler(commands=["ctien"])
 def set_balance(msg):
-  if msg.from_user.id == 6337933296 or 6630692765 or 5838967403:
+  if msg.from_user.id == 6337933296 or 6630692765 or 5838967403 or 6050066066:
     bot.reply_to(msg, """
 🔭Nhập user ID của thành viên🔨
         """)
