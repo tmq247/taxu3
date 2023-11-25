@@ -79,6 +79,23 @@ def save_balance_to_file():
         for user_id, balance in user_balance.items():
             f.write(f"{user_id} {balance}\n")
 
+Hàm để lưu tất cả số dư vào tệp văn bản
+def save_mo_game():
+    with open("mogame.txt", "w") as f:
+        for chat_id, gamemo in mo_game.items():
+            f.write(f"{chat_id} {gamemo}\n")
+
+def load_balance_from_file():
+    if os.path.exists("mogame.txt"):
+        with open("mogame.txt", "r") as f:
+            for line in f:
+                chat_id, gamemo_str = line.strip().split()
+                gamemo = float(gamemo_str)
+                if gamemo.is_integer():
+                    gamemo = int(gamemo)
+                chat_gamemo[int(chat_id)] = gamemo
+
+
 # Hàm để đọc số dư từ tệp văn bản và cập nhật vào từ điển user_balance
 def load_balance_from_file():
     if os.path.exists("id.txt"):
@@ -240,13 +257,13 @@ async def check_balance(_, message):
 async def start_taixiu(_, message):
 	chat_id = message.chat.id
 	#tx = 0
-	mo_game = {"dangmo": 0}
+	mo_game[chat_id] = {"dangmo": 0}
 	
 	if chat_id in mo_game:
 		await bot.send_message(group_chat_id, "test.")
 	else:
 		game_timer()
-		mo_game += int(chat_id)
+		mo_game[chat_id] += int(1)
 	#timer_thread.start()
 	
     #else:
