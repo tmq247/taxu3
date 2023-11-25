@@ -239,7 +239,7 @@ async def check_balance(_, message):
 @bot.on_message(filters.command("tx"))
 async def start_taixiu(_, message):
 	chat_id = message.chat.id
-	tx = message.command('tx')
+	tx = 0
 	mo_game[chat_id] = {'tx': 0}
 	
 	if mo_game[chat_id] > 0:
