@@ -44,6 +44,7 @@ bot_id = int(bot_token.split(":")[0])
 ###############
 luu_cau = {}
 cau = {}
+mo_game = {}
 
 # Dictionary to store user bets
 user_bets = {}
@@ -155,7 +156,8 @@ async def start_game():
             user_balance[user_id] += total_win
 
     # Clear user bets
-    user_bets.clear()
+    mo_game.clear()
+	user_bets.clear()
 
     # Save updated balances to the file
     save_balance_to_file()
@@ -170,6 +172,7 @@ Tổng thua: {total_bet_T + total_bet_X}đ
 # Function to handle the game timing
 async def game_timer():
 	#while True:
+	
 	await bot.send_message(group_chat_id, "Bắt đầu game.")
 	await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
 	time.sleep(20)  # Wait for 120 seconds
@@ -234,7 +237,13 @@ async def check_balance(_, message):
 
 @bot.on_message(filters.command("tx"))
 async def start_taixiu(_, message):
-	await game_timer()
+	mo_game[chat_id] = {tx}
+	chat_id = message.chat.id
+	if mo_game[chat_id] > 0:
+		await bot.send_message(group_chat_id, "test.")
+	else:
+		await game_timer()
+		tx += 1
 	#timer_thread.start()
 	
     #else:
