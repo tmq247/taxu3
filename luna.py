@@ -156,8 +156,9 @@ async def start_game():
             user_balance[user_id] += total_win
 
     # Clear user bets
+    user_bets.clear()
+
     mo_game.clear()
-	user_bets.clear()
 
     # Save updated balances to the file
     save_balance_to_file()
