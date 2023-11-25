@@ -242,7 +242,7 @@ async def start_taixiu(_, message):
 	tx = 0
 	mo_game[chat_id] = {'tx': 0}
 	
-	if mo_game[chat_id] > 0:
+	if mo_game[chat_id] >tx:
 		await bot.send_message(group_chat_id, "test.")
 	else:
 		await game_timer()
