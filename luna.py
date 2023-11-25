@@ -178,7 +178,7 @@ async def game_timer():
 	await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
 	time.sleep(20)  # Wait for 120 seconds
 	await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
-	start_game()
+	await start_game()
 	
 
 # Function to handle user messages
@@ -242,11 +242,11 @@ async def start_taixiu(_, message):
 	#tx = 0
 	mo_game[chat_id] = {0}
 	
-	if mo_game[chat_id] > 0:
+	if chat_id in mo_game[chat_id]:
 		await bot.send_message(group_chat_id, "test.")
 	else:
 		await game_timer()
-		mo_game[chat_id] += 1
+		mo_game[chat_id] += chat_id
 	#timer_thread.start()
 	
     #else:
