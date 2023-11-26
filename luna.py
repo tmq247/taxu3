@@ -135,13 +135,13 @@ admin_user_id = 6337933296 or 6630692765 or 5838967403
 
 
 # Function to confirm the bet and check user balance
-def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
+async def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
     else:
         cua_cuoc = '⚪️Xỉu'
     diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
-    bot.send_message(group_chat_id, diemcuoc)
+    async bot.send_message(group_chat_id, diemcuoc)
     #time.sleep(3)
     #await diemcuoc.delete()
     
@@ -153,11 +153,11 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
             user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
             
-            bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
+            await bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
         else:
-            bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
+            await bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
-        bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
+        await bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
     # Load user balances from the file
     save_balance_to_file()
     load_balance_from_file()
@@ -238,7 +238,7 @@ async def game_timer():
 
 # Function to handle user messages
 @bot.on_message(filters.command(["t", "x"]) & filters.text)
-def handle_message(_, message: Message):
+async def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
 
@@ -259,7 +259,7 @@ def handle_message(_, message: Message):
             confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc)
             
         else:
-            bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
+            await bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
         #bot.send_message(group_chat_id, f"""
 #┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 #┣➤🔵Tổng cược bên TÀI: {total_bet_T}đ
@@ -291,13 +291,13 @@ async def start_taixiu(_, message):
     chat_id = message.chat.id
     grid = chat_id
     if len(grid_trangthai) != 0:
-        if len(luu_cau) != 0:
-            luu_cau = luu_cau[-1:-11:-1]
-            soicau_text = "cầu\n" 
-            for cau in luu_cau[cau]:
-                soicau_text += f'{cau}'
+        #if len(luu_cau) != 0:
+            #luu_cau = luu_cau[-1:-11:-1]
+            #soicau_text = "cầu\n" 
+            #for cau in luu_cau[cau]:
+                #soicau_text += f'{cau}'
         #trangthai = grid_trangthai[grid]
-            await bot.send_message(chat_id, soicau_text)
+            #await bot.send_message(chat_id, soicau_text)
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
 
