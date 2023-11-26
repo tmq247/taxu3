@@ -299,7 +299,7 @@ def start_taixiu(_, message):
     chat_id = message.chat.id
     grid = chat_id
     if len(grid_trangthai) == 0:
-        game_timer()
+        
         #tao_grid(chat_id)
         th = '1'
         trangthai = int(th)
@@ -309,6 +309,7 @@ def start_taixiu(_, message):
             f.write(f"{grid}:{trangthai}\n")
         return grid
         bot.send_message(chat_id, f"Bắt đầu ván mới")
+        game_timer()
         
     else:
         #if len(luu_cau) != 0:
