@@ -69,7 +69,9 @@ user_pending_gitcodes = {}
 # Add these variables for Gitcode handling
 grid_FILE = "grid.txt"
 # Function to create a Gitcode with a custom amount
-def tao_grid(trangthai, chat_id):
+def tao_grid(chat_id):
+    th = '1'
+    trangthai = int(th)
     grid = chat_id
     grid_trangthai[grid] = trangthai
     with open(grid_FILE, "a") as f:
@@ -312,7 +314,7 @@ async def start_taixiu(_, message):
         return
     else:
         await game_timer()
-        mo_tx(chat_id)
+        tao_grid(chat_id)
 
 
 def mo_tx(chat_id):
