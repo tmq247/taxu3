@@ -1,6 +1,5 @@
 import re
 import os
-import asyncio
 from asyncio import gather, get_event_loop, sleep
 
 from aiohttp import ClientSession
@@ -13,6 +12,7 @@ import time
 import atexit
 import pytz
 import threading
+import asyncio
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram.filters import command
@@ -24,6 +24,7 @@ from functions import (
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from telebot import TeleBot, types
+
 
 is_config = os.path.exists("config.py")
 
@@ -44,7 +45,8 @@ bot_id = int(bot_token.split(":")[0])
 ###############
 luu_cau = {}
 cau = {}
-mo_game = {}
+grmo_game = {}
+grchat = {}
 
 # Dictionary to store user bets
 user_bets = {}
@@ -57,6 +59,42 @@ group_chat_id = -1002121532989
 
 # Winning coefficient
 winning_coefficient = 1.9
+
+#########################
+# Tạo từ điển gitcodes
+used_gitcodes = []
+grid_trangthai = {}
+user_pending_gitcodes = {}
+
+# Add these variables for Gitcode handling
+grid_FILE = "grid.txt"
+# Function to create a Gitcode with a custom amount
+def tao_grid(trangthai, chat_id):
+    grid = chat_id
+    grid_trangthai[grid] = trangthai
+    with open(grid_FILE, "a") as f:
+        f.write(f"{grid}:{trangthai}\n")
+    return grid
+
+# Function to read Gitcodes from the file
+def xem_grid():
+    if not os.path.exists(grid_FILE):
+        return
+    with open(grid_FILE, "r") as f:
+        for line in f:
+            grid, trangthai = line.strip().split(":")
+            grid_trangthai[grid] = int(trangthai)
+
+# Function to remove a used Gitcode
+def xoa_grid(grid):
+    with open(grid_FILE, "r") as f:
+        lines = f.readlines()
+    with open(grid_FILE, "w") as f:
+        for line in lines:
+            if not line.startswith(grid):
+                f.write(line)
+
+#######################################################
 
 
 # Function to send a dice and get its value
@@ -79,23 +117,6 @@ def save_balance_to_file():
         for user_id, balance in user_balance.items():
             f.write(f"{user_id} {balance}\n")
 
-Hàm để lưu tất cả số dư vào tệp văn bản
-def save_mo_game():
-    with open("mogame.txt", "w") as f:
-        for chat_id, gamemo in mo_game.items():
-            f.write(f"{chat_id} {gamemo}\n")
-
-def load_balance_from_file():
-    if os.path.exists("mogame.txt"):
-        with open("mogame.txt", "r") as f:
-            for line in f:
-                chat_id, gamemo_str = line.strip().split()
-                gamemo = float(gamemo_str)
-                if gamemo.is_integer():
-                    gamemo = int(gamemo)
-                chat_gamemo[int(chat_id)] = gamemo
-
-
 # Hàm để đọc số dư từ tệp văn bản và cập nhật vào từ điển user_balance
 def load_balance_from_file():
     if os.path.exists("id.txt"):
@@ -107,13 +128,22 @@ def load_balance_from_file():
                     balance = int(balance)
                 user_balance[int(user_id)] = balance
 
+
+
+admin_user_id = 6337933296 or 6630692765 or 5838967403
+
+
+
 # Function to confirm the bet and check user balance
-async def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
+def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
     else:
         cua_cuoc = '⚪️Xỉu'
-    await bot.send_message(group_chat_id, f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm")
+    diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
+    bot.send_message(group_chat_id, diemcuoc)
+    #time.sleep(3)
+    #await diemcuoc.delete()
     
     # Check if the user_id is present in user_balance dictionary
     if user_id in user_balance:
@@ -123,17 +153,24 @@ async def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
             user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
             
-            await bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
+            bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
         else:
-            await bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
+            bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
-        await bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
+        bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
     # Load user balances from the file
     save_balance_to_file()
     load_balance_from_file()
 
 # Function to start the dice game
+#@bot.on_message(filters.command("ts"))
 async def start_game():
+    #batdau = "Bắt đầu game."
+    #await bot.send_message(group_chat_id, batdau)
+    #await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
+    #time.sleep(20)  # Wait for 120 seconds
+
+    #await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
 
@@ -175,32 +212,40 @@ async def start_game():
     # Clear user bets
     user_bets.clear()
 
-    mo_game.clear()
-
     # Save updated balances to the file
     save_balance_to_file()
+    #xem_grid()
+    #grid = '-1002121532989'
+    #xoa_grid(grid)
+    
 
     await bot.send_message(group_chat_id, f"""
 Tổng thắng: {total_win}đ
 Tổng thua: {total_bet_T + total_bet_X}đ
 """)
+    await bot.send_message(group_chat_id, "Hãy mở lại game trong 10s nữa.")
+    time.sleep(10)
+    grid_trangthai.clear()
     #bot.send_message(group_chat_id, f"Tổng thua: {total_bet_T + total_bet_X}đ")
-    return
+    
+    
+    
 
 # Function to handle the game timing
 async def game_timer():
-	#while True:
-	
-	await bot.send_message(group_chat_id, "Bắt đầu game.")
-	await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
-	time.sleep(20)  # Wait for 120 seconds
-	await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
-	start_game()
-	
+    #while True:
+    batdau = "Bắt đầu game."
+    await bot.send_message(group_chat_id, batdau)
+    await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
+    time.sleep(20)  # Wait for 120 seconds
+
+    await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
+    await start_game()
+        
 
 # Function to handle user messages
 @bot.on_message(filters.command(["t", "x"]) & filters.text)
-async def handle_message(_, message: Message):
+def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
 
@@ -218,7 +263,7 @@ async def handle_message(_, message: Message):
                 bet_amount = int(message.text[3:])
 
             # Confirm the bet and check user balance
-            await confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc)
+            confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc)
             
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
@@ -245,32 +290,37 @@ async def check_balance(_, message):
         user_id = message.from_user.id
         balance = user_balance.get(user_id, 0)
         mention = (await bot.get_users(user_id)).mention
-        await bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
-
-#@bot.on_message(filters.command("diem"))
-#async def handle_check_balance_button(_, message):
-    #load_balance_from_file()
-    #check_balance()
+        bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
 
 
 @bot.on_message(filters.command("tx"))
 async def start_taixiu(_, message):
-	chat_id = message.chat.id
-	#tx = 0
-	mo_game[chat_id] = {"dangmo": 0}
-	
-	if chat_id in mo_game:
-		await bot.send_message(group_chat_id, "test.")
-	else:
-		game_timer()
-		mo_game[chat_id] += int(1)
-	#timer_thread.start()
-	
-    #else:
-	    #await bot.send_message(group_chat_id, "test.")
-
-#timer_thread = threading.Thread(target=game_timer)
-#timer_thread.start()
+    chat_id = message.chat.id
+    grid = chat_id
+    if len(grid_trangthai) != 0:
+        if len(luu_cau) != 0:
+            luu_cau = luu_cau[-1:-11:-1]
+            soicau_text = "cầu\n" 
+            for cau in luu_cau[cau]:
+                soicau_text += f'{cau}'
+        #trangthai = grid_trangthai[grid]
+            await bot.send_message(chat_id, soicau_text)
+        return
+    else:
+        try:
+            #th = int(message.text.upper()[1])
+            th = '1'
+            trangthai = int(th)
+            grid = chat_id
+            grid_trangthai[grid] = trangthai
+            with open(grid_FILE, "a") as f:
+                f.write(f"{grid}:{trangthai}\n")
+                #return grid
+            #await bot.send_message(chat_id, f"Đã tạo grid thành công. Grid của bạn là: {grid}.")
+            await game_timer()
+        except ValueError:
+            await bot.send_message(chat_id, "Trangthai không hợp lệ.")
+    
 
 def ls_cau(cau, result):
     total_score = sum(result)
@@ -281,14 +331,16 @@ def ls_cau(cau, result):
     
     # Automatically save the history to "kiemtraxs.txt"
     try:
-        history_text = f"{cau}\n"
+        soicau_text = f"{cau}\n"
 
         # Define the encoding as 'utf-8' when opening the file
-        with open("soicau.txt", "a", encoding='utf-8') as history_file:
-            history_file.write(history_text)
+        with open("soicau.txt", "a", encoding='utf-8') as soicau_file:
+            soicau_file.write(soicau_text)
     except Exception as e:
         # Handle any potential errors, e.g., by logging them
         print(f"Error saving history: {str(e)}")
+
+
 
 
 ##########################
