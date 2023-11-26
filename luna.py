@@ -44,9 +44,9 @@ bot_id = int(bot_token.split(":")[0])
 
 ###############
 luu_cau = {}
-cau = {}
-grmo_game = {}
-grchat = {}
+#cau = {}
+mo_game = {}
+grtrangthai = {}
 
 # Dictionary to store user bets
 user_bets = {}
@@ -95,6 +95,8 @@ def xoa_grid(grid):
         for line in lines:
             if not line.startswith(grid):
                 f.write(line)
+
+
 
 #######################################################
 
@@ -168,9 +170,6 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
 def start_game():
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
-
-    #bot.send_message(group_chat_id, f"⚫️ Tổng cược bên TÀI: {total_bet_T}đ")
-    #bot.send_message(group_chat_id, f"⚪️ Tổng cược bên XỈU: {total_bet_X}đ")
     bot.send_message(group_chat_id, f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
@@ -183,11 +182,9 @@ def start_game():
 
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
-    #kq_cau = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}"
     bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
-    #bot.send_message(group_chat_id, f"{kq_cau}")
-    cau = (calculate_tai_xiu(total_score))
-    ls_cau(cau, result)
+
+    ls_cau(result)
 
     # Determine the winner and calculate total winnings
     total_win = 0
@@ -209,30 +206,21 @@ def start_game():
 
     # Save updated balances to the file
     save_balance_to_file()
-    #xem_grid()
-    #grid = '-1002121532989'
-    #xoa_grid(grid)
     
+    mo_game.clear()
 
     bot.send_message(group_chat_id, f"""
 Tổng thắng: {total_win}đ
 Tổng thua: {total_bet_T + total_bet_X}đ
 """)
-    #bot.send_message(group_chat_id, "Hãy mở lại game trong 10s nữa.")
-    #time.sleep(10)
-    #grid = str('-1002121532989')
-    #xoa_grid(grid)
-    #grid_trangthai.remove(grid)
-    grid_trangthai.clear()
-    #bot.send_message(group_chat_id, f"Tổng thua: {total_bet_T + total_bet_X}đ")
-    
-    
     
 
 # Function to handle the game timing
-def game_timer():
-    #await bot.send_message(group_chat_id, "Bắt đầu game.")
-    bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
+def game_timer(grid, grtrangthai):
+    mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
+    mo_game[grid]['trangthai'] += grtrangthai
+    bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược.")
+
     time.sleep(45)  # Wait for 120 seconds
 
     bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
@@ -244,8 +232,7 @@ def game_timer():
 def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
-
-
+    grid = chat_id
     # Check if the message is from the group chat
     if chat_id == group_chat_id:
         # Check if the message is a valid bet
@@ -263,12 +250,10 @@ def handle_message(_, message: Message):
             
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
-        #bot.send_message(group_chat_id, f"""
-#┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
-#┣➤🔵Tổng cược bên TÀI: {total_bet_T}đ
-#┣➤🔴Tổng cược bên XỈU: {total_bet_X}đ
-#┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
-#""")
+    if len(mo_game) == 0:
+            grtrangthai = 1
+            game_timer(grid, grtrangthai)
+
 
 # Load user balances from the file
 load_balance_from_file()
@@ -288,90 +273,70 @@ async def check_balance(_, message):
         mention = (await bot.get_users(user_id)).mention
         await bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
 
-bot.on_message(filters.command("rs"))
-def start_taixiu(_, message):
-    grid = '-1002121532989'
-    xoa_grid(grid)
-    grid_trangthai.clear()
 
 @bot.on_message(filters.command("tx"))
 def start_taixiu(_, message):
+    
+    grtrangthai = int('1')
     chat_id = message.chat.id
     grid = chat_id
-    if len(grid_trangthai) == 0:
-        
-        #tao_grid(chat_id)
-        th = '1'
-        trangthai = int(th)
+    if len(mo_game) == 0:
+        grtrangthai = 1
         grid = chat_id
-        grid_trangthai[grid] = trangthai
-        with open(grid_FILE, "a") as f:
-            f.write(f"{grid}:{trangthai}\n")
-        return grid
-        bot.send_message(chat_id, f"Bắt đầu ván mới")
-        game_timer()
+        #bot.send_message(chat_id, f"Bắt đầu ván mới")
+        game_timer(grid, grtrangthai)
         
     else:
+        load_cau_from_file()
+        
+        #luu_cau = map(luu_cau[-1:-11])
+        #bot.send_message(chat_id, f"{luu_cau}\n")
         #if len(luu_cau) != 0:
-            #luu_cau = luu_cau[-1:-11:-1]
-            #soicau_text = "cầu\n" 
-            #for cau in luu_cau[cau]:
-                #soicau_text += f'{cau}'
-        #trangthai = grid_trangthai[grid]
-            #await bot.send_message(chat_id, soicau_text)
+        #luu_cau = luu_cau[-1:-11:-1]
+        bot.send_message(chat_id, f"Kết quả 10 lần xổ gần nhất:\n {luu_cau}")
+        #for cau in luu_cau:
+            #soicau_text += f'{cau}'
+        #bot.send_message(chat_id, f"({luu_cau()[-1:-11:-1]})")
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
 
-        #bot.send_message(group_chat_id, f"⚫️ Tổng cược bên TÀI: {total_bet_T}đ")
-        #bot.send_message(group_chat_id, f"⚪️ Tổng cược bên XỈU: {total_bet_X}đ")
         bot.send_message(group_chat_id, f"""
     ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
     ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
     ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
     ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
     """)
-        bot.send_message(group_chat_id, "Hãy mở lại game trong 10s nữa.")
-        time.sleep(10)
-        grid = '-1002121532989'
-        xoa_grid(grid)
-        #grid_trangthai.remove(grid)
-        grid_trangthai.clear()
-        #return
+        
 
-
-def mo_tx(chat_id):
-    try:
-            #th = int(message.text.upper()[1])
-        th = '1'
-        trangthai = int(th)
-        grid = chat_id
-        grid_trangthai[grid] = trangthai
-        with open(grid_FILE, "a") as f:
-            f.write(f"{grid}:{trangthai}\n")
-            return grid
-            bot.send_message(chat_id, f"Bắt đầu ván mới")
-            
-    except ValueError:
-        bot.send_message(chat_id, "Trangthai không hợp lệ.")
+def loai_cau(total_score):
+  return "TAI" if 11 <= total_score <= 18 else "XIU"
     
 
-def ls_cau(cau, result):
+def ls_cau(result):
     total_score = sum(result)
-    cau = calculate_tai_xiu(total_score)
+    cau = loai_cau(total_score)
     if cau not in luu_cau:
         luu_cau[cau] = []
-    luu_cau[cau].append(cau)
+        luu_cau[cau].append(cau)
     
     # Automatically save the history to "kiemtraxs.txt"
     try:
         soicau_text = f"{cau}\n"
 
         # Define the encoding as 'utf-8' when opening the file
-        with open("soicau.txt", "a", encoding='utf-8') as soicau_file:
+        with open("soicau.txt", "a", encoding='utf-8') as soicau_file: #, encoding='utf-8'ASCII
             soicau_file.write(soicau_text)
     except Exception as e:
         # Handle any potential errors, e.g., by logging them
         print(f"Error saving history: {str(e)}")
+
+def load_cau_from_file():
+    if os.path.exists("soicau.txt"):
+        with open("soicau.txt", "r") as f:
+            for line in f:
+                cau_str = line.strip().split()
+                cau = str(cau_str)
+                luu_cau[cau] = cau
 
 
 
