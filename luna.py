@@ -311,7 +311,12 @@ async def start_taixiu(_, message):
     """)
         return
     else:
-        try:
+        await game_timer()
+        mo_tx(chat_id)
+
+
+def mo_tx(chat_id):
+    try:
             #th = int(message.text.upper()[1])
             th = '1'
             trangthai = int(th)
@@ -321,9 +326,9 @@ async def start_taixiu(_, message):
                 f.write(f"{grid}:{trangthai}\n")
                 #return grid
             #await bot.send_message(chat_id, f"Đã tạo grid thành công. Grid của bạn là: {grid}.")
-            await game_timer()
+            
         except ValueError:
-            await bot.send_message(chat_id, "Trangthai không hợp lệ.")
+            bot.send_message(chat_id, "Trangthai không hợp lệ.")
     
 
 def ls_cau(cau, result):
