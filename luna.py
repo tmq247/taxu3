@@ -297,7 +297,7 @@ def start_taixiu(_, message):
         for scau in luu_cau:
             
             #soicau_text += f'{cau}'
-        bot.send_message(chat_id, f"({scau['cau']})")
+            bot.send_message(chat_id, f"({scau['cau']})")
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
 
