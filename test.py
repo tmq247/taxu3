@@ -217,7 +217,7 @@ def deduct_balance(sender_id, recipient_id, amount):
     return True
 
 
-@bot.message_handler(commands=['chuyentien'])
+@bot.message_handler(commands=['tangdiem'])
 def chuyentien_money(message):
     load_balance_from_file()
     try:
