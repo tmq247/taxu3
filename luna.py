@@ -294,9 +294,10 @@ def start_taixiu(_, message):
         #if len(luu_cau) != 0:
         #luu_cau = luu_cau[-1:-11:-1]
         bot.send_message(chat_id, f"Kết quả 10 lần xổ gần nhất:\n {luu_cau}")
-        #for cau in luu_cau:
+        for scau in luu_cau:
+            
             #soicau_text += f'{cau}'
-        #bot.send_message(chat_id, f"({luu_cau()[-1:-11:-1]})")
+        bot.send_message(chat_id, f"({scau['cau']})")
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
 
