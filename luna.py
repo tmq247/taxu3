@@ -230,7 +230,7 @@ async def game_timer():
     batdau = "Bắt đầu game."
     await bot.send_message(group_chat_id, batdau)
     await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
-    time.sleep(20)  # Wait for 120 seconds
+    time.sleep(45)  # Wait for 120 seconds
 
     await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
     await start_game()
