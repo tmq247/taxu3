@@ -287,6 +287,11 @@ async def check_balance(_, message):
         mention = (await bot.get_users(user_id)).mention
         await bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
 
+bot.on_message(filters.command("rs"))
+def start_taixiu(_, message):
+    grid = '-1002121532989'
+    xoa_grid(grid)
+    grid_trangthai.clear()
 
 @bot.on_message(filters.command("tx"))
 def start_taixiu(_, message):
