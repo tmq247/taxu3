@@ -218,8 +218,8 @@ def start_game():
 Tổng thắng: {total_win}đ
 Tổng thua: {total_bet_T + total_bet_X}đ
 """)
-    bot.send_message(group_chat_id, "Hãy mở lại game trong 10s nữa.")
-    time.sleep(10)
+    #bot.send_message(group_chat_id, "Hãy mở lại game trong 10s nữa.")
+    #time.sleep(10)
     #grid = str('-1002121532989')
     #xoa_grid(grid)
     #grid_trangthai.remove(grid)
@@ -326,7 +326,15 @@ def start_taixiu(_, message):
         #return
     else:
         game_timer()
-        tao_grid(chat_id)
+        #tao_grid(chat_id)
+        th = '1'
+        trangthai = int(th)
+        grid = chat_id
+        grid_trangthai[grid] = trangthai
+        with open(grid_FILE, "a") as f:
+            f.write(f"{grid}:{trangthai}\n")
+            #return grid
+        bot.send_message(chat_id, f"Bắt đầu ván mới")
 
 
 def mo_tx(chat_id):
