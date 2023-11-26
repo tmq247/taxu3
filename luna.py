@@ -220,9 +220,9 @@ Tổng thua: {total_bet_T + total_bet_X}đ
 """)
     bot.send_message(group_chat_id, "Hãy mở lại game trong 10s nữa.")
     time.sleep(10)
-    grid = str('-1002121532989')
-    xoa_grid(grid)
-    grid_trangthai.remove(grid)
+    #grid = str('-1002121532989')
+    #xoa_grid(grid)
+    #grid_trangthai.remove(grid)
     grid_trangthai.clear()
     #bot.send_message(group_chat_id, f"Tổng thua: {total_bet_T + total_bet_X}đ")
     
@@ -317,6 +317,12 @@ def start_taixiu(_, message):
     ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
     ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
     """)
+        bot.send_message(group_chat_id, "Hãy mở lại game trong 10s nữa.")
+        time.sleep(10)
+        grid = str('-1002121532989')
+        xoa_grid(grid)
+        grid_trangthai.remove(grid)
+        grid_trangthai.clear()
         #return
     else:
         game_timer()
