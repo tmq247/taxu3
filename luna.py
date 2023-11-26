@@ -163,14 +163,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     load_balance_from_file()
 
 # Function to start the dice game
-#@bot.on_message(filters.command("ts"))
 async def start_game():
-    #batdau = "Bắt đầu game."
-    #await bot.send_message(group_chat_id, batdau)
-    #await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
-    #time.sleep(20)  # Wait for 120 seconds
-
-    #await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
 
@@ -305,6 +298,17 @@ async def start_taixiu(_, message):
                 soicau_text += f'{cau}'
         #trangthai = grid_trangthai[grid]
             await bot.send_message(chat_id, soicau_text)
+        total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
+        total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
+
+        #bot.send_message(group_chat_id, f"⚫️ Tổng cược bên TÀI: {total_bet_T}đ")
+        #bot.send_message(group_chat_id, f"⚪️ Tổng cược bên XỈU: {total_bet_X}đ")
+        await bot.send_message(group_chat_id, f"""
+    ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
+    ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
+    ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
+    ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
+    """)
         return
     else:
         try:
