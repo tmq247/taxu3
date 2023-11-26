@@ -298,7 +298,19 @@ def start_taixiu(_, message):
 def start_taixiu(_, message):
     chat_id = message.chat.id
     grid = chat_id
-    if len(grid_trangthai) != 0:
+    if len(grid_trangthai) == 0:
+        game_timer()
+        #tao_grid(chat_id)
+        th = '1'
+        trangthai = int(th)
+        grid = chat_id
+        grid_trangthai[grid] = trangthai
+        with open(grid_FILE, "a") as f:
+            f.write(f"{grid}:{trangthai}\n")
+        return grid
+        bot.send_message(chat_id, f"Bắt đầu ván mới")
+        
+    else:
         #if len(luu_cau) != 0:
             #luu_cau = luu_cau[-1:-11:-1]
             #soicau_text = "cầu\n" 
@@ -324,17 +336,6 @@ def start_taixiu(_, message):
         #grid_trangthai.remove(grid)
         grid_trangthai.clear()
         #return
-    else:
-        game_timer()
-        #tao_grid(chat_id)
-        th = '1'
-        trangthai = int(th)
-        grid = chat_id
-        grid_trangthai[grid] = trangthai
-        with open(grid_FILE, "a") as f:
-            f.write(f"{grid}:{trangthai}\n")
-            #return grid
-        bot.send_message(chat_id, f"Bắt đầu ván mới")
 
 
 def mo_tx(chat_id):
