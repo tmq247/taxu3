@@ -137,13 +137,13 @@ admin_user_id = 6337933296 or 6630692765 or 5838967403
 
 
 # Function to confirm the bet and check user balance
-async def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
+def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
     else:
         cua_cuoc = '⚪️Xỉu'
     diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
-    await bot.send_message(group_chat_id, diemcuoc)
+    bot.send_message(group_chat_id, diemcuoc)
     #time.sleep(3)
     #await diemcuoc.delete()
     
@@ -155,36 +155,36 @@ async def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
             user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
             
-            await bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
+            bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
         else:
-            await bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
+            bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
-        await bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
+        bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
     # Load user balances from the file
     save_balance_to_file()
     load_balance_from_file()
 
 # Function to start the dice game
-async def start_game():
+def start_game():
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
 
     #bot.send_message(group_chat_id, f"⚫️ Tổng cược bên TÀI: {total_bet_T}đ")
     #bot.send_message(group_chat_id, f"⚪️ Tổng cược bên XỈU: {total_bet_X}đ")
-    await bot.send_message(group_chat_id, f"""
+    bot.send_message(group_chat_id, f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
-    await bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
+    bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
 
     time.sleep(3)  # Simulating dice rolling
 
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
     #kq_cau = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}"
-    await bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
+    bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     #bot.send_message(group_chat_id, f"{kq_cau}")
     cau = (calculate_tai_xiu(total_score))
     ls_cau(cau, result)
@@ -214,11 +214,11 @@ async def start_game():
     #xoa_grid(grid)
     
 
-    await bot.send_message(group_chat_id, f"""
+    bot.send_message(group_chat_id, f"""
 Tổng thắng: {total_win}đ
 Tổng thua: {total_bet_T + total_bet_X}đ
 """)
-    await bot.send_message(group_chat_id, "Hãy mở lại game trong 10s nữa.")
+    bot.send_message(group_chat_id, "Hãy mở lại game trong 10s nữa.")
     time.sleep(10)
     grid = '-1002121532989'
     xoa_grid(grid)
@@ -229,18 +229,18 @@ Tổng thua: {total_bet_T + total_bet_X}đ
     
 
 # Function to handle the game timing
-async def game_timer():
+def game_timer():
     #await bot.send_message(group_chat_id, "Bắt đầu game.")
-    await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
+    bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
     time.sleep(45)  # Wait for 120 seconds
 
-    await bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
-    await start_game()
+    bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
+    start_game()
         
 
 # Function to handle user messages
 @bot.on_message(filters.command(["t", "x"]) & filters.text)
-async def handle_message(_, message: Message):
+def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
 
@@ -258,10 +258,10 @@ async def handle_message(_, message: Message):
                 bet_amount = int(message.text[3:])
 
             # Confirm the bet and check user balance
-            await confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc)
+            confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc)
             
         else:
-            await bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
+            bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
         #bot.send_message(group_chat_id, f"""
 #┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 #┣➤🔵Tổng cược bên TÀI: {total_bet_T}đ
@@ -289,7 +289,7 @@ async def check_balance(_, message):
 
 
 @bot.on_message(filters.command("tx"))
-async def start_taixiu(_, message):
+def start_taixiu(_, message):
     chat_id = message.chat.id
     grid = chat_id
     if len(grid_trangthai) != 0:
@@ -305,7 +305,7 @@ async def start_taixiu(_, message):
 
         #bot.send_message(group_chat_id, f"⚫️ Tổng cược bên TÀI: {total_bet_T}đ")
         #bot.send_message(group_chat_id, f"⚪️ Tổng cược bên XỈU: {total_bet_X}đ")
-        await bot.send_message(group_chat_id, f"""
+        bot.send_message(group_chat_id, f"""
     ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
     ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
     ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
@@ -313,7 +313,7 @@ async def start_taixiu(_, message):
     """)
         return
     else:
-        await game_timer()
+        game_timer()
         tao_grid(chat_id)
 
 
