@@ -226,9 +226,7 @@ Tổng thua: {total_bet_T + total_bet_X}đ
 
 # Function to handle the game timing
 async def game_timer():
-    #while True:
-    batdau = "Bắt đầu game."
-    await bot.send_message(group_chat_id, batdau)
+    #await bot.send_message(group_chat_id, "Bắt đầu game.")
     await bot.send_message(group_chat_id, "Bắt đầu cược! Có 45s để đặt cược.")
     time.sleep(45)  # Wait for 120 seconds
 
@@ -256,7 +254,7 @@ async def handle_message(_, message: Message):
                 bet_amount = int(message.text[3:])
 
             # Confirm the bet and check user balance
-            confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc)
+            await confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc)
             
         else:
             await bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
