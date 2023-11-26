@@ -141,7 +141,7 @@ async def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     else:
         cua_cuoc = '⚪️Xỉu'
     diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
-    async bot.send_message(group_chat_id, diemcuoc)
+    await bot.send_message(group_chat_id, diemcuoc)
     #time.sleep(3)
     #await diemcuoc.delete()
     
