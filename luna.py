@@ -318,17 +318,17 @@ async def start_taixiu(_, message):
 def mo_tx(chat_id):
     try:
             #th = int(message.text.upper()[1])
-            th = '1'
-            trangthai = int(th)
-            grid = chat_id
-            grid_trangthai[grid] = trangthai
-            with open(grid_FILE, "a") as f:
-                f.write(f"{grid}:{trangthai}\n")
-                #return grid
-            #await bot.send_message(chat_id, f"Đã tạo grid thành công. Grid của bạn là: {grid}.")
+        th = '1'
+        trangthai = int(th)
+        grid = chat_id
+        grid_trangthai[grid] = trangthai
+        with open(grid_FILE, "a") as f:
+            f.write(f"{grid}:{trangthai}\n")
+            return grid
+            bot.send_message(chat_id, f"Bắt đầu ván mới")
             
-        except ValueError:
-            bot.send_message(chat_id, "Trangthai không hợp lệ.")
+    except ValueError:
+        bot.send_message(chat_id, "Trangthai không hợp lệ.")
     
 
 def ls_cau(cau, result):
