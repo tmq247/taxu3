@@ -184,9 +184,7 @@ def start_game():
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
-    idtext4 = text4.id
     text5 = bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
-    idtext5 = text5.id
 
     time.sleep(3)  # Simulating dice rolling
 
@@ -224,8 +222,8 @@ Tổng thắng: {total_win}đ
 Tổng thua: {total_bet_T + total_bet_X}đ
 """)
     
-    bot.delete_messages(group_chat_id, idtext4)
-    bot.delete_messages(group_chat_id, idtext5)
+    bot.delete_messages(group_chat_id, text4.id)
+    bot.delete_messages(group_chat_id, text5.id)
     #bot.delete_messages(group_chat_id, idtext6)
     #time.sleep(10)
     #bot.delete_messages(group_chat_id, text7.message_id)
@@ -277,7 +275,7 @@ def handle_message(_, message: Message):
             grtrangthai = 1
             game_timer(grid, grtrangthai)
     time.sleep(5)
-    bot.delete_messages(group_chat_id, idtext8)
+    bot.delete_messages(group_chat_id, text14.id)
 
 
 # Load user balances from the file
@@ -300,8 +298,8 @@ async def check_balance(_, message):
         text13 = bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
         await text13
     time.sleep(30)
-    bot.delete_messages(message.chat.id, idtext12.id)
-    bot.delete_messages(message.chat.id, idtext13.id)
+    bot.delete_messages(message.chat.id, text12.id)
+    bot.delete_messages(message.chat.id, text13.id)
 
 
 @bot.on_message(filters.command("tx"))
