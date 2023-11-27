@@ -21,6 +21,8 @@ from functions import (
     extract_user_and_reason,
     time_converter,
 )
+from keyboard import ikb
+from pykeyboard import InlineKeyboard
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from telebot import TeleBot, types
@@ -170,20 +172,22 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
 def start_game():
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
-    bot.send_message(group_chat_id, f"""
+    text4 = bot.send_message(group_chat_id, f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
-    bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
+    idtext4 = text4.message_id
+    text5 = bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
+    idtext5 = text5.message_id
 
     time.sleep(3)  # Simulating dice rolling
 
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
     bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
-
+    #idtext6 = text6.message_id
     ls_cau(result)
 
     # Determine the winner and calculate total winnings
@@ -209,20 +213,32 @@ def start_game():
     
     mo_game.clear()
 
-    bot.send_message(group_chat_id, f"""
+    text7 = bot.send_message(group_chat_id, f"""
 Tổng thắng: {total_win}đ
 Tổng thua: {total_bet_T + total_bet_X}đ
 """)
     
+    bot.delete_messages(group_chat_id, idtext4)
+    bot.delete_messages(group_chat_id, idtext5)
+    #bot.delete_messages(group_chat_id, idtext6)
+    #time.sleep(10)
+    #bot.delete_messages(group_chat_id, text7.message_id)
 
 # Function to handle the game timing
 def game_timer(grid, grtrangthai):
     mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
     mo_game[grid]['trangthai'] += grtrangthai
-    bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược.")
-
-    time.sleep(45)  # Wait for 120 seconds
-
+    text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược.")
+    time.sleep(15)
+    text2 = bot.send_message(group_chat_id, "Còn 30s để đặt cược.")
+    
+    time.sleep(20)  # Wait for 120 seconds
+    bot.delete_messages(grid, text2.message_id)
+    text3 = bot.send_message(group_chat_id, "Còn 10s để đặt cược.")
+    
+    time.sleep(10)  # Wait for 120 seconds
+    bot.delete_messages(grid, text1.message_id)
+    bot.delete_messages(grid, text3.message_id)
     bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
     start_game()
         
@@ -287,30 +303,44 @@ def start_taixiu(_, message):
         game_timer(grid, grtrangthai)
         
     else:
-        load_cau_from_file()
-        
-        #luu_cau = map(luu_cau[-1:-11])
-        #bot.send_message(chat_id, f"{luu_cau}\n")
-        #if len(luu_cau) != 0:
-        #luu_cau = luu_cau[-1:-11:-1]
-        bot.send_message(chat_id, f"Kết quả 10 lần xổ gần nhất:\n {luu_cau}")
-        #for scau in luu_cau:
-            
-            #soicau_text += f'{cau}'
-        bot.send_message(chat_id, f"({luu_cau})")
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
-
+        bot.send_message(chat_id, f"Đang đợi đổ xúc xắc")
         bot.send_message(group_chat_id, f"""
-    ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
-    ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
-    ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
-    ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
-    """)
-        
+┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
+┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
+┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
+┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
+""")
+
+@bot.on_message(filters.command("sc"))
+def start_sc(_, message):
+    chat_id = message.chat.id
+    #url = f"https://t.me/coihaycoc"
+    #buttons = InlineKeyboard(row_width=1)
+    #keyboard = ikb([["🚨  Mở chat  🚨": f"@coihaycoc"]])
+    markup = telebot.types.InlineKeyboardMarkup(row_width=2)
+    markup.add(
+      telebot.types.InlineKeyboardButton("♨️  🎲",
+                                         callback_data=""),
+      telebot.types.InlineKeyboardButton("🏝  🎲",
+                                         url="t.me/coihaycoc"))
+
+    #sc_url = f"https://t.me/coihaycoc"
+    #buttons = [[InlineKeyboardButton("Soi cầu", url=sc_url)]]
+    message.reply_text("Soi cầu", reply_markup=markup)
+    #bot.send_message(chat_id, 'Soi cầu ', reply_markup=keyboard)
+    #load_cau_from_file()
+    #bot.send_message(chat_id, f"Kết quả 10 lần xổ gần nhất:\n")
+    #luu_cau = luu_cau[-1:-11]
+    #bot.send_message(chat_id, f"Cầu {luu_cau[-1:-11]}")
+    #for cau in luu_cau: 
+        #bot.send_message(chat_id, f"{cau}")
+
+
 
 def loai_cau(total_score):
-  return "TAI" if 11 <= total_score <= 18 else "XIU"
+  return "Tài" if 11 <= total_score <= 18 else "Xỉu"
     
 
 def ls_cau(result):
@@ -318,7 +348,7 @@ def ls_cau(result):
     cau = loai_cau(total_score)
     if cau not in luu_cau:
         luu_cau[cau] = []
-        luu_cau[cau].append(cau)
+        luu_cau[cau].append({cau})
     
     # Automatically save the history to "kiemtraxs.txt"
     try:
@@ -339,7 +369,10 @@ def load_cau_from_file():
                 cau = str(cau_str)
                 luu_cau[cau] = cau
 
-
+#InlineKeyboardButton(
+#                text=_["SG_B_2"],
+#                callback_data=f"song_helper audio|{vidid}",
+#            )
 
 
 ##########################
