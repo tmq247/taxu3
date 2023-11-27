@@ -148,6 +148,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
         cua_cuoc = '⚪️Xỉu'
     diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
     text8 = bot.send_message(group_chat_id, diemcuoc)
+    idtext8 = text8.id
     
     #time.sleep(3)
     #await diemcuoc.delete()
@@ -161,16 +162,18 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
             user_balance[user_id] -= bet_amount
             
             text9 = bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
+            idtext9 = text9.id
         else:
             text10 = bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
+            idtext10 = text10.id
     else:
         text11 = bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
     # Load user balances from the file
     time.sleep(5)
-    bot.delete_messages(group_chat_id, idtext8.id)
-    bot.delete_messages(group_chat_id, idtext9.id)
-    bot.delete_messages(group_chat_id, idtext10.id)
-    bot.delete_messages(group_chat_id, idtext11.id)
+    bot.delete_messages(group_chat_id, idtext8)
+    bot.delete_messages(group_chat_id, idtext9)
+    bot.delete_messages(group_chat_id, idtext10)
+    bot.delete_messages(group_chat_id, idtext11)
     save_balance_to_file()
     load_balance_from_file()
 
@@ -184,7 +187,9 @@ def start_game():
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
+    idtext4 = text4.id
     text5 = bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
+    idtext5 = text5.id
 
     time.sleep(3)  # Simulating dice rolling
 
@@ -222,8 +227,8 @@ Tổng thắng: {total_win}đ
 Tổng thua: {total_bet_T + total_bet_X}đ
 """)
     
-    bot.delete_messages(group_chat_id, text4.id)
-    bot.delete_messages(group_chat_id, text5.id)
+    bot.delete_messages(group_chat_id, idtext4)
+    bot.delete_messages(group_chat_id, idtext5)
     #bot.delete_messages(group_chat_id, idtext6)
     #time.sleep(10)
     #bot.delete_messages(group_chat_id, text7.message_id)
@@ -271,11 +276,12 @@ def handle_message(_, message: Message):
             
         else:
             text14 = bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
+            idtext14 = text14.id
     if len(mo_game) == 0:
             grtrangthai = 1
             game_timer(grid, grtrangthai)
     time.sleep(5)
-    bot.delete_messages(group_chat_id, text14.id)
+    bot.delete_messages(group_chat_id, idtext14)
 
 
 # Load user balances from the file
@@ -290,6 +296,7 @@ async def check_balance(_, message):
         mention = (await bot.get_users(user_id)).mention
         text12 = bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
         await text12
+        idtext12 = text12.id
 
     else:
         user_id = message.from_user.id
@@ -297,9 +304,10 @@ async def check_balance(_, message):
         mention = (await bot.get_users(user_id)).mention
         text13 = bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
         await text13
+        idtext13 = text13.id
     time.sleep(5)
-    bot.delete_messages(message.chat.id, text12.id)
-    bot.delete_messages(message.chat.id, text13.id)
+    bot.delete_messages(message.chat.id, idtext12)
+    bot.delete_messages(message.chat.id, idtext13)
 
 
 @bot.on_message(filters.command("tx"))
