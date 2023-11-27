@@ -166,14 +166,18 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
         else:
             text10 = bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
             idtext10 = text10.id
+            time.sleep(5)
+            bot.delete_messages(group_chat_id, idtext10)
     else:
         text11 = bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
+        time.sleep(5)
+        bot.delete_messages(group_chat_id, idtext11)
     # Load user balances from the file
     time.sleep(5)
     bot.delete_messages(group_chat_id, idtext8)
     bot.delete_messages(group_chat_id, idtext9)
-    bot.delete_messages(group_chat_id, idtext10)
-    bot.delete_messages(group_chat_id, idtext11)
+    
+    
     save_balance_to_file()
     load_balance_from_file()
 
@@ -296,7 +300,6 @@ async def check_balance(_, message):
         mention = (await bot.get_users(user_id)).mention
         text12 = bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
         await text12
-        idtext12 = text12.id
 
     else:
         user_id = message.from_user.id
@@ -304,10 +307,7 @@ async def check_balance(_, message):
         mention = (await bot.get_users(user_id)).mention
         text13 = bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
         await text13
-        idtext13 = text13.id
-    time.sleep(5)
-    bot.delete_messages(message.chat.id, idtext12)
-    bot.delete_messages(message.chat.id, idtext13)
+        
 
 
 @bot.on_message(filters.command("tx"))
@@ -325,13 +325,16 @@ def start_taixiu(_, message):
     else:
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
-        bot.send_message(chat_id, f"Đang đợi đổ xúc xắc")
-        bot.send_message(group_chat_id, f"""
+        text15 = bot.send_message(chat_id, f"Đang đợi đổ xúc xắc")
+        text16 = bot.send_message(group_chat_id, f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
+        time.sleep(5)
+        bot.delete_messages(group_chat_id, text15.id)
+        bot.delete_messages(group_chat_id, text16.id)
 
 @bot.on_message(filters.command("sc"))
 def start_sc(_, message):
