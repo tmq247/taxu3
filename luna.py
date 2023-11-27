@@ -243,17 +243,18 @@ def game_timer(grid, grtrangthai):
     mo_game[grid]['trangthai'] += grtrangthai
     text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược.")
     time.sleep(15)
-    bot.delete_messages(grid, text1.id)
     text2 = bot.send_message(group_chat_id, "Còn 30s để đặt cược.")
+    bot.delete_messages(grid, text1.id)
     
     time.sleep(20)  # Wait for 120 seconds
-    bot.delete_messages(grid, text2.id)
     text3 = bot.send_message(group_chat_id, "Còn 10s để đặt cược.")
+    bot.delete_messages(grid, text2.id)
     
     time.sleep(10)  # Wait for 120 seconds
     
-    bot.delete_messages(grid, text3.id)
+    
     bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
+    bot.delete_messages(grid, text3.id)
     start_game()
         
 
