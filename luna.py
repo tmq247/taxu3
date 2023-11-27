@@ -178,9 +178,9 @@ def start_game():
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
-    idtext4 = text4.message_id
+    idtext4 = text4.Message.id
     text5 = bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
-    idtext5 = text5.message_id
+    idtext5 = text5.Message.id
 
     time.sleep(3)  # Simulating dice rolling
 
@@ -233,12 +233,12 @@ def game_timer(grid, grtrangthai):
     text2 = bot.send_message(group_chat_id, "Còn 30s để đặt cược.")
     
     time.sleep(20)  # Wait for 120 seconds
-    bot.delete_messages(grid, text2.messag_id)
+    bot.delete_messages(grid, text2.Message.id)
     text3 = bot.send_message(group_chat_id, "Còn 10s để đặt cược.")
     
     time.sleep(10)  # Wait for 120 seconds
-    bot.delete_messages(grid, text1.message_id)
-    bot.delete_messages(grid, text3.message_id)
+    bot.delete_messages(grid, text1.Message.id)
+    bot.delete_messages(grid, text3.Message.id)
     bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
     start_game()
         
