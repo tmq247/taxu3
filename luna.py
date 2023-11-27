@@ -166,7 +166,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     else:
         text11 = bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
     # Load user balances from the file
-    time.sleep(30)
+    time.sleep(5)
     bot.delete_messages(group_chat_id, idtext8.id)
     bot.delete_messages(group_chat_id, idtext9.id)
     bot.delete_messages(group_chat_id, idtext10.id)
@@ -297,7 +297,7 @@ async def check_balance(_, message):
         mention = (await bot.get_users(user_id)).mention
         text13 = bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
         await text13
-    time.sleep(30)
+    time.sleep(5)
     bot.delete_messages(message.chat.id, text12.id)
     bot.delete_messages(message.chat.id, text13.id)
 
