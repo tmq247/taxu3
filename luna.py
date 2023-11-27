@@ -21,8 +21,8 @@ from functions import (
     extract_user_and_reason,
     time_converter,
 )
-from keyboard import ikb
-from pykeyboard import InlineKeyboard
+#from keyboard import ikb
+#from pykeyboard import InlineKeyboard
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from telebot import TeleBot, types
