@@ -281,11 +281,12 @@ def handle_message(_, message: Message):
         else:
             text14 = bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
             idtext14 = text14.id
+            time.sleep(5)
+            bot.delete_messages(group_chat_id, idtext14)
     if len(mo_game) == 0:
             grtrangthai = 1
             game_timer(grid, grtrangthai)
-    time.sleep(5)
-    bot.delete_messages(group_chat_id, idtext14)
+    
 
 
 # Load user balances from the file
