@@ -348,9 +348,8 @@ def start_sc(_, message):
     #buttons = InlineKeyboard(row_width=1)
     #keyboard = ikb([["🚨  Mở chat  🚨": f"@coihaycoc"]])
     markup = InlineKeyboardMarkup(row_width=1)
-    markup.add(
-      InlineKeyboardButton("🏝 Soi cầu 🎲", url="https://t.me/kqtaixiu"))
-    bot.send_message(chat_id, 'Soi cầu ', reply_markup=markup)
+    markup.add([InlineKeyboardButton("🏝 Soi cầu 🎲", url="https://t.me/kqtaixiu")])
+    bot.send_message(chat_id, "Soi cầu", reply_markup=markup)
     #load_cau_from_file()
     #bot.send_message(chat_id, f"Kết quả 10 lần xổ gần nhất:\n")
     #luu_cau = luu_cau[-1:-11]
