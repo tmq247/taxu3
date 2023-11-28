@@ -256,8 +256,10 @@ def game_timer(grid, grtrangthai):
     time.sleep(10)  # Wait for 120 seconds
     
     
-    bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
+    text17 = bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
     bot.delete_messages(grid, text3.id)
+    time.sleep(3) 
+    bot.delete_messages(grid, text17.id)
     start_game()
         
 
