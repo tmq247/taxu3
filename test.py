@@ -150,7 +150,7 @@ def process_naptien_gitcode(message):
 
         user_balance[user_id] += amount
         remove_gitcode(gitcode)
-        gitcode_amounts.delete()
+        del gitcode_amounts(gitcode)
         bot.reply_to(message, f"Gitcode Thành Công!\nSố dư của bạn là: {user_balance[user_id]:,}đ.\n💹Chúc Bạn May Mắn Nhé💖")
         
         # Sử dụng phương thức send_message để gửi thông báo vào nhóm
