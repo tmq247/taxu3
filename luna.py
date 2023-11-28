@@ -58,6 +58,7 @@ user_balance = {}
 
 # Variable to store the group chat ID
 group_chat_id = -1002121532989
+channel_id = -1002067584440
 
 # Winning coefficient
 winning_coefficient = 1.9
@@ -200,6 +201,8 @@ def start_game():
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
     bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
+    bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
+
     #idtext6 = text6.message_id
     ls_cau(result)
 
