@@ -347,17 +347,12 @@ def start_sc(_, message):
     #url = f"https://t.me/coihaycoc"
     #buttons = InlineKeyboard(row_width=1)
     #keyboard = ikb([["🚨  Mở chat  🚨": f"@coihaycoc"]])
-    markup = telebot.types.InlineKeyboardMarkup(row_width=2)
+    markup = InlineKeyboardMarkup(row_width=1)
     markup.add(
-      telebot.types.InlineKeyboardButton("♨️  🎲",
-                                         callback_data=""),
-      telebot.types.InlineKeyboardButton("🏝  🎲",
-                                         url="t.me/coihaycoc"))
-
-    #sc_url = f"https://t.me/coihaycoc"
-    #buttons = [[InlineKeyboardButton("Soi cầu", url=sc_url)]]
-    message.reply_text("Soi cầu", reply_markup=markup)
-    #bot.send_message(chat_id, 'Soi cầu ', reply_markup=keyboard)
+      InlineKeyboardButton("🏝 Soi cầu 🎲",
+                                         url=t.me/coihaycoc"
+                                        ))
+    bot.send_message(chat_id, 'Soi cầu ', reply_markup=markup)
     #load_cau_from_file()
     #bot.send_message(chat_id, f"Kết quả 10 lần xổ gần nhất:\n")
     #luu_cau = luu_cau[-1:-11]
