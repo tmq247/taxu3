@@ -14,17 +14,19 @@ import pytz
 import threading
 import asyncio
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.types import  Message, InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.filters import command
 from functions import (
     extract_user,
     extract_user_and_reason,
     time_converter,
 )
+#from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telebot.util import quick_markup
 #from keyboard import ikb
 #from pykeyboard import InlineKeyboard
 import telebot
-from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
+#from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from telebot import TeleBot, types
 
 
@@ -52,6 +54,7 @@ grtrangthai = {}
 
 # Dictionary to store user bets
 user_bets = {}
+winner = {}
 
 # Dictionary to store user balances
 user_balance = {}
@@ -61,7 +64,7 @@ group_chat_id = -1002121532989
 channel_id = -1002067584440
 
 # Winning coefficient
-winning_coefficient = 1.9
+winning_coefficient = 1.95
 
 #########################
 # Tạo từ điển gitcodes
@@ -137,7 +140,7 @@ def load_balance_from_file():
 
 
 
-admin_user_id = 6337933296 or 6630692765 or 5838967403
+admin_user_id = 6337933296 or 6630692765 or 5838967403 or 6050066066
 
 
 
@@ -148,9 +151,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     else:
         cua_cuoc = '⚪️Xỉu'
     diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
-    text8 = bot.send_message(group_chat_id, diemcuoc)
-    idtext8 = text8.id
-    
+    bot.send_message(group_chat_id, diemcuoc)
     #time.sleep(3)
     #await diemcuoc.delete()
     
@@ -162,28 +163,24 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
             user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
             
-            text9 = bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
-            idtext9 = text9.id
+            bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
         else:
-            text10 = bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
-            idtext10 = text10.id
-            time.sleep(5)
-            bot.delete_messages(group_chat_id, idtext10)
+            bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
-        text11 = bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
-        time.sleep(5)
-        bot.delete_messages(group_chat_id, idtext11)
+        bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
     # Load user balances from the file
-    time.sleep(5)
-    bot.delete_messages(group_chat_id, idtext8)
-    bot.delete_messages(group_chat_id, idtext9)
-    
-    
     save_balance_to_file()
     load_balance_from_file()
 
 # Function to start the dice game
 def start_game():
+    soicau = [
+        [
+            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+        ],]
+    reply_markup = InlineKeyboardMarkup(soicau)
+    #bot.send_message(chat_id, "Soi cầu", reply_markup=reply_markup)
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
     text4 = bot.send_message(group_chat_id, f"""
@@ -192,37 +189,46 @@ def start_game():
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
-    idtext4 = text4.id
+    idtext4 = text4.message_id
     text5 = bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
-    idtext5 = text5.id
+    idtext5 = text5.message_id
 
     time.sleep(3)  # Simulating dice rolling
 
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
-    bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
-    bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
 
+    bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
+    #bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     #idtext6 = text6.message_id
     ls_cau(result)
+    #bot.send_message(group_chat_id, f"{user_bets}")#######
 
     # Determine the winner and calculate total winnings
     total_win = 0
     for user_id in user_bets:
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
             total_win += user_bets[user_id]['T'] * winning_coefficient
+            winner[user_id] = []
+            winner[user_id] += [total_win]
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += user_bets[user_id]['X'] * winning_coefficient
+            winner[user_id] = []
+            winner[user_id] += [total_win]
 
     # Update user balances based on the game result
     for user_id in user_bets:
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
             user_balance[user_id] += total_win
+            #winner[user_id] = 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             user_balance[user_id] += total_win
 
+    bot.send_message(group_chat_id, f"{winner}")#######
+
     # Clear user bets
     user_bets.clear()
+    winner.clear()
 
     # Save updated balances to the file
     save_balance_to_file()
@@ -232,8 +238,8 @@ def start_game():
     text7 = bot.send_message(group_chat_id, f"""
 Tổng thắng: {total_win}đ
 Tổng thua: {total_bet_T + total_bet_X}đ
-""")
-    
+""", reply_markup=reply_markup)
+    bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     bot.delete_messages(group_chat_id, idtext4)
     bot.delete_messages(group_chat_id, idtext5)
     #bot.delete_messages(group_chat_id, idtext6)
@@ -247,19 +253,15 @@ def game_timer(grid, grtrangthai):
     text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược.")
     time.sleep(15)
     text2 = bot.send_message(group_chat_id, "Còn 30s để đặt cược.")
-    bot.delete_messages(grid, text1.id)
     
     time.sleep(20)  # Wait for 120 seconds
+    bot.delete_messages(grid, text2.message_id)
     text3 = bot.send_message(group_chat_id, "Còn 10s để đặt cược.")
-    bot.delete_messages(grid, text2.id)
     
     time.sleep(10)  # Wait for 120 seconds
-    
-    
-    text17 = bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
-    bot.delete_messages(grid, text3.id)
-    time.sleep(3) 
-    bot.delete_messages(grid, text17.id)
+    bot.delete_messages(grid, text1.message_id)
+    bot.delete_messages(grid, text3.message_id)
+    bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
     start_game()
         
 
@@ -285,14 +287,10 @@ def handle_message(_, message: Message):
             confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc)
             
         else:
-            text14 = bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
-            idtext14 = text14.id
-            time.sleep(5)
-            bot.delete_messages(group_chat_id, idtext14)
+            bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
     if len(mo_game) == 0:
             grtrangthai = 1
             game_timer(grid, grtrangthai)
-    
 
 
 # Load user balances from the file
@@ -305,16 +303,13 @@ async def check_balance(_, message):
         user_id = await extract_user(message)
         balance = user_balance.get(user_id, 0)
         mention = (await bot.get_users(user_id)).mention
-        text12 = bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
-        await text12
+        await bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
 
     else:
         user_id = message.from_user.id
         balance = user_balance.get(user_id, 0)
         mention = (await bot.get_users(user_id)).mention
-        text13 = bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
-        await text13
-        
+        await bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
 
 
 @bot.on_message(filters.command("tx"))
@@ -332,32 +327,19 @@ def start_taixiu(_, message):
     else:
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
-        text15 = bot.send_message(chat_id, f"Đang đợi đổ xúc xắc")
-        text16 = bot.send_message(group_chat_id, f"""
+        bot.send_message(chat_id, f"Đang đợi đổ xúc xắc")
+        soicau = [
+        [
+            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+        ],]
+        reply_markup = InlineKeyboardMarkup(soicau)
+        bot.send_message(group_chat_id, f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
-""")
-        time.sleep(5)
-        bot.delete_messages(group_chat_id, text15.id)
-        bot.delete_messages(group_chat_id, text16.id)
-
-@bot.on_message(filters.command("sc"))
-def start_sc(_, message):
-    chat_id = message.chat.id
-    #url = f"https://t.me/coihaycoc"
-    #buttons = InlineKeyboard(row_width=1)
-    #keyboard = ikb([["🚨  Mở chat  🚨": f"@coihaycoc"]])
-    markup = InlineKeyboardMarkup(row_width=1)
-    markup.add([InlineKeyboardButton("🏝 Soi cầu 🎲", url="https://t.me/kqtaixiu")])
-    bot.send_message(chat_id, "Soi cầu", reply_markup=markup)
-    #load_cau_from_file()
-    #bot.send_message(chat_id, f"Kết quả 10 lần xổ gần nhất:\n")
-    #luu_cau = luu_cau[-1:-11]
-    #bot.send_message(chat_id, f"Cầu {luu_cau[-1:-11]}")
-    #for cau in luu_cau: 
-        #bot.send_message(chat_id, f"{cau}")
+""", reply_markup=reply_markup)
 
 
 
@@ -391,12 +373,25 @@ def load_cau_from_file():
                 cau = str(cau_str)
                 luu_cau[cau] = cau
 
-#InlineKeyboardButton(
-#                text=_["SG_B_2"],
-#                callback_data=f"song_helper audio|{vidid}",
-#            )
 
+@bot.on_message(filters.command("soicau"))
+async def show_game_options(_, message):
+    chat_id = message.chat.id
+    soicau = [
+        [
+            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+        ],]
+    reply_markup = InlineKeyboardMarkup(soicau)
+    await bot.send_message(chat_id, "Soi cầu", reply_markup=reply_markup)
 
+def soi_cau():
+    soicau = [
+        [
+            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+        ],]
+    reply_markup = InlineKeyboardMarkup(soicau)
 ##########################
 async def type_and_send(message):
     chat_id = message.chat.id
