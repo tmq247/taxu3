@@ -328,8 +328,6 @@ def start_taixiu(_, message):
         game_timer(grid, grtrangthai)
         
     else:
-        markup = InlineKeyboardMarkup(row_width=1)
-        markup.add([InlineKeyboardButton("🏝 Soi cầu 🎲", url="https://t.me/kqtaixiu")])
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
         text15 = bot.send_message(chat_id, f"Đang đợi đổ xúc xắc")
@@ -338,7 +336,7 @@ def start_taixiu(_, message):
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
-""", reply_markup=markup)
+""")
         time.sleep(5)
         bot.delete_messages(group_chat_id, text15.id)
         bot.delete_messages(group_chat_id, text16.id)
@@ -351,7 +349,7 @@ def start_sc(_, message):
     #keyboard = ikb([["🚨  Mở chat  🚨": f"@coihaycoc"]])
     markup = InlineKeyboardMarkup(row_width=1)
     markup.add([InlineKeyboardButton("🏝 Soi cầu 🎲", url="https://t.me/kqtaixiu")])
-    bot.send_message(message.chat.id, "Soi cầu", reply_markup=markup)
+    bot.send_message(chat_id, "Soi cầu", reply_markup=markup)
     #load_cau_from_file()
     #bot.send_message(chat_id, f"Kết quả 10 lần xổ gần nhất:\n")
     #luu_cau = luu_cau[-1:-11]
