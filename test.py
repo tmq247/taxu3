@@ -401,6 +401,7 @@ def create_withdraw_method_keyboard():
 
 
 # Hàm rút tiền tài khoản
+bot.message_handler(commands=["ruttien"])
 def withdraw_balance(msg):
   chat_id = msg.chat.id
   user_id = msg.from_user.id
@@ -631,6 +632,7 @@ def napcreate_withdraw_method_keyboard():
 
 
 # Hàm rút tiền tài khoản
+bot.message_handler(commands=["naptien"])
 def napwithdraw_balance(msg):
   chat_id = msg.chat.id
   user_id = msg.from_user.id
