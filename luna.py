@@ -146,6 +146,7 @@ admin_user_id = 6337933296 or 6630692765 or 5838967403 or 6050066066
 
 # Function to confirm the bet and check user balance
 def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
+    load_balance_from_file()
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
     else:
@@ -174,6 +175,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
 
 # Function to start the dice game
 def start_game():
+    load_balance_from_file()
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
@@ -204,7 +206,7 @@ def start_game():
     #idtext6 = text6.message_id
     ls_cau(result)
     #bot.send_message(group_chat_id, f"{user_bets}")#######
-    load_balance_from_file()
+    
 
     # Determine the winner and calculate total winnings
     tien_thang = 0
@@ -240,6 +242,7 @@ def start_game():
 
     # Save updated balances to the file
     save_balance_to_file()
+    load_balance_from_file()
     
     mo_game.clear()
 
