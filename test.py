@@ -781,7 +781,7 @@ def napprocess_withdraw_amount(msg):
 🔊Nội Dung: naptien_{msg.from_user.id}🔚
 🔊Min Nạp: 10.000k Min Rút: 100.000k
 🔊Min Nạp: 10.000 - 3.000.000🔚
-🔊Vui lòng ghi đúng nội dung tiền.🔚
+🔊Vui lòng ghi đúng nội dung chuyển tiền.🔚
 🔊Vui lòng chụp lại bill chuyển tiền.🔚
 🔊Không Hỗ Trợ Lỗi Nội Dung.🔚
 🔊NẠP NHANH QR PHÍA BÊN DƯỚI NHÉ 🔚
