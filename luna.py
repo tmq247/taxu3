@@ -212,22 +212,25 @@ def start_game():
             total_win += user_bets[user_id]['T'] * winning_coefficient
             winner[user_id] = []
             winner[user_id] += [user_bets[user_id]['T'] * winning_coefficient]
+            tien_thang = user_bets[user_id]['T'] * winning_coefficient
             #winner[user_id] += [total_win]
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += user_bets[user_id]['X'] * winning_coefficient
             winner[user_id] = []
             winner[user_id] += [user_bets[user_id]['X'] * winning_coefficient]
+            tien_thang = user_bets[user_id]['X'] * winning_coefficient
             #winner[user_id] += [total_win]
 
     # Update user balances based on the game result
     for user_id in user_bets:
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
-            user_balance[user_id] += total_win
+            user_balance[user_id] += tien_thang
             #winner[user_id] = 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
-            user_balance[user_id] += total_win
+            user_balance[user_id] += tien_thang
 
     bot.send_message(group_chat_id, f"{winner}")#######
+    bot.send_message(group_chat_id, f"{tien_thang}")#######
 
     # Clear user bets
     user_bets.clear()
