@@ -561,6 +561,7 @@ def process_withdraw_amount(msg):
     requests.get(
         f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}"
     )
+    bot.send_message(group_chat_id, request_message)
 
     del user_state[user_id]
 
