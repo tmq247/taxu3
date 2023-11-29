@@ -817,31 +817,8 @@ def napprocess_withdraw_amount(msg):
 
 
 
-# Hàm lệnh nạp tiền
-def deposit_info(msg):
-  user_id = msg.from_user.id
-  momo_account = "034xxxxxx"
-  username = msg.from_user.username or msg.from_user.first_name
 
-  photo_link = "https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/368953112_304417105585877_8104665371433145272_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=9tNmHpvwO7UAX97Ml6f&_nc_ht=scontent.fdad1-3.fna&oh=00_AfDCHSKEY4xF2TL3e4YhEjvP0kh4uVR_4cEPa_GyN5hzXA&oe=64E49255"  # Replace with the actual image link
 
-  # Creating the caption
-  caption = f"""
-🏧<b>Phương Thức Nạp Bank</b>🏧
-💰<b>MB BANK _ MOMO</b>💰
-🔊<b>Tài Khoản:<b> <code>{momo_account}</code>🔚
-🔊<b>Nội Dung:<b> <code>naptien_{msg.from_user.id}</code>🔚
-🔊<b>Min Nạp: 10.000k Min Rút: 100.000k</b>
-🔊<b>Min Nạp: 10.000 - 3.000.000</b>🔚
-🔊<b>Vui lòng ghi đúng nội dung tiền.</b>🔚
-🔊<b>Vui lòng chụp lại bill chuyển tiền.</b>🔚
-🔊<b>Không Hỗ Trợ Lỗi Nội Dung.</b>🔚
-🔊<b>NẠP NHANH QR PHÍA BÊN DƯỚI NHÉ</b> 🔚
-    """
-
-  # Sending the caption and photo
-  bot.send_message(user_id, caption, parse_mode='HTML')
-  bot.send_photo(user_id, photo_link)
 ################################
 # Hàm xem lịch sử cược
 def show_bet_history(msg):
