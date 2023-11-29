@@ -204,6 +204,7 @@ def start_game():
     #idtext6 = text6.message_id
     ls_cau(result)
     #bot.send_message(group_chat_id, f"{user_bets}")#######
+    load_balance_from_file()
 
     # Determine the winner and calculate total winnings
     tien_thang = 0
