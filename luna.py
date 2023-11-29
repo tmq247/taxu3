@@ -206,6 +206,7 @@ def start_game():
     #bot.send_message(group_chat_id, f"{user_bets}")#######
 
     # Determine the winner and calculate total winnings
+    tien_thang = 0
     total_win = 0
     for user_id in user_bets:
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
