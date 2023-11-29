@@ -400,7 +400,7 @@ def create_withdraw_method_keyboard():
   return markup
 
 
-# Hàm rút tiền tài khoản
+# Hàm rút tiền 
 bot.message_handler(commands=["ruttien"])
 def withdraw_balance(msg):
   chat_id = msg.chat.id
