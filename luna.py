@@ -211,12 +211,12 @@ def start_game():
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
             total_win += user_bets[user_id]['T'] * winning_coefficient
             winner[user_id] = []
-            winner[user_id] += [bet_amount* winning_coefficient]
+            winner[user_id] += [user_bets[user_id]['T'] * winning_coefficient]
             #winner[user_id] += [total_win]
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += user_bets[user_id]['X'] * winning_coefficient
             winner[user_id] = []
-            winner[user_id] += [bet_amount* winning_coefficient]
+            winner[user_id] += [user_bets[user_id]['T'] * winning_coefficient]
             #winner[user_id] += [total_win]
 
     # Update user balances based on the game result
