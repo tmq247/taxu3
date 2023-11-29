@@ -396,62 +396,7 @@ def soi_cau():
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
 ##########################
-async def type_and_send(message):
-    chat_id = message.chat.id
-    user_id = message.from_user.id if message.from_user else 0
-    query = message.text.strip()
-    await message._client.send_chat_action(chat_id, "typing")
-    #response, _ = await gather(lunaQuery(query, user_id), sleep(2))
-    #await message.reply_text(response)
-    await message._client.send_chat_action(chat_id, "cancel")
 
-
-@bot.on_message(filters.command("repo"))
-async def repo(_, message):
-    await message.reply_text(
-        "[GitHub](https://github.com/)"
-        + " | [Group](t.me/nguhanh69)",
-        disable_web_page_preview=True,
-    )
-
-
-@bot.on_message(filters.command("help"))
-async def start(_, message):
-    await bot.send_chat_action(message.chat.id, "typing")
-    await sleep(2)
-    await message.reply_text("/repo - Get Repo Link")
-
-
-@bot.on_message(
-    ~filters.private
-    & filters.text
-    & ~filters.command("help")
-)
-async def chat(_, message):
-    if message.reply_to_message:
-        if not message.reply_to_message.from_user:
-            return
-        from_user_id = message.reply_to_message.from_user.id
-        if from_user_id != bot_id:
-            return
-    else:
-        match = re.search(
-            "[.|\n]{0,}luna[.|\n]{0,}",
-            message.text.strip(),
-            flags=re.IGNORECASE,
-        )
-        if not match:
-            return
-    await type_and_send(message)
-
-
-@bot.on_message(
-    filters.private & ~filters.command("help")
-)
-async def chatpm(_, message):
-    if not message.text:
-        return
-    await type_and_send(message)
 
 
 async def main():
