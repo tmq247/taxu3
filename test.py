@@ -553,6 +553,7 @@ def process_withdraw_amount(msg):
 
     request_message = f"""
 ➤Tên Người Rút: {msg.from_user.first_name} 
+➤ID Người Rút: {msg.from_user.id} 
 ➤Yêu Cầu Rút: {withdraw_amount:,} VNĐ 
 ➤Về {account_type}: {account_info}
         """
