@@ -55,6 +55,7 @@ grtrangthai = {}
 # Dictionary to store user bets
 user_bets = {}
 winner = {}
+winner2 = {}
 
 # Dictionary to store user balances
 user_balance = {}
@@ -174,7 +175,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     load_balance_from_file()
 
 # Function to start the dice game
-def start_game():
+def start_game(message):
     load_balance_from_file()
     soicau = [
         [
@@ -182,7 +183,6 @@ def start_game():
             InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
-    #bot.send_message(chat_id, "Soi cầu", reply_markup=reply_markup)
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
     text4 = bot.send_message(group_chat_id, f"""
@@ -202,10 +202,7 @@ def start_game():
     time.sleep(3)
 
     bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
-    #bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
-    #idtext6 = text6.message_id
     ls_cau(result)
-    #bot.send_message(group_chat_id, f"{user_bets}")#######
     
 
     # Determine the winner and calculate total winnings
@@ -215,30 +212,25 @@ def start_game():
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
             total_win += user_bets[user_id]['T'] * winning_coefficient
             winner[user_id] = []
-            winner[user_id] += [user_bets[user_id]['T'] * winning_coefficient]
-            tien_thang = user_bets[user_id]['T'] * winning_coefficient
-            #winner[user_id] += [total_win]
+            winner[user_id] += [user_bets[user_id]['T'] * winning_coefficient]   
+
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += user_bets[user_id]['X'] * winning_coefficient
             winner[user_id] = []
             winner[user_id] += [user_bets[user_id]['X'] * winning_coefficient]
-            tien_thang = user_bets[user_id]['X'] * winning_coefficient
-            #winner[user_id] += [total_win]
 
     # Update user balances based on the game result
     for user_id in user_bets:
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
-            user_balance[user_id] += tien_thang
-            #winner[user_id] = 
+            user_balance[user_id] += tien_thang 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             user_balance[user_id] += tien_thang
 
-    bot.send_message(group_chat_id, f"{winner}")#######
-    bot.send_message(group_chat_id, f"{tien_thang}")#######
+    #bot.send_message(group_chat_id, f"{winner}")#######
+    for user_id, diem in winner.items():
+        user_ids =  bot.get_users(user_id).mention
 
-    # Clear user bets
-    user_bets.clear()
-    winner.clear()
+        bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n")#######
 
     # Save updated balances to the file
     save_balance_to_file()
@@ -253,12 +245,13 @@ Tổng thua: {total_bet_T + total_bet_X}đ
     bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     bot.delete_messages(group_chat_id, idtext4)
     bot.delete_messages(group_chat_id, idtext5)
-    #bot.delete_messages(group_chat_id, idtext6)
-    #time.sleep(10)
-    #bot.delete_messages(group_chat_id, text7.message_id)
+    # Clear user bets
+    user_bets.clear()
+    winner.clear()
+
 
 # Function to handle the game timing
-def game_timer(grid, grtrangthai):
+def game_timer(message, grid, grtrangthai):
     mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
     mo_game[grid]['trangthai'] += grtrangthai
     text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược.")
@@ -273,7 +266,7 @@ def game_timer(grid, grtrangthai):
     bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
     bot.delete_messages(grid, text1.id)
     bot.delete_messages(grid, text3.id)
-    start_game()
+    start_game(message)
         
 
 # Function to handle user messages
@@ -285,7 +278,7 @@ def handle_message(_, message: Message):
     # Check if the message is from the group chat
     if chat_id == group_chat_id:
         # Check if the message is a valid bet
-        if message.text and message.text.upper() in ['/T ALL', '/X ALL'] or (message.text and message.text.upper()[1] in ['T', 'X'] and message.text[3:].isdigit()):
+        if message.text and message.text.upper() in ['/T ALL', '/X ALL'] or (message.text and message.text.upper()[1] in ['T', 'X'] and message.text[3:].isdigit()): 
             user_id = message.from_user.id
             ten_ncuoc = message.from_user.first_name
             bet_type = message.text.upper()[1]
@@ -301,7 +294,7 @@ def handle_message(_, message: Message):
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
     if len(mo_game) == 0:
             grtrangthai = 1
-            game_timer(grid, grtrangthai)
+            game_timer(message, grid, grtrangthai)
 
 
 # Load user balances from the file
@@ -333,9 +326,10 @@ def start_taixiu(_, message):
         grtrangthai = 1
         grid = chat_id
         #bot.send_message(chat_id, f"Bắt đầu ván mới")
-        game_timer(grid, grtrangthai)
+        game_timer(message, grid, grtrangthai)
         
     else:
+        
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
         bot.send_message(chat_id, f"Đang đợi đổ xúc xắc")
@@ -363,7 +357,7 @@ def ls_cau(result):
     cau = loai_cau(total_score)
     if cau not in luu_cau:
         luu_cau[cau] = []
-        luu_cau[cau].append({cau})
+        luu_cau[cau].append(cau)
     
     # Automatically save the history to "kiemtraxs.txt"
     try:
@@ -382,12 +376,19 @@ def load_cau_from_file():
             for line in f:
                 cau_str = line.strip().split()
                 cau = str(cau_str)
-                luu_cau[cau] = cau
+                luu_cau[cau] = [cau]
 
+@bot.on_message(filters.command("delsc"))
+async def delsoicau(_, message):
+    chat_id = message.chat.id
+    luu_cau.clear()
 
 @bot.on_message(filters.command("soicau"))
 async def show_game_options(_, message):
     chat_id = message.chat.id
+    load_cau_from_file()
+    #bot.send_message(chat_id, f"Soi cầu")
+        
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
@@ -395,6 +396,8 @@ async def show_game_options(_, message):
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
     await bot.send_message(chat_id, "Soi cầu", reply_markup=reply_markup)
+    for scau, cau in reversed(luu_cau.items()):
+        await bot.send_message(chat_id, f"{scau}")
 
 def soi_cau():
     soicau = [
