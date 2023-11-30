@@ -423,8 +423,8 @@ def soi_cau():
 
 
 @bot.on_message(filters.command("start"))
-def show_main_menu(msg):
-    user_id = msg.from_user.id
+def show_main_menu(_, message):
+    user_id = message.from_user.id
     load_balance_from_file()
     
   # Check if the user is already in the user_balance dictionary
@@ -460,7 +460,7 @@ def show_main_menu(msg):
 
 ⚠️ <b>Chú ý đề phòng lừa đảo, Chúng Tôi Không inbox Trước</b> ⚠️
 """
-    bot.send_photo(msg.chat.id,
+    bot.send_photo(message.chat.id,
                  photo_url,
                  caption=caption,
                  reply_markup=reply_markup,
