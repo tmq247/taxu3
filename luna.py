@@ -189,7 +189,7 @@ def start_game(message):
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
@@ -212,7 +212,7 @@ def start_game(message):
     time.sleep(3)
 
     bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
-    ls_cau(result)
+    #ls_cau(result)
     
 
     # Determine the winner and calculate total winnings
@@ -251,8 +251,11 @@ def start_game(message):
     load_balance_from_file()
     
     mo_game.clear()
-    user_bets.clear()
+    
     time.sleep(3)
+    winner.clear()
+    user_bets.clear()
+    mo_game.clear()
 
     text7 = bot.send_message(group_chat_id, f"""
 Tổng thắng: {total_win}đ
@@ -263,14 +266,15 @@ Tổng thua: {total_bet_T + total_bet_X}đ
     bot.delete_messages(group_chat_id, idtext5)
     # Clear user bets
     
-    winner.clear()
+    
+    
 
 
 # Function to handle the game timing
 def game_timer(message, grid, grtrangthai):
     mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
     mo_game[grid]['trangthai'] += grtrangthai
-    text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược\n LƯU Ý : HÃY VÀO @diemallwin_bot VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.")
+    text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược\n LƯU Ý : HÃY VÀO @diemallwin_bot \n VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.")
     time.sleep(15)
     text2 = bot.send_message(group_chat_id, "Còn 30s để đặt cược.")
     
@@ -348,11 +352,11 @@ def start_taixiu(_, message):
         
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
-        bot.send_message(chat_id, f"Đang đợi đổ xúc xắc\n LƯU Ý : HÃY VÀO @diemallwin_bot VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.")
+        bot.send_message(chat_id, f"Đang đợi đổ xúc xắc\n LƯU Ý : HÃY VÀO @diemallwin_bot \n VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.")
         soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
         reply_markup = InlineKeyboardMarkup(soicau)
         bot.send_message(group_chat_id, f"""
@@ -408,7 +412,7 @@ async def show_game_options(_, message):
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
     await bot.send_message(chat_id, "Soi cầu", reply_markup=reply_markup)
@@ -419,7 +423,7 @@ def soi_cau():
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
 
@@ -437,7 +441,8 @@ def show_main_menu(_, message):
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
+            InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -468,13 +473,14 @@ def show_main_menu(_, message):
 👉 <b>An toàn, bảo mật tuyệt đối</b> 🏆
 
 ⚠️ <b>Chú ý đề phòng lừa đảo, Chúng Tôi Không inbox Trước</b> ⚠️
-<b> LƯU Ý : HÃY VÀO @diemallwin_bot VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME<b>
+<b> LƯU Ý : HÃY VÀO @diemallwin_bot \nVÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME<b>
 """
     bot.send_photo(message.chat.id,
                  photo_url,
                  caption=caption,
                  reply_markup=reply_markup,
 )
+    
 
 
 # Hàm xử lý khi người dùng chọn nút
