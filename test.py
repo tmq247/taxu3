@@ -21,6 +21,7 @@ user_balance = {}
 # Tạo từ điển lưu lịch sử cược và lịch sử rút tiền
 user_bet_history = {}
 user_withdraw_history = {}
+napuser_withdraw_history = {}
 # Tạo từ điển gitcodes
 used_gitcodes = []
 gitcode_amounts = {}
@@ -352,13 +353,13 @@ def handle_game_list_button(msg):
 def handle_deposit_button(msg):
   napwithdraw_balance(msg)
 
-@bot.message_handler(func=lambda message: message.text == "📈 Lịch Sử Cược")
+@bot.message_handler(func=lambda message: message.text == "📈 Lịch Sử Rút")
 def handle_bet_history_button(msg):
-  show_bet_history(msg)
-
-@bot.message_handler(func=lambda message: message.text == "📊 Lịch Sử Rút")
-def handle_withdraw_history_button(msg):
   show_withdraw_history(msg)
+
+@bot.message_handler(func=lambda message: message.text == "📊 Lịch Sử Nạp")
+def handle_withdraw_history_button(msg):
+  napshow_withdraw_history(msg)
 
 @bot.message_handler(func=lambda message: message.text == "📤Chuyển Tiền📪")
 def handle_chuyentien_money_button(msg):
@@ -805,7 +806,7 @@ def napprocess_withdraw_amount(msg):
 
     del user_state[user_id]
 
-    user_withdraw_history.setdefault(user_id, []).append(
+    napuser_withdraw_history.setdefault(user_id, []).append(
         (account_info, withdraw_amount))
     #time.sleep(10)
     #user_notification = f"""
@@ -868,10 +869,35 @@ Lịch sử rút tiền:
     for withdraw_info in withdraw_history:
       account_info, amount = withdraw_info
       history_text += f"""
-🧑🏽‍💻Số Tiền Đã Nạp - Rút: {amount:,} VNĐ 
+🧑🏽‍💻Số Tiền Đã Rút: {amount:,} VNĐ 
 👑Số Tài Khoản: {account_info}
 """
     bot.reply_to(msg, history_text)
+
+# Hàm xem lịch sử nạp tiền
+def napshow_withdraw_history(msg):
+  user_id = msg.from_user.id
+  napwithdraw_history = napuser_withdraw_history.get(user_id, [])
+  if not napwithdraw_history:
+    bot.reply_to(
+        msg, """
+🚥Bạn chưa có lịch sử Nạp - Rút🔙
+🛰/ruttien - Lệnh rút tiền.
+🛰/naptien - Lệnh nạp tiền.
+    """)
+  else:
+    history_text = """
+Lịch sử rút tiền:
+🎑🎑🎑🎑🎑🎑🎑
+        """
+    for withdraw_info in napwithdraw_history:
+      account_info, amount = withdraw_info
+      history_text += f"""
+🧑🏽‍💻Số Tiền Đã Nạp: {amount:,} VNĐ 
+👑Số Tài Khoản: {account_info}
+"""
+    bot.reply_to(msg, history_text)
+
 
 
 
