@@ -563,8 +563,8 @@ def process_withdraw_amount(msg):
     bot.reply_to(
         msg, f"""
 ⏺Lệnh rút: {withdraw_amount:,} VNĐ🔚
-✅Của bạn về {account_type}: {account_info} được hệ thống check🔚
-☢️Số điểm còn lại của bạn: {formatted_balance}
+✅Của bạn về {account_type}: {account_info} đang chờ hệ thống check🔚
+☢️Số điểm khi chưa rút: {balance:,}
             """)
 
     request_message = f"""
@@ -588,7 +588,7 @@ def process_withdraw_amount(msg):
     user_notification = f"""
 📬 Rút điểm thành công!
 ⏺ Số điểm rút: {withdraw_amount:,} VNĐ
-📈 Số dư còn lại: {formatted_balance}
+📈 Số điểm còn lại: {formatted_balance}
         """
     bot.send_message(user_id, user_notification)
 
