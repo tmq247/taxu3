@@ -229,7 +229,7 @@ def start_game(message):
             total_win += user_bets[user_id]['X'] * winning_coefficient
             winner[user_id] = []
             winner[user_id] += [user_bets[user_id]['X'] * winning_coefficient]
-            tien_thang = user_bets[user_id]['T'] * winning_coefficient
+            tien_thang = user_bets[user_id]['X'] * winning_coefficient
 
     # Update user balances based on the game result
     for user_id in user_bets:
