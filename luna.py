@@ -120,7 +120,7 @@ def send_dice(chat_id):
 
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
-  return "Tài" if 11 <= total_score <= 18 else "Xỉu"
+  return "⚫️Tài" if 11 <= total_score <= 18 else "⚪️Xỉu"
 
 # Hàm để lưu tất cả số dư vào tệp văn bản
 def save_balance_to_file():
