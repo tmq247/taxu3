@@ -470,7 +470,7 @@ def show_main_menu(_, message):
                  photo_url,
                  caption=caption,
                  reply_markup=reply_markup,
-                 parse_mode='HTML')
+)
 
 
 # Hàm xử lý khi người dùng chọn nút
