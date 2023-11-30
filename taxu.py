@@ -334,14 +334,7 @@ def show_main_menu(msg):
                  caption=caption,
                  reply_markup=markup,
                  parse_mode='HTML')
-    soicau = [
-        [
-            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
-            InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),
-        ],]
-    reply_markup = InlineKeyboardMarkup(soicau)
-    bot.send_message(msg.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
+    bot.send_message(msg.chat.id, "Khởi động bot GAME @alltowin_bot và vào nhóm @sanhallwin để chơi GAME")
 
 
 # Hàm xử lý khi người dùng chọn nút
