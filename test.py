@@ -131,7 +131,7 @@ def process_gitcode_amount(message):
         gitcode = create_gitcode(amount)
         bot.reply_to(message, f"Đã tạo gitcode thành công. Gitcode của bạn là: {gitcode} ({formatted_amount} đồng).")
     except ValueError:
-        bot.reply_to(message, "Số tiền không hợp lệ.")
+        bot.reply_to(message, "Số điểm không hợp lệ.")
 
 @bot.message_handler(func=lambda message: message.text.lower() == 'code')
 def naptien_gitcode(message):
@@ -201,23 +201,25 @@ def chuyentien_money(message):
         sender_name = message.from_user.first_name  # Lấy tên của người gửi
 
         if sender_id not in user_balance or user_balance[sender_id] < amount:
-            bot.reply_to(message, "Bạn không có đủ số dư để chuyển khoản này.")
+            bot.reply_to(message, "Bạn không có đủ số điểm để tặng người này.")
             return
 
         # Thực hiện chuyển khoản và thông báo kết quả
         if deduct_balance(sender_id, user_id, amount):
             recipient_name = bot.get_chat(user_id).first_name  # Lấy tên của người được chuyển
-            bot.reply_to(message, f"Chuyển khoản thành công! {amount:,} chuyển đến người dùng {recipient_name}.")
-            bot.send_message(user_id, f"Bạn đã nhận được {amount:,}đ được chuyển từ {sender_name}, id người dùng là: {sender_id}.")
+            bot.reply_to(message, f"Tặng điểm thành công! {amount:,} chuyển đến người dùng {recipient_name}.")
+            bot.send_message(user_id, f"Bạn đã nhận được {amount:,}đ được tặng từ {sender_name}, id người dùng là: {sender_id}.")
         else:
-            bot.reply_to(message, "Không hợp lệ. Sử dụng /chuyentien <user_id> <số tiền>")
+            bot.reply_to(message, "Không hợp lệ. Sử dụng /tangdiem <user_id> <số điểm>")
     except Exception as e:
         bot.reply_to(message, """
-Tạo lệnh để chuyển tiền của mình cho ID người chơi khác:
+Tạo lệnh để tặng điểm của mình cho người chơi khác bằng ID:
+
+Trả lời người muốn tặng điểm rồi nhập /id để lấy ID.
     
-/chuyentien [dấu cách] ID nhận tiền [dấu cách] số tiền
+/tangdiem [dấu cách] ID nhận điểm [dấu cách] số điểm
     
-VD: /chuyentien 987654321 10000""")
+VD: /tangdiem 987654321 10000""")
 
 
 @bot.message_handler(commands=["cdiem"])
@@ -238,7 +240,7 @@ def set_user_balance(msg):
     user_id = int(msg.text)
     bot.reply_to(
         msg, """
-⏲Nhập số tiền muốn cộng hoặc trừ🪤 
+⏲Nhập số điểm muốn cộng hoặc trừ🪤 
 🚬(ví dụ: +1000 hoặc -1000)🎚
 🫡 Kèm Nội Dung 👊🏽
         """)
@@ -254,7 +256,7 @@ def update_balance(msg):
   try:
     user_input = msg.text.split()
     if len(user_input) < 2:
-      bot.reply_to(msg, "Vui lòng nhập số tiền và nội dung cần kèm")
+      bot.reply_to(msg, "Vui lòng nhập số điểm và nội dung cần kèm")
       return
 
     balance_change = int(user_input[0])
@@ -270,8 +272,8 @@ def update_balance(msg):
     user_message = " ".join(user_input[1:])
     # Gửi thông báo cập nhật thành công cho người chơi kèm theo nội dung
     notification_message = f"""
-🫥Bạn Đã Nạp Tiền Thành Công🤖
-🫂SD Hiện Tại: {new_balance:,}đ🐥
+🫥Bạn Đã Nạp Điểm Thành Công🤖
+🫂Số Điểm Hiện Tại: {new_balance:,}đ🐥
 👾Nội Dung: {user_message} 🫶🏽
 🐝Chúc Bạn Chơi Game Vui Vẻ🐳
 """
@@ -282,7 +284,7 @@ def update_balance(msg):
     bot.send_message(chat_id=group_chat_id, text=notification_message
                      )  # Sử dụng notification_message thay cho result_message
   except ValueError:
-    bot.reply_to(msg, "Vui lòng nhập một số tiền hợp lệ.")
+    bot.reply_to(msg, "Vui lòng nhập một số điểm hợp lệ.")
 
 
 
@@ -299,10 +301,10 @@ def show_main_menu(msg):
 
   markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
   rows = [
-      ["👤 Tài Khoản", "🎲 Soi cầu"],
-      ["💸 Rút Tiền", "💵 Nạp Tiền"],
+      ["👤 Điểm", "🎲 Soi cầu"],
+      ["💸 Rút Điểm", "💵 Nạp Điểm"],
       ["📈 Lịch Sử Rút", "📊 Lịch Sử Nạp"],
-      ["📤Chuyển Tiền📪", "🫧Nhập CODE💶"],
+      ["📤Tặng Điểm📪", "🫧Nhập CODE💶"],
   ]
 
   for row in rows:
@@ -312,7 +314,7 @@ def show_main_menu(msg):
   photo_url = "https://gamebaidoithuong.zone/wp-content/uploads/2021/12/game-bai-doi-thuong-gamebaidoithuongzone-3.jpg"
   caption = """
 <b>Chào Mừng Bạn Đã Đến Với Sân Chơi Giải Trí</b>
-      <code>GAME TAXU</code>
+        <code>🅶🅰🅼🅴 🆃🅰🆇🆄</code>
 <b>Game Xanh Chính Nói Không Với Chỉnh Cầu</b>
 
 👉 <strong>Cách chơi đơn giản, tiện lợi</strong> 🎁
@@ -335,13 +337,13 @@ def show_main_menu(msg):
 
 
 # Hàm xử lý khi người dùng chọn nút
-@bot.message_handler(func=lambda message: message.text == "👤 Tài Khoản")
+@bot.message_handler(func=lambda message: message.text == "👤 Điểm")
 #@bot.message_handler(commands=["diem"])
 def handle_check_balance_button(msg):
   load_balance_from_file()
   check_balance(msg)
 
-@bot.message_handler(func=lambda message: message.text == "💸 Rút Tiền")
+@bot.message_handler(func=lambda message: message.text == "💸 Rút Điểm")
 def handle_withdraw_balance_button(msg):
   withdraw_balance(msg)
 
@@ -349,7 +351,7 @@ def handle_withdraw_balance_button(msg):
 def handle_game_list_button(msg):
   show_game_options(msg)
 
-@bot.message_handler(func=lambda message: message.text == "💵 Nạp Tiền")
+@bot.message_handler(func=lambda message: message.text == "💵 Nạp Điểm")
 def handle_deposit_button(msg):
   napwithdraw_balance(msg)
 
@@ -361,7 +363,7 @@ def handle_bet_history_button(msg):
 def handle_withdraw_history_button(msg):
   napshow_withdraw_history(msg)
 
-@bot.message_handler(func=lambda message: message.text == "📤Chuyển Tiền📪")
+@bot.message_handler(func=lambda message: message.text == "📤Tặng Điểm📪")
 def handle_chuyentien_money_button(msg):
     chuyentien_money(msg)
 
@@ -414,7 +416,7 @@ def withdraw_balance(msg):
   bot.send_message(chat_id,
                    "Vui lòng nhắn tin riêng với bot")
   bot.send_message(user_id,
-                   "Chọn phương thức rút tiền:",
+                   "Chọn phương thức rút điểm:",
                    reply_markup=reply_markup)
 
 
@@ -467,7 +469,7 @@ VD: 0987654321 VCB
 ❗️ Rút min 50K
 """)
 
-  bot.answer_callback_query(call.id, "Bạn đã chọn phương thức rút tiền.")
+  bot.answer_callback_query(call.id, "Bạn đã chọn phương thức rút điểm.")
 
 
 @bot.message_handler(
@@ -482,14 +484,14 @@ def process_account_info(msg):
       user_state[user_id] = (account_info, "withdraw_amount_momo")
       bot.reply_to(
           msg, """
-❗️Nhập số tiền bạn muốn rút qua MoMo💮
+❗️Nhập số điểm bạn muốn rút qua MoMo💮
 🚫VD: 50.000 - 50.000.000🚮
             """)
     elif user_state[user_id] == "bank_account":
       user_state[user_id] = (account_info, "withdraw_amount_bank")
       bot.reply_to(
           msg, """
-❗️Nhập số tiền bạn muốn rút qua ngân hàng💮
+❗️Nhập số điểm bạn muốn rút qua ngân hàng💮
 🚫VD: 50.000 - 50.000.000🚮
             """)
 
@@ -510,7 +512,7 @@ def process_withdraw_amount(msg):
     if withdraw_amount < 50000:
       bot.reply_to(
           msg, """
-🖇 Số tiền rút phải lớn hơn hoặc bằng 50,000 đồng.🗳
+🖇 Số điểm rút phải lớn hơn hoặc bằng 50,000 đồng.🗳
             """)
       del user_state[user_id]
       return
@@ -518,7 +520,7 @@ def process_withdraw_amount(msg):
     if withdraw_amount > user_balance_value:
       bot.reply_to(
           msg, """
-🌀Số dư của bạn không đủ💳
+🌀Số điểm của bạn không đủ💳
 🪫Vui Lòng 🔎Chơi Tiếp🔍 Để Có Số Dư Mới💎
             """)
       del user_state[user_id]
@@ -540,7 +542,7 @@ def process_withdraw_amount(msg):
             balance -= withdraw_amount
             f.write(f"{user_id} {balance}\n")
           else:
-            bot.reply_to(msg, "Số dư không đủ để rút tiền.")
+            bot.reply_to(msg, "Số dư không đủ để rút điểm.")
         else:
           f.write(line)
 
@@ -550,7 +552,7 @@ def process_withdraw_amount(msg):
         msg, f"""
 ⏺Lệnh rút: {withdraw_amount:,} VNĐ🔚
 ✅Của bạn về {account_type}: {account_info} được hệ thống check🔚
-☢️Số tiền còn lại của bạn: {formatted_balance}
+☢️Số điểm còn lại của bạn: {formatted_balance}
             """)
 
     request_message = f"""
@@ -572,8 +574,8 @@ def process_withdraw_amount(msg):
         (account_info, withdraw_amount))
     time.sleep(10)
     user_notification = f"""
-📬 Rút tiền thành công!
-⏺ Số tiền rút: {withdraw_amount:,} VNĐ
+📬 Rút điểm thành công!
+⏺ Số điểm rút: {withdraw_amount:,} VNĐ
 📈 Số dư còn lại: {formatted_balance}
         """
     bot.send_message(user_id, user_notification)
@@ -599,7 +601,7 @@ def deposit_info(msg):
 🔊Nội Dung: <code>naptien_{msg.from_user.id}</code>🔚
 🔊<b>Min Nạp: 10.000k Min Rút: 100.000k</b>
 🔊<b>Min Nạp: 10.000 - 3.000.000</b>🔚
-🔊<b>Vui lòng ghi đúng nội dung tiền vào 5s.</b>🔚
+🔊<b>Vui lòng ghi đúng nội dung khi nạp.</b>🔚
 🔊<b>Không Hỗ Trợ Lỗi Nội Dung.</b>🔚
 🔊<b>NẠP NHANH QR PHÍA BÊN DƯỚI NHÉ</b> 🔚
     """
@@ -645,7 +647,7 @@ def napwithdraw_balance(msg):
   bot.send_message(chat_id,
                    "Vui lòng nhắn tin riêng với bot")
   bot.send_message(user_id,
-                   "Chọn phương thức nạp tiền:",
+                   "Chọn phương thức nạp điểm:",
                    reply_markup=reply_markup)
   
 
@@ -695,10 +697,10 @@ VD: 0987654321 VCB
 📌 Orient Commercial Bank => OCB 
 
 ⚠️ Lưu ý: ❌ Không hỗ trợ hoàn tiền nếu bạn nhập sai thông tin Tài khoản. 
-❗️ Nạp min 50K
+❗️ Nạp min 10K
 """)
 
-  bot.answer_callback_query(call.id, "Bạn đã chọn phương thức nạp tiền.")
+  bot.answer_callback_query(call.id, "Bạn đã chọn phương thức nạp điểm.")
 
 
 @bot.message_handler(
@@ -713,14 +715,14 @@ def napprocess_account_info(msg):
       user_state[user_id] = (account_info, "withdraw_amount_napmomo")
       bot.reply_to(
           msg, """
-❗️Nhập số tiền bạn muốn nạp qua MoMo💮
+❗️Nhập số điểm bạn muốn nạp qua MoMo💮
 🚫VD: 10.000 - 50.000.000🚮
             """)
     elif user_state[user_id] == "napbank_account":
       user_state[user_id] = (account_info, "withdraw_amount_napbank")
       bot.reply_to(
           msg, """
-❗️Nhập số tiền bạn muốn nạp qua ngân hàng💮
+❗️Nhập số điểm bạn muốn nạp qua ngân hàng💮
 🚫VD: 10.000 - 50.000.000🚮
             """)
 
@@ -741,7 +743,7 @@ def napprocess_withdraw_amount(msg):
     if withdraw_amount < 10000:
       bot.reply_to(
           msg, """
-🖇 Số tiền nạp phải lớn hơn hoặc bằng 10,000 đồng.🗳
+🖇 Số điểm nạp phải lớn hơn hoặc bằng 10,000 đồng.🗳
             """)
       del user_state[user_id]
       return
@@ -781,11 +783,11 @@ def napprocess_withdraw_amount(msg):
 🏧Phương Thức Nạp Bank🏧
 💰MB BANK _ MOMO💰
 🔊Tài Khoản: {momo_account}🔚
-🔊Nội Dung: naptien_{msg.from_user.id}🔚
+🔊Nội Dung: napdiem_{msg.from_user.id}🔚
 🔊Min Nạp: 10.000k Min Rút: 100.000k
 🔊Min Nạp: 10.000 - 3.000.000🔚
-🔊Vui lòng ghi đúng nội dung chuyển tiền.🔚
-🔊Vui lòng chụp lại bill chuyển tiền.🔚
+🔊Vui lòng ghi đúng nội dung nạp điểm.🔚
+🔊Vui lòng chụp lại bill.🔚
 🔊Không Hỗ Trợ Lỗi Nội Dung.🔚
 🔊NẠP NHANH QR PHÍA BÊN DƯỚI NHÉ 🔚
     """
@@ -858,18 +860,18 @@ def show_withdraw_history(msg):
     bot.reply_to(
         msg, """
 🚥Bạn chưa có lịch sử Rút🔙
-🛰/ruttien - Lệnh rút tiền.
-🛰/naptien - Lệnh nạp tiền.
+🛰/ruttien - Lệnh rút điểm.
+🛰/naptien - Lệnh nạp điểm.
     """)
   else:
     history_text = """
-Lịch sử rút tiền:
+Lịch sử rút điểm:
 🎑🎑🎑🎑🎑🎑🎑
         """
     for withdraw_info in withdraw_history:
       account_info, amount = withdraw_info
       history_text += f"""
-🧑🏽‍💻Số Tiền Đã Rút: {amount:,} VNĐ 
+🧑🏽‍💻Số điểm Đã Rút: {amount:,} VNĐ 
 👑Số Tài Khoản: {account_info}
 """
     bot.reply_to(msg, history_text)
@@ -882,18 +884,18 @@ def napshow_withdraw_history(msg):
     bot.reply_to(
         msg, """
 🚥Bạn chưa có lịch sử Nạp🔙
-🛰/ruttien - Lệnh rút tiền.
-🛰/naptien - Lệnh nạp tiền.
+🛰/ruttien - Lệnh rút điểm.
+🛰/naptien - Lệnh nạp điểm.
     """)
   else:
     history_text = """
-Lịch sử nạp tiền:
+Lịch sử nạp điểm:
 🎑🎑🎑🎑🎑🎑🎑
         """
     for withdraw_info in napwithdraw_history:
       account_info, amount = withdraw_info
       history_text += f"""
-🧑🏽‍💻Số Tiền Đã Nạp: {amount:,} VNĐ 
+🧑🏽‍💻Số điểm Đã Nạp: {amount:,} VNĐ 
 👑Số Tài Khoản: {account_info}
 """
     bot.reply_to(msg, history_text)
