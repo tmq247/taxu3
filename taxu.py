@@ -328,7 +328,7 @@ def show_main_menu(msg):
 👉 <b>An toàn, bảo mật tuyệt đối</b> 🏆
 
 ⚠️ <b>Chú ý đề phòng lừa đảo, Chúng Tôi Không inbox Trước</b> ⚠️
-<b> LƯU Ý : HÃY VÀO @diemallwin_bot VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.<b>
+<code> LƯU Ý : HÃY VÀO @diemallwin_bot VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME. <code>
 """
   bot.send_photo(msg.chat.id,
                  photo_url,
