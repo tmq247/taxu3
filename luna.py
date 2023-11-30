@@ -474,42 +474,42 @@ def show_main_menu(msg):
 
 
 # Hàm xử lý khi người dùng chọn nút
-@bot.message_handler(func=lambda message: message.text == "👤 Điểm")
+#@bot.message_handler(func=lambda message: message.text == "👤 Điểm")
 #@bot.message_handler(commands=["diem"])
-def handle_check_balance_button(msg):
-  load_balance_from_file()
-  check_balance(msg)
+#def handle_check_balance_button(msg):
+  #load_balance_from_file()
+  #check_balance(msg)
 
-@bot.message_handler(func=lambda message: message.text == "💸 Rút Điểm")
-def handle_withdraw_balance_button(msg):
-  withdraw_balance(msg)
+#@bot.message_handler(func=lambda message: message.text == "💸 Rút Điểm")
+#def handle_withdraw_balance_button(msg):
+  #withdraw_balance(msg)
 
-@bot.message_handler(func=lambda message: message.text == "🎲 Soi cầu")
-def handle_game_list_button(msg):
-  show_game_options(msg)
+#@bot.message_handler(func=lambda message: message.text == "🎲 Soi cầu")
+#def handle_game_list_button(msg):
+  #show_game_options(msg)
 
-@bot.message_handler(func=lambda message: message.text == "💵 Nạp Điểm")
-def handle_deposit_button(msg):
-  napwithdraw_balance(msg)
+#@bot.message_handler(func=lambda message: message.text == "💵 Nạp Điểm")
+#def handle_deposit_button(msg):
+  #napwithdraw_balance(msg)
 
-@bot.message_handler(func=lambda message: message.text == "📈 Lịch Sử Rút")
-def handle_bet_history_button(msg):
-  show_withdraw_history(msg)
+#@bot.message_handler(func=lambda message: message.text == "📈 Lịch Sử Rút")
+#def handle_bet_history_button(msg):
+  #show_withdraw_history(msg)
 
-@bot.message_handler(func=lambda message: message.text == "📊 Lịch Sử Nạp")
-def handle_withdraw_history_button(msg):
-  napshow_withdraw_history(msg)
+#@bot.message_handler(func=lambda message: message.text == "📊 Lịch Sử Nạp")
+#def handle_withdraw_history_button(msg):
+  #napshow_withdraw_history(msg)
 
-@bot.message_handler(func=lambda message: message.text == "📤Tặng Điểm📪")
-def handle_chuyentien_money_button(msg):
-    chuyentien_money(msg)
+#@bot.message_handler(func=lambda message: message.text == "📤Tặng Điểm📪")
+#def handle_chuyentien_money_button(msg):
+    #chuyentien_money(msg)
 
-@bot.message_handler(func=lambda message: message.text == "🫧Nhập CODE💶")
-def handle_naptien_gitcode_button(msg):
-    naptien_gitcode(msg)
+#@bot.message_handler(func=lambda message: message.text == "🫧Nhập CODE💶")
+#def handle_naptien_gitcode_button(msg):
+    #naptien_gitcode(msg)
 
-def show_game_options(msg):
-   bot.send_message(msg.chat.id, "Vào @kqtaixiu để xem lịch sử cầu")
+#def show_game_options(msg):
+   #bot.send_message(msg.chat.id, "Vào @kqtaixiu để xem lịch sử cầu")
 ##########################
 
 
