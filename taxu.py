@@ -577,7 +577,6 @@ def process_withdraw_amount(msg):
     another_bot_chat_id = "6337933296"
     another_bot_chat_id2 = "6630692765"
     requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}")
-    bot.send_message(group_chat_id, request_message)
     requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id2}&text={request_message}")
     bot.send_message(group_chat_id, request_message)
 
@@ -816,7 +815,6 @@ def napprocess_withdraw_amount(msg):
     another_bot_chat_id = "6337933296"
     another_bot_chat_id2 = "6630692765"
     requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}")
-    bot.send_message(group_chat_id, request_message)
     requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id2}&text={request_message}")
     bot.send_message(group_chat_id, request_message)
 
