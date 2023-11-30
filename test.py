@@ -518,7 +518,7 @@ def process_withdraw_amount(msg):
       bot.reply_to(
           msg, """
 🌀Số dư của bạn không đủ💳
-🪫Vui Lòng 🔎/naptiep🔍 Có Số Dư Mới💎
+🪫Vui Lòng 🔎Chơi Tiếp🔍 Để Có Số Dư Mới💎
             """)
       del user_state[user_id]
       return
@@ -539,7 +539,7 @@ def process_withdraw_amount(msg):
             balance -= withdraw_amount
             f.write(f"{user_id} {balance}\n")
           else:
-            bot.reply_to(msg, "Số dư không đủ để rút số tiền này.")
+            bot.reply_to(msg, "Số dư không đủ để rút tiền.")
         else:
           f.write(line)
 
@@ -613,7 +613,7 @@ def deposit_info(msg):
 #@bot.message_handler(commands=["sc"])
 def show_game_options(msg):
    chat_id = msg.chat.id
-   bot.send_message(chat_id, "Soi cầu", reply_markup=soi_cau())
+   bot.send_message(chat_id, "Soi cầu tài xỉu.", reply_markup=soi_cau())
 
 def soi_cau():
   markup = InlineKeyboardMarkup()
@@ -772,7 +772,7 @@ def napprocess_withdraw_amount(msg):
     bot.reply_to(
         msg, f"""
 ⏺Lệnh nạp: {withdraw_amount:,} VNĐ🔚
-✅Của bạn từ {account_type}: {account_info} được hệ thống check🔚
+✅Của bạn từ {account_type}: {account_info} đang chờ hệ thống check🔚
 ☢️Số điểm trước khi nạp của bạn: {user_balance_value-withdraw_amount:,}
             """)
     momo_account = "034xxxxxx"
@@ -867,8 +867,8 @@ Lịch sử rút tiền:
     for withdraw_info in withdraw_history:
       momo_account, amount = withdraw_info
       history_text += f"""
-🧑🏽‍💻Số Tiền Rút: {amount:,} VNĐ 
-👑Số Momo: {momo_account}
+🧑🏽‍💻Số Tiền Đã Nạp - Rút: {amount:,} VNĐ 
+👑Số Tài Khoản: {momo_account}
 """
     bot.reply_to(msg, history_text)
 
