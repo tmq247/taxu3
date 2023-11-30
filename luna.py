@@ -120,7 +120,7 @@ def send_dice(chat_id):
 
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
-  return "Tài" if 11 <= total_score <= 18 else "Xỉu"
+  return "⚫️Tài" if 11 <= total_score <= 18 else "⚪️Xỉu"
 
 # Hàm để lưu tất cả số dư vào tệp văn bản
 def save_balance_to_file():
@@ -238,7 +238,6 @@ def start_game(message):
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             user_balance[user_id] += tien_thang
 
-    #bot.send_message(group_chat_id, f"{winner}")#######
     for user_id, diem in winner.items():
         user_ids =  bot.get_users(user_id).mention
         time.sleep(3)
