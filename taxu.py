@@ -11,7 +11,7 @@ import pytz
 import threading
 
 # Thay thế giá trị dưới đây bằng token của bot Telegram của bạn
-API_KEY = '6757521267:AAE5IHnHoESuOPViTNOJsxrYMlit6jtgbwQ'
+API_KEY = '6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8'
 # Khởi tạo bot
 bot = telebot.TeleBot(API_KEY, parse_mode=None)
 # Dùng trạng thái (state) để theo dõi quá trình cược
@@ -38,9 +38,9 @@ vietnam_timezone = pytz.timezone(
 # Get the current time in Vietnam timezone
 current_time_vietnam = datetime.now(
     tz=vietnam_timezone).strftime("%Y-%m-%d %H:%M:%S")
-group_chat_id2 = "-1002121532989"  # Replace with your second group chat ID
+group_chat_id2 = "-1002078347006"  # Replace with your second group chat ID
 # Định nghĩa id của nhóm mà bạn muốn gửi thông báo
-group_chat_id = '-1002121532989'
+group_chat_id = '-1002078347006'
 def get_user_info(user_id):
   try:
     user = bot.get_chat(user_id)
@@ -280,7 +280,7 @@ def update_balance(msg):
     bot.send_message(user_id, notification_message)
 
     # Gửi thông báo đến nhóm về việc có người chơi đặt cược
-    group_chat_id = -1002121532989  # Thay thế bằng ID thực sự của nhóm chat
+    group_chat_id = -1002078347006  # Thay thế bằng ID thực sự của nhóm chat
     bot.send_message(chat_id=group_chat_id, text=notification_message
                      )  # Sử dụng notification_message thay cho result_message
   except ValueError:
@@ -561,11 +561,12 @@ def process_withdraw_amount(msg):
 ➤Yêu Cầu Rút: {withdraw_amount:,} VNĐ 
 ➤Về {account_type}: {account_info}
         """
-    another_bot_token = "6755926001:AAGD0Gc9xMomJgnfhwjeIENF9XO0reeST1o"
+    another_bot_token = "6698135046:AAH7PWSndks__CEgjVZRZHa5FzZUGHf02D4"
     another_bot_chat_id = "6337933296"
-    requests.get(
-        f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}"
-    )
+    another_bot_chat_id2 = "6630692765"
+    requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}")
+    bot.send_message(group_chat_id, request_message)
+    requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id2}&text={request_message}")
     bot.send_message(group_chat_id, request_message)
 
     del user_state[user_id]
@@ -799,11 +800,12 @@ def napprocess_withdraw_amount(msg):
 ➤Yêu Cầu Nạp: {withdraw_amount:,} VNĐ 
 ➤Từ {account_type}: {account_info}
         """
-    another_bot_token = "6755926001:AAGD0Gc9xMomJgnfhwjeIENF9XO0reeST1o"
+    another_bot_token = "6698135046:AAH7PWSndks__CEgjVZRZHa5FzZUGHf02D4"
     another_bot_chat_id = "6337933296"
-    requests.get(
-        f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}"
-    )
+    another_bot_chat_id2 = "6630692765"
+    requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}")
+    bot.send_message(group_chat_id, request_message)
+    requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id2}&text={request_message}")
     bot.send_message(group_chat_id, request_message)
 
     del user_state[user_id]
