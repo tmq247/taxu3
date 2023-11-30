@@ -419,6 +419,97 @@ def soi_cau():
             InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
+
+
+
+@bot.on_message(filters.command("start"))
+def show_main_menu(msg):
+    user_id = msg.from_user.id
+    load_balance_from_file()
+    
+  # Check if the user is already in the user_balance dictionary
+    if user_id not in user_balance:
+        user_balance[user_id] = 0  # Set initial balance to 0 for new users
+        save_balance_to_file()  # Save user balances to the text file
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    rows = [
+      ["👤 Điểm", "🎲 Soi cầu"],
+      ["💸 Rút Điểm", "💵 Nạp Điểm"],
+      ["📈 Lịch Sử Rút", "📊 Lịch Sử Nạp"],
+      ["📤Tặng Điểm📪", "🫧Nhập CODE💶"],
+  ]
+    for row in rows:
+        markup.row(*[types.KeyboardButton(button_text) for button_text in row])
+
+  # Send a message with a photo link
+    photo_url = "https://gamebaidoithuong.zone/wp-content/uploads/2021/12/game-bai-doi-thuong-gamebaidoithuongzone-3.jpg"
+    caption = """
+<b>Chào Mừng Bạn Đã Đến Với Sân Chơi Giải Trí</b>
+        <code>🅶🅰🅼🅴 🆃🅰🆇🆄</code>
+<b>Game Xanh Chính Nói Không Với Chỉnh Cầu</b>
+
+👉 <strong>Cách chơi đơn giản, tiện lợi</strong> 🎁
+
+👉 <b>Nạp rút nhanh chóng, đa dạng hình thức</b> 💸
+
+👉 <b>Có Nhiều Phần Quà Dành Cho Người Chơi Mới</b> 🤝
+
+👉 <b>Đua top thật hăng, nhận quà cực căng</b> 💍
+
+👉 <b>An toàn, bảo mật tuyệt đối</b> 🏆
+
+⚠️ <b>Chú ý đề phòng lừa đảo, Chúng Tôi Không inbox Trước</b> ⚠️
+"""
+    bot.send_photo(msg.chat.id,
+                 photo_url,
+                 caption=caption,
+                 reply_markup=reply_markup,
+                 parse_mode='HTML')
+    soicau = [
+        [
+            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+        ],]
+    reply_markup = InlineKeyboardMarkup(soicau)
+
+
+# Hàm xử lý khi người dùng chọn nút
+@bot.message_handler(func=lambda message: message.text == "👤 Điểm")
+#@bot.message_handler(commands=["diem"])
+def handle_check_balance_button(msg):
+  load_balance_from_file()
+  check_balance(msg)
+
+@bot.message_handler(func=lambda message: message.text == "💸 Rút Điểm")
+def handle_withdraw_balance_button(msg):
+  withdraw_balance(msg)
+
+@bot.message_handler(func=lambda message: message.text == "🎲 Soi cầu")
+def handle_game_list_button(msg):
+  show_game_options(msg)
+
+@bot.message_handler(func=lambda message: message.text == "💵 Nạp Điểm")
+def handle_deposit_button(msg):
+  napwithdraw_balance(msg)
+
+@bot.message_handler(func=lambda message: message.text == "📈 Lịch Sử Rút")
+def handle_bet_history_button(msg):
+  show_withdraw_history(msg)
+
+@bot.message_handler(func=lambda message: message.text == "📊 Lịch Sử Nạp")
+def handle_withdraw_history_button(msg):
+  napshow_withdraw_history(msg)
+
+@bot.message_handler(func=lambda message: message.text == "📤Tặng Điểm📪")
+def handle_chuyentien_money_button(msg):
+    chuyentien_money(msg)
+
+@bot.message_handler(func=lambda message: message.text == "🫧Nhập CODE💶")
+def handle_naptien_gitcode_button(msg):
+    naptien_gitcode(msg)
+
+def show_game_options(msg):
+   bot.send_message(msg.chat.id, "Vào @kqtaixiu để xem lịch sử cầu")
 ##########################
 
 
