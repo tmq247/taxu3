@@ -61,7 +61,7 @@ winner2 = {}
 user_balance = {}
 
 # Variable to store the group chat ID
-group_chat_id = -1002121532989
+group_chat_id = -1001712715936
 channel_id = -1002067584440
 
 # Winning coefficient
