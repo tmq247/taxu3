@@ -292,27 +292,27 @@ def update_balance(msg):
 # Hàm hiển thị menu chính
 @bot.message_handler(commands=["start"])
 def show_main_menu(msg):
-  user_id = msg.from_user.id
+    user_id = msg.from_user.id
 
   # Check if the user is already in the user_balance dictionary
-  if user_id not in user_balance:
-    user_balance[user_id] = 0  # Set initial balance to 0 for new users
-    save_balance_to_file()  # Save user balances to the text file
-
-  markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-  rows = [
+    if user_id not in user_balance:
+        user_balance[user_id] = 0  # Set initial balance to 0 for new users
+        save_balance_to_file()  # Save user balances to the text file
+        
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    rows = [
       ["👤 Điểm", "🎲 Soi cầu"],
       ["💸 Rút Điểm", "💵 Nạp Điểm"],
       ["📈 Lịch Sử Rút", "📊 Lịch Sử Nạp"],
       ["📤Tặng Điểm📪", "🫧Nhập CODE💶"],
   ]
-
-  for row in rows:
-    markup.row(*[types.KeyboardButton(button_text) for button_text in row])
+    
+    for row in rows:
+        markup.row(*[types.KeyboardButton(button_text) for button_text in row])
 
   # Send a message with a photo link
-  photo_url = "https://gamebaidoithuong.zone/wp-content/uploads/2021/12/game-bai-doi-thuong-gamebaidoithuongzone-3.jpg"
-  caption = """
+    photo_url = "https://gamebaidoithuong.zone/wp-content/uploads/2021/12/game-bai-doi-thuong-gamebaidoithuongzone-3.jpg"
+    caption = """
 <b>Chào Mừng Bạn Đã Đến Với Sân Chơi Giải Trí</b>
         <code>🅶🅰🅼🅴 🆃🅰🆇🆄</code>
 <b>Game Xanh Chính Nói Không Với Chỉnh Cầu</b>
@@ -329,7 +329,7 @@ def show_main_menu(msg):
 
 ⚠️ <b>Chú ý đề phòng lừa đảo, Chúng Tôi Không inbox Trước</b> ⚠️
 """
-  bot.send_photo(msg.chat.id,
+    bot.send_photo(msg.chat.id,
                  photo_url,
                  caption=caption,
                  reply_markup=markup,
