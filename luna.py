@@ -169,15 +169,18 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             
             if user_id in user_bets:
                 bot.send_message(group_chat_id, f"{user_bets}")
-                for id in user_bets.items():
-                    user_id, tiencuoc = id
-                    bot.send_message(group_chat_id, f"{user_id} {bet_type} {tiencuoc}")
-                    tongtiencuoc = tiencuoc + bet_amount
-                    bot.send_message(group_chat_id, f"{user_id} {bet_type} {tongtiencuoc}")
-                    user_bets[user_id][bet_type] += tongtiencuoc
-            #else:
-            user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
-            user_bets[user_id][bet_type] += bet_amount
+                user_bets[user_id][bet_type] += bet_amount
+                bot.send_message(group_chat_id, f"{user_bets}")
+                
+                #for id in user_bets.items():
+                    #user_id, tiencuoc = id
+                    #bot.send_message(group_chat_id, f"{user_id} {bet_type} {tiencuoc}")
+                    #tongtiencuoc = tiencuoc + bet_amount
+                    #bot.send_message(group_chat_id, f"{user_id} {bet_type} {tongtiencuoc}")
+                    #user_bets[user_id][bet_type] += tongtiencuoc
+            else:
+                user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
+                user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
             
             bot.send_message(user_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
