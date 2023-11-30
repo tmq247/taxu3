@@ -773,7 +773,7 @@ def napprocess_withdraw_amount(msg):
         msg, f"""
 ⏺Lệnh nạp: {withdraw_amount:,} VNĐ🔚
 ✅Của bạn từ {account_type}: {account_info} đang chờ hệ thống check🔚
-☢️Số điểm trước khi nạp của bạn: {user_balance_value-withdraw_amount:,}
+☢️Số điểm trước khi nạp của bạn: {formatted_balance}
             """)
     momo_account = "034xxxxxx"
     caption = f"""
