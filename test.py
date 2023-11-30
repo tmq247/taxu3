@@ -301,7 +301,7 @@ def show_main_menu(msg):
   rows = [
       ["👤 Tài Khoản", "🎲 Soi cầu"],
       ["💸 Rút Tiền", "💵 Nạp Tiền"],
-      ["📈 Lịch Sử Cược", "📊 Lịch Sử Rút"],
+      ["📈 Lịch Sử Rút", "📊 Lịch Sử Nạp"],
       ["📤Chuyển Tiền📪", "🫧Nhập CODE💶"],
   ]
 
