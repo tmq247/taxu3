@@ -311,6 +311,16 @@ def show_main_menu(msg):
         markup.row(*[types.KeyboardButton(button_text) for button_text in row])
 
   # Send a message with a photo link
+    soicau = [
+        [
+            InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
+            InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),
+        ],
+        [
+            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
+        ],]
+    reply_markup = InlineKeyboardMarkup(soicau)
     photo_url = "https://gamebaidoithuong.zone/wp-content/uploads/2021/12/game-bai-doi-thuong-gamebaidoithuongzone-3.jpg"
     caption = """
 <b>Chào Mừng Bạn Đã Đến Với Sân Chơi Giải Trí</b>
@@ -332,20 +342,10 @@ def show_main_menu(msg):
     bot.send_photo(msg.chat.id,
                  photo_url,
                  caption=caption,
-                 reply_markup=markup,
+                 reply_markup=markup, reply_markup=reply_markup,
                  parse_mode='HTML')
-    soicau = [
-        [
-            InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
-            InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),
-        ],
-        [
-            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
-        ],]
-    reply_markup = InlineKeyboardMarkup(soicau)
-    bot.send_message(msg.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
-    #bot.send_message(msg.chat.id, "Khởi động bot GAME @alltowin_bot và vào nhóm @sanhallwin để chơi GAME")
+    
+    #bot.send_message(msg.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
 
 
 # Hàm xử lý khi người dùng chọn nút
