@@ -196,7 +196,8 @@ def start_game(message):
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
     idtext4 = text4.id
-    text5 = bot.send_message(group_chat_id, "💥 Bắt đầu tung XX 💥")
+    text5 = bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥")
+    #bot.send_message(group_chat_id, "")
     idtext5 = text5.id
 
     time.sleep(3)  # Simulating dice rolling
@@ -233,14 +234,16 @@ def start_game(message):
     #bot.send_message(group_chat_id, f"{winner}")#######
     for user_id, diem in winner.items():
         user_ids =  bot.get_users(user_id).mention
+        time.sleep(3)
 
-        bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n")#######
+        bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
 
     # Save updated balances to the file
     save_balance_to_file()
     load_balance_from_file()
     
     mo_game.clear()
+    time.sleep(3)
 
     text7 = bot.send_message(group_chat_id, f"""
 Tổng thắng: {total_win}đ
@@ -267,7 +270,7 @@ def game_timer(message, grid, grtrangthai):
     bot.delete_messages(grid, text2.id)
     
     time.sleep(10)  # Wait for 120 seconds
-    bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.")
+    
     bot.delete_messages(grid, text1.id)
     bot.delete_messages(grid, text3.id)
     start_game(message)
