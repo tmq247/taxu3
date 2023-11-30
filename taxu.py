@@ -342,10 +342,10 @@ def show_main_menu(msg):
     bot.send_photo(msg.chat.id,
                  photo_url,
                  caption=caption,
-                 reply_markup=markup, reply_markup=reply_markup,
+                 reply_markup=markup,
                  parse_mode='HTML')
     
-    #bot.send_message(msg.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
+    bot.send_message(msg.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
 
 
 # Hàm xử lý khi người dùng chọn nút
