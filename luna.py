@@ -146,7 +146,7 @@ admin_user_id = 6337933296 or 6630692765 or 5838967403 or 6050066066
 
 
 # Function to confirm the bet and check user balance
-def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
+def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
     load_balance_from_file()
     mention =  bot.get_users(user_id).mention
     user_id = message.from_user.id
@@ -291,7 +291,7 @@ def handle_message(_, message: Message):
                 bet_amount = int(message.text[3:])
 
             # Confirm the bet and check user balance
-            confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc)
+            confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message)
             
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
