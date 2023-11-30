@@ -269,7 +269,7 @@ Tổng thua: {total_bet_T + total_bet_X}đ
 def game_timer(message, grid, grtrangthai):
     mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
     mo_game[grid]['trangthai'] += grtrangthai
-    text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược.")
+    text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược\n LƯU Ý : HÃY VÀO @diemallwin_bot VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.")
     time.sleep(15)
     text2 = bot.send_message(group_chat_id, "Còn 30s để đặt cược.")
     
@@ -347,7 +347,7 @@ def start_taixiu(_, message):
         
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
-        bot.send_message(chat_id, f"Đang đợi đổ xúc xắc")
+        bot.send_message(chat_id, f"Đang đợi đổ xúc xắc\n LƯU Ý : HÃY VÀO @diemallwin_bot VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.")
         soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
@@ -467,6 +467,7 @@ def show_main_menu(_, message):
 👉 <b>An toàn, bảo mật tuyệt đối</b> 🏆
 
 ⚠️ <b>Chú ý đề phòng lừa đảo, Chúng Tôi Không inbox Trước</b> ⚠️
+<b> LƯU Ý : HÃY VÀO @diemallwin_bot VÀ @alltowin_bot KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME<b>
 """
     bot.send_photo(message.chat.id,
                  photo_url,
