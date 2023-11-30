@@ -431,6 +431,12 @@ def show_main_menu(_, message):
     if user_id not in user_balance:
         user_balance[user_id] = 0  # Set initial balance to 0 for new users
         save_balance_to_file()  # Save user balances to the text file
+    soicau = [
+        [
+            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
+        ],]
+    reply_markup = InlineKeyboardMarkup(soicau)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     rows = [
       ["👤 Điểm", "🎲 Soi cầu"],
@@ -465,12 +471,6 @@ def show_main_menu(_, message):
                  caption=caption,
                  reply_markup=reply_markup,
                  parse_mode='HTML')
-    soicau = [
-        [
-            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot"),
-        ],]
-    reply_markup = InlineKeyboardMarkup(soicau)
 
 
 # Hàm xử lý khi người dùng chọn nút
