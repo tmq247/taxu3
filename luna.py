@@ -149,7 +149,7 @@ admin_user_id = 6337933296 or 6630692765 or 5838967403 or 6050066066
 def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     load_balance_from_file()
     mention =  bot.get_users(user_id).mention
-    user_id = msg.from_user.id
+    user_id = message.from_user.id
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
     else:
