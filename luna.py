@@ -148,12 +148,14 @@ admin_user_id = 6337933296 or 6630692765 or 5838967403 or 6050066066
 # Function to confirm the bet and check user balance
 def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
     load_balance_from_file()
+    mention =  bot.get_users(user_id).mention
+    user_id = msg.from_user.id
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
     else:
         cua_cuoc = '⚪️Xỉu'
     diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
-    bot.send_message(group_chat_id, diemcuoc)
+    
     #time.sleep(3)
     #await diemcuoc.delete()
     
@@ -164,8 +166,9 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc):
             user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
             user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
-            
-            bot.send_message(group_chat_id, f"Cược đã được chấp nhận.")
+            bot.send_message(user_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
+            bot.send_message(group_chat_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
+
         else:
             bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
