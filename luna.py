@@ -164,9 +164,10 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         # Check user balance
         if user_balance[user_id] >= bet_amount:
             user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
-            for user_id in user_bets.items():
-                user_id, bet_type, tiencuoc = user_bets
-                bot.send_message(group_chat_id, f"{user_id} {bet_type} {tiencuoc}")
+            if user_id in user_bets[user_id]:
+                for id in user_bets.items():
+                    user_id, bet_type, tiencuoc = id
+                    bot.send_message(group_chat_id, f"{user_id} {bet_type} {tiencuoc}")
                 tongtiencuoc = sum(tiencuoc + bet_amount)
                 bot.send_message(group_chat_id, f"{user_id} {bet_type} {tongtiencuoc}")
                 
