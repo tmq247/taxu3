@@ -154,7 +154,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         cua_cuoc = '⚫️Tài'
     else:
         cua_cuoc = '⚪️Xỉu'
-    
+    diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
     
     #time.sleep(3)
     #await diemcuoc.delete()
@@ -166,7 +166,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
             user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
-            diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
+            
             bot.send_message(user_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
             bot.send_message(group_chat_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
 
@@ -217,12 +217,14 @@ def start_game(message):
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
             total_win += user_bets[user_id]['T'] * winning_coefficient
             winner[user_id] = []
-            winner[user_id] += [user_bets[user_id]['T'] * winning_coefficient]   
+            winner[user_id] += [user_bets[user_id]['T'] * winning_coefficient] 
+            tien_thang = user_bets[user_id]['T'] * winning_coefficient
 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += user_bets[user_id]['X'] * winning_coefficient
             winner[user_id] = []
             winner[user_id] += [user_bets[user_id]['X'] * winning_coefficient]
+            tien_thang = user_bets[user_id]['T'] * winning_coefficient
 
     # Update user balances based on the game result
     for user_id in user_bets:
