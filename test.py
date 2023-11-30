@@ -856,8 +856,9 @@ def show_withdraw_history(msg):
   if not withdraw_history:
     bot.reply_to(
         msg, """
-🚥Bạn chưa có lịch sử rút tiền🔙
+🚥Bạn chưa có lịch sử Nạp - Rút🔙
 🛰/ruttien - Lệnh rút tiền.
+🛰/naptien - Lệnh nạp tiền.
     """)
   else:
     history_text = """
@@ -865,10 +866,10 @@ Lịch sử rút tiền:
 🎑🎑🎑🎑🎑🎑🎑
         """
     for withdraw_info in withdraw_history:
-      momo_account, amount = withdraw_info
+      account_info, amount = withdraw_info
       history_text += f"""
 🧑🏽‍💻Số Tiền Đã Nạp - Rút: {amount:,} VNĐ 
-👑Số Tài Khoản: {momo_account}
+👑Số Tài Khoản: {account_info}
 """
     bot.reply_to(msg, history_text)
 
