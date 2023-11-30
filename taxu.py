@@ -337,11 +337,11 @@ def show_main_menu(msg):
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
+            InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
             InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
-    bot.send_message(msg.chat.id, "Vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
+    bot.send_message(msg.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
 
 
 # Hàm xử lý khi người dùng chọn nút
