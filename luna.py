@@ -284,7 +284,7 @@ def game_timer(message, grid, grtrangthai):
             InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
-    text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup")
+    text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
     time.sleep(15)
     text2 = bot.send_message(group_chat_id, "Còn 30s để đặt cược.")
     
