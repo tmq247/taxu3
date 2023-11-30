@@ -341,7 +341,7 @@ def show_main_menu(msg):
             InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
             InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),
         ],]
-    reply_markup = InlineKeyboardMarkup(soicau)
+    reply_markup = InlineKeyboardMarkup(soicau(row_width=2))
     bot.send_message(msg.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
     #bot.send_message(msg.chat.id, "Khởi động bot GAME @alltowin_bot và vào nhóm @sanhallwin để chơi GAME")
 
