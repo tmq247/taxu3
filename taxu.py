@@ -564,7 +564,7 @@ def process_withdraw_amount(msg):
         msg, f"""
 ⏺Lệnh rút: {withdraw_amount:,} VNĐ🔚
 ✅Của bạn về {account_type}: {account_info} đang chờ hệ thống check🔚
-☢️Số điểm khi chưa rút: {balance:,}
+☢️Số điểm khi chưa rút: {user_balance_value+withdraw_amount:,}
             """)
 
     request_message = f"""
