@@ -857,7 +857,7 @@ def show_withdraw_history(msg):
   if not withdraw_history:
     bot.reply_to(
         msg, """
-🚥Bạn chưa có lịch sử Nạp - Rút🔙
+🚥Bạn chưa có lịch sử Rút🔙
 🛰/ruttien - Lệnh rút tiền.
 🛰/naptien - Lệnh nạp tiền.
     """)
@@ -881,13 +881,13 @@ def napshow_withdraw_history(msg):
   if not napwithdraw_history:
     bot.reply_to(
         msg, """
-🚥Bạn chưa có lịch sử Nạp - Rút🔙
+🚥Bạn chưa có lịch sử Nạp🔙
 🛰/ruttien - Lệnh rút tiền.
 🛰/naptien - Lệnh nạp tiền.
     """)
   else:
     history_text = """
-Lịch sử rút tiền:
+Lịch sử nạp tiền:
 🎑🎑🎑🎑🎑🎑🎑
         """
     for withdraw_info in napwithdraw_history:
