@@ -61,7 +61,7 @@ winner2 = {}
 user_balance = {}
 
 # Variable to store the group chat ID
-group_chat_id = -1002121532989
+group_chat_id = -1002078347006
 channel_id = -1002067584440
 
 # Winning coefficient
@@ -240,9 +240,11 @@ def start_game(message):
 
     for user_id, diem in winner.items():
         user_ids =  bot.get_users(user_id).mention
+        user_id = message.from_user.id
         time.sleep(3)
 
         bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
+        bot.send_message(user_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
 
     # Save updated balances to the file
     save_balance_to_file()
