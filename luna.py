@@ -251,6 +251,7 @@ def start_game(message):
     load_balance_from_file()
     
     mo_game.clear()
+    user_bets.clear()
     time.sleep(3)
 
     text7 = bot.send_message(group_chat_id, f"""
@@ -261,7 +262,7 @@ Tổng thua: {total_bet_T + total_bet_X}đ
     bot.delete_messages(group_chat_id, idtext4)
     bot.delete_messages(group_chat_id, idtext5)
     # Clear user bets
-    user_bets.clear()
+    
     winner.clear()
 
 
