@@ -154,7 +154,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         cua_cuoc = '⚫️Tài'
     else:
         cua_cuoc = '⚪️Xỉu'
-    diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
+    
     
     #time.sleep(3)
     #await diemcuoc.delete()
@@ -166,6 +166,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
             user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
+            diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
             bot.send_message(user_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
             bot.send_message(group_chat_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
 
