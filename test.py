@@ -119,7 +119,7 @@ admin_user_id = 6337933296 or 6630692765 or 5838967403 or 6050066066  # Replace 
 def create_gitcode_handler(message):
     # Check if the user is the admin
     if message.from_user.id == admin_user_id:
-        bot.reply_to(message, "Vui lòng nhập số tiền cho gitcode:")
+        bot.reply_to(message, "Vui lòng nhập số tiền cho giftcode:")
         bot.register_next_step_handler(message, process_gitcode_amount)
     else:
         bot.reply_to(message, "Bạn không có quyền thực hiện lệnh này.")
@@ -129,7 +129,7 @@ def process_gitcode_amount(message):
         amount = int(message.text)
         formatted_amount = "{:,.0f}".format(amount).replace(".", ",")
         gitcode = create_gitcode(amount)
-        bot.reply_to(message, f"Đã tạo gitcode thành công. Gitcode của bạn là: {gitcode} ({formatted_amount} đồng).")
+        bot.reply_to(message, f"Đã tạo giftcode thành công. Giftcode của bạn là: {gitcode} ({formatted_amount} đồng).")
     except ValueError:
         bot.reply_to(message, "Số điểm không hợp lệ.")
 
@@ -152,18 +152,18 @@ def process_naptien_gitcode(message):
         user_balance[user_id] += amount
         remove_gitcode(gitcode)
         del gitcode_amounts[gitcode]
-        bot.reply_to(message, f"Gitcode Thành Công!\nSố dư của bạn là: {user_balance[user_id]:,}đ.\n💹Chúc Bạn May Mắn Nhé💖")
+        bot.reply_to(message, f"Giftcode Thành Công!\nSố điểm của bạn là: {user_balance[user_id]:,}đ.\n💹Chúc Bạn May Mắn Nhé💖")
         
         # Sử dụng phương thức send_message để gửi thông báo vào nhóm
         bot.send_message(group_chat_id, f"""
 Người chơi {message.from_user.first_name} 
 User: {user_id}
-Đã Nạp: {amount:,}đ bằng Gitcode.""")
+Đã Nạp: {amount:,}đ bằng Giftcode.""")
         # Save the updated balance to the file
         save_balance_to_file()
         load_balance_from_file()
     else:
-        bot.reply_to(message, "Gitcode không hợp lệ hoặc đã được sử dụng.")
+        bot.reply_to(message, "Giftcode không hợp lệ hoặc đã được sử dụng.")
 
 
 
