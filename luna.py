@@ -170,7 +170,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             if user_id in user_bets:
                 bot.send_message(group_chat_id, f"{user_bets}")
                 for id in user_bets.items():
-                    user_id, bet_type, tiencuoc = id
+                    user_id, tiencuoc = id
                     bot.send_message(group_chat_id, f"{user_id} {bet_type} {tiencuoc}")
                     tongtiencuoc = tiencuoc + bet_amount
                     bot.send_message(group_chat_id, f"{user_id} {bet_type} {tongtiencuoc}")
