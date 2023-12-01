@@ -341,23 +341,23 @@ def handle_message(_, message: Message):
 load_balance_from_file()
 
 @bot.on_message(filters.command("diem"))
-async def check_balance(_, message):
+def check_balance(_, message):
     load_balance_from_file()
     if message.reply_to_message:
-        user_id = await extract_user(message)
+        user_id = extract_user(message)
         user_id1 = message.from_user.first_name
         balance = user_balance.get(user_id, 0)
-        mention = (await bot.get_users(user_id)).mention
+        mention = bot.get_users(user_id).mention
         request_message = f"""👤 Số điểm của {user_id1} là {balance:,} điểm 💰."""
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
-        await requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
-        await bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
+        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
+        bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
 
     else:
         user_id = message.from_user.id
         balance = user_balance.get(user_id, 0)
-        mention = (await bot.get_users(user_id)).mention
-        await bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
+        mention = bot.get_users(user_id).mention
+        bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
 
 
 @bot.on_message(filters.command("tx"))
