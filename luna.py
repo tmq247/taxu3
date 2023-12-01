@@ -62,6 +62,7 @@ user_balance = {}
 
 # Variable to store the group chat ID
 group_chat_id = -1002121532989
+group_chat_id2 = -1002121532989
 channel_id = -1002067584440
 
 # Winning coefficient
@@ -172,8 +173,16 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
                 user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
             
-            bot.send_message(user_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
-            bot.send_message(group_chat_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
+            request_message = f"""{diemcuoc} \n Cược đã được chấp nhận."""
+            another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
+            #another_bot_chat_id = "6337933296"
+            #another_bot_chat_id2 = "6630692765"
+            requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
+            requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
+            bot.send_message(group_chat_id, request_message)
+            #bot.send_message(user_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
+            #bot.send_message(group_chat_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
+            #bot.send_message(group_chat_id2, f"{diemcuoc} \n Cược đã được chấp nhận.")
 
         else:
             bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
