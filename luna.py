@@ -155,7 +155,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         cua_cuoc = '⚫️Tài'
     else:
         cua_cuoc = '⚪️Xỉu'
-    diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm"
+    diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm."
     
     #time.sleep(3)
     #await diemcuoc.delete()
@@ -173,16 +173,16 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
                 user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
             
-            request_message = f"""{diemcuoc} \n Cược đã được chấp nhận."""
+            request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
             another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
             #another_bot_chat_id = "6337933296"
             #another_bot_chat_id2 = "6630692765"
             requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
             requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
             bot.send_message(group_chat_id, request_message)
-            #bot.send_message(user_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
-            #bot.send_message(group_chat_id, f"{diemcuoc} \n Cược đã được chấp nhận.")
-            #bot.send_message(group_chat_id2, f"{diemcuoc} \n Cược đã được chấp nhận.")
+            #bot.send_message(user_id, f"{diemcuoc}. \nCược đã được chấp nhận.")
+            #bot.send_message(group_chat_id, f"{diemcuoc} \nCược đã được chấp nhận.")
+            #bot.send_message(group_chat_id2, f"{diemcuoc} \nCược đã được chấp nhận.")
 
         else:
             bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
@@ -210,6 +210,7 @@ def start_game(message):
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
     idtext4 = text4.id
+    time.sleep(1)
     text5 = bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥")
     #bot.send_message(group_chat_id, "")
     idtext5 = text5.id
@@ -230,13 +231,13 @@ def start_game(message):
     for user_id in user_bets:
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
             total_win += int(user_bets[user_id]['T'] * winning_coefficient)
-            winner[user_id] = []
+            winner[user_id] = {0}
             winner[user_id] += [int(user_bets[user_id]['T'] * winning_coefficient)] 
             tien_thang = int(user_bets[user_id]['T'] * winning_coefficient)
 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += int(user_bets[user_id]['X'] * winning_coefficient)
-            winner[user_id] = []
+            winner[user_id] = {0}
             winner[user_id] += [int(user_bets[user_id]['X'] * winning_coefficient)]
             tien_thang = int(user_bets[user_id]['X'] * winning_coefficient)
 
@@ -273,7 +274,7 @@ def start_game(message):
 
     text7 = bot.send_message(group_chat_id, f"""
 Tổng thắng: {total_win}đ
-Tổng thua: {total_bet_T + total_bet_X}đ
+Tổng thua: {total_bet_T + total_bet_X - total_win}đ
 """, reply_markup=reply_markup)
     bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     bot.delete_messages(group_chat_id, idtext4)
