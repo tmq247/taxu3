@@ -62,7 +62,7 @@ user_balance = {}
 
 # Variable to store the group chat ID
 group_chat_id = -1002121532989
-group_chat_id2 = -1002121532989
+group_chat_id2 = -1002001597187
 channel_id = -1002067584440
 
 # Winning coefficient
@@ -345,8 +345,12 @@ async def check_balance(_, message):
     load_balance_from_file()
     if message.reply_to_message:
         user_id = await extract_user(message)
+        user_id1 = message.from_user.first_name
         balance = user_balance.get(user_id, 0)
         mention = (await bot.get_users(user_id)).mention
+        request_message = f"""👤 Số điểm của {user_id1} là {balance:,} điểm 💰."""
+        another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
+        await requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
         await bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
 
     else:
