@@ -346,14 +346,14 @@ async def check_balance(_, message):
     if message.reply_to_message:
         user_id = await extract_user(message)
         balance = user_balance.get(user_id, 0)
-        mention = await (bot.get_users(user_id)).mention
+        mention = (await bot.get_users(user_id)).mention
         await bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
 
     else:
         user_id1 = message.from_user.first_name
         user_id = message.from_user.id
         balance = user_balance.get(user_id, 0)
-        mention = await (bot.get_users(user_id)).mention
+        mention = (await bot.get_users(user_id)).mention
         await bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
         request_message = f"""👤 Số điểm của {user_id1} là {balance:,} điểm 💰."""
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
