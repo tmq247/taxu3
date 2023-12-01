@@ -252,7 +252,7 @@ def start_game(message):
         user_id = message.from_user.id
         user_id1 = message.from_user.first_name
         time.sleep(3)
-        request_message = f"""{user_ids} thắng {diem} điểm."""
+        request_message = f"""{user_id1} thắng {diem} điểm."""
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
