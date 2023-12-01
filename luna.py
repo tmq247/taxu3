@@ -250,13 +250,14 @@ def start_game(message):
     for user_id, diem in winner.items():
         user_ids =  bot.get_users(user_id).mention
         user_id = message.from_user.id
+        user_id1 = message.from_user.first_name
         time.sleep(3)
-        request_message = f"""{user_ids} thắng {diem} điểm \n", time.sleep(1)."""
+        request_message = f"""{user_ids} thắng {diem} điểm."""
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
-        bot.send_message(group_chat_id, request_message)
-        #bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
+        #bot.send_message(group_chat_id, request_message)
+        bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
         #bot.send_message(user_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
 
     # Save updated balances to the file
