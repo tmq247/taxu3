@@ -229,16 +229,16 @@ def start_game(message):
     total_win = 0
     for user_id in user_bets:
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
-            total_win += float(user_bets[user_id]['T'] * winning_coefficient)
+            total_win += int(user_bets[user_id]['T'] * winning_coefficient)
             winner[user_id] = []
-            winner[user_id] += [float(user_bets[user_id]['T'] * winning_coefficient)] 
-            tien_thang = float(user_bets[user_id]['T'] * winning_coefficient)
+            winner[user_id] += [int(user_bets[user_id]['T'] * winning_coefficient)] 
+            tien_thang = int(user_bets[user_id]['T'] * winning_coefficient)
 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
-            total_win += float(user_bets[user_id]['X'] * winning_coefficient)
+            total_win += int(user_bets[user_id]['X'] * winning_coefficient)
             winner[user_id] = []
-            winner[user_id] += [float(user_bets[user_id]['X'] * winning_coefficient)]
-            tien_thang = float(user_bets[user_id]['X'] * winning_coefficient)
+            winner[user_id] += [int(user_bets[user_id]['X'] * winning_coefficient)]
+            tien_thang = int(user_bets[user_id]['X'] * winning_coefficient)
 
     # Update user balances based on the game result
     for user_id in user_bets:
