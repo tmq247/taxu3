@@ -14,7 +14,7 @@ import pytz
 import threading
 import asyncio
 from pyrogram import filters
-from pyrogram.types import  Message, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import  Message, InlineKeyboardButton, InlineKeyboardMarkup, ChatPermissions
 from pyrogram.filters import command
 from functions import (
     extract_user,
@@ -222,6 +222,7 @@ def start_game(message):
     time.sleep(3)
 
     bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
+    bot.set_chat_permissions(chat_id, ChatPermissions())
     #ls_cau(result)
     
 
@@ -248,6 +249,13 @@ def start_game(message):
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             user_balance[user_id] += tien_thang
 
+    bot.set_chat_permissions(
+    chat_id,
+    ChatPermissions(
+        can_send_messages=True,
+        can_send_media_messages=True
+    )
+)
     for user_id, diem in winner.items():
         user_ids =  bot.get_users(user_id).mention
         user_id = message.from_user.id
