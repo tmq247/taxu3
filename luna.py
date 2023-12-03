@@ -222,7 +222,7 @@ def start_game(message):
     time.sleep(3)
 
     bot.send_message(group_chat_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
-    bot.set_chat_permissions(chat_id, ChatPermissions())
+    bot.set_chat_permissions(group_chat_id, ChatPermissions())
     #ls_cau(result)
     
 
@@ -250,7 +250,7 @@ def start_game(message):
             user_balance[user_id] += tien_thang
 
     bot.set_chat_permissions(
-    chat_id,
+    group_chat_id,
     ChatPermissions(
         can_send_messages=True,
         can_send_media_messages=True
