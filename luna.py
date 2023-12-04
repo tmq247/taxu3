@@ -284,7 +284,7 @@ def start_game(message):
     mo_game.clear()
 
     #text7 = bot.send_message(group_chat_id, , reply_markup=reply_markup)
-    #bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
+    bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     bot.delete_messages(group_chat_id, idtext4)
     bot.delete_messages(group_chat_id, idtext5)
     # Clear user bets
