@@ -252,7 +252,6 @@ def start_game(message):
         can_send_messages=True,
         can_send_media_messages=True,
         can_send_other_messages=True,
-        can_add_web_page_previews=True,
         can_invite_users=True
     )
 )
@@ -439,11 +438,8 @@ def soicau_taixiu(_, message):
         for line in lines:
             cau = line.strip().split()
             cau1 = cau[0]
-            print(cau1)
-            cau2 = cau1
-            print(cau2)
-            cau3 = "".join(reversed(cau2))
-            scau += f"➤{cau3}"
+            cau2 = "".join(reversed(cau1))
+            scau += f"➤{cau2}"
         bot.send_message(chat_id, scau, reply_markup=reply_markup)
         
 def soi_cau():
