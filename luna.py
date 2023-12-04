@@ -217,13 +217,12 @@ def start_game(message):
 
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
-    #time.sleep(3)
-
+    bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
+    kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
-    bot.set_chat_permissions(group_chat_id, ChatPermissions())
     ls_cau(result)
+    bot.set_chat_permissions(group_chat_id, ChatPermissions())
     
-
     # Determine the winner and calculate total winnings
     tien_thang = 0
     total_win = 0
@@ -251,7 +250,10 @@ def start_game(message):
     group_chat_id,
     ChatPermissions(
         can_send_messages=True,
-        can_send_media_messages=True
+        can_send_media_messages=True,
+        can_send_other_messages=True,
+        can_add_web_page_previews=True,
+        can_invite_users=True
     )
 )
     for user_id, diem in winner.items():
@@ -261,9 +263,10 @@ def start_game(message):
         #time.sleep(3)
         diem = diem[0]
         kq += f"""{user_ids} thắng {diem:,} điểm.\n"""
+        kq1 += f"""{user_id1} thắng {diem:,} điểm.\n"""
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
-        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq}")
-        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={kq}")
+        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
+        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={kq1}")
         #request_message = f"""{user_ids} thắng {diem:,} điểm.\n"""
         #requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
         #bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
@@ -285,7 +288,6 @@ def start_game(message):
     luu_cau.clear()
 
     #text7 = bot.send_message(group_chat_id, , reply_markup=reply_markup)
-    bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     bot.delete_messages(group_chat_id, idtext4)
     #bot.delete_messages(group_chat_id, idtext5)
     # Clear user bets
