@@ -155,7 +155,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         cua_cuoc = '⚫️Tài'
     else:
         cua_cuoc = '⚪️Xỉu'
-    diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount} điểm."
+    diemcuoc = f"{ten_ncuoc} đã cược {cua_cuoc} {bet_amount:,} điểm."
     
     #time.sleep(3)
     #await diemcuoc.delete()
