@@ -221,7 +221,7 @@ def start_game(message):
 
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     bot.set_chat_permissions(group_chat_id, ChatPermissions())
-    #ls_cau(result)
+    ls_cau(result)
     
 
     # Determine the winner and calculate total winnings
@@ -282,6 +282,7 @@ def start_game(message):
     winner.clear()
     user_bets.clear()
     mo_game.clear()
+    luu_cau.clear()
 
     #text7 = bot.send_message(group_chat_id, , reply_markup=reply_markup)
     bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
@@ -289,10 +290,6 @@ def start_game(message):
     #bot.delete_messages(group_chat_id, idtext5)
     # Clear user bets
     
-    
-    
-
-
 # Function to handle the game timing
 def game_timer(message, grid, grtrangthai):
     mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
@@ -408,7 +405,7 @@ def start_taixiu(_, message):
 
 
 def loai_cau(total_score):
-  return "Tài" if 11 <= total_score <= 18 else "Xỉu"
+  return "⚫️" if 11 <= total_score <= 18 else "⚪️"
     
 
 def ls_cau(result):
@@ -417,47 +414,36 @@ def ls_cau(result):
     if cau not in luu_cau:
         luu_cau[cau] = []
         luu_cau[cau].append(cau)
-    
-    # Automatically save the history to "kiemtraxs.txt"
     try:
         soicau_text = f"{cau}\n"
-
-        # Define the encoding as 'utf-8' when opening the file
         with open("soicau.txt", "a", encoding='utf-8') as soicau_file: #, encoding='utf-8'ASCII
             soicau_file.write(soicau_text)
     except Exception as e:
-        # Handle any potential errors, e.g., by logging them
         print(f"Error saving history: {str(e)}")
 
-def load_cau_from_file():
-    if os.path.exists("soicau.txt"):
-        with open("soicau.txt", "r") as f:
-            for line in f:
-                cau_str = line.strip().split()
-                cau = str(cau_str)
-                luu_cau[cau] = [cau]
-
-@bot.on_message(filters.command("delsc"))
-async def delsoicau(_, message):
-    chat_id = message.chat.id
-    luu_cau.clear()
-
 @bot.on_message(filters.command("soicau"))
-async def show_game_options(_, message):
+def soicau_taixiu(_, message):
     chat_id = message.chat.id
-    load_cau_from_file()
-    #bot.send_message(chat_id, f"Soi cầu")
-        
+    #load_cau_from_file()
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
             InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
-    await bot.send_message(chat_id, "Soi cầu", reply_markup=reply_markup)
-    for scau, cau in reversed(luu_cau.items()):
-        await bot.send_message(chat_id, f"{scau}")
-
+    with open("soicau.txt", "r", encoding='utf-8') as f:
+        lines = f.read().splitlines()[-1:-11:-1]
+        scau = f"10 lần cầu gần nhất:\n"
+        for line in lines:
+            cau = line.strip().split()
+            cau1 = cau[0]
+            print(cau1)
+            cau2 = cau1
+            print(cau2)
+            cau3 = "".join(reversed(cau2))
+            scau += f"➤{cau3}"
+        bot.send_message(chat_id, scau, reply_markup=reply_markup)
+        
 def soi_cau():
     soicau = [
         [
