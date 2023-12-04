@@ -269,7 +269,7 @@ def start_game(message):
     Tổng thắng: {total_win}đ
     Tổng thua: {total_bet_T + total_bet_X - total_win}đ
     """
-    if user_id in winner: 
+    if user_id in winner[user_id]: 
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq}")
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={kq}")
