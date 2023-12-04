@@ -203,17 +203,15 @@ def start_game(message):
     reply_markup = InlineKeyboardMarkup(soicau)
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
-    text4 = bot.send_message(group_chat_id, f"""
+    text4 = f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """)
+    text4 += "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥"
+    bot.send_message(group_chat_id, text4)
     idtext4 = text4.id
-    time.sleep(1)
-    text5 = bot.send_message(group_chat_id, "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥")
-    #bot.send_message(group_chat_id, "")
-    idtext5 = text5.id
 
     time.sleep(3)  # Simulating dice rolling
 
@@ -289,7 +287,7 @@ def start_game(message):
     #text7 = bot.send_message(group_chat_id, , reply_markup=reply_markup)
     bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     bot.delete_messages(group_chat_id, idtext4)
-    bot.delete_messages(group_chat_id, idtext5)
+    #bot.delete_messages(group_chat_id, idtext5)
     # Clear user bets
     
     
