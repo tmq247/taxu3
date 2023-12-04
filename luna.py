@@ -263,8 +263,8 @@ def start_game(message):
         #time.sleep(3)
         diem = diem[0]
         kq += f"""{user_ids} thắng {diem:,} điểm.\n"""
-        request_message = f"""{user_ids} thắng {diem:,} điểm.\n"""
-        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
+        #request_message = f"""{user_ids} thắng {diem:,} điểm.\n"""
+        #requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
         #bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
         #bot.send_message(user_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
     kq += f"""
