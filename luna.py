@@ -205,8 +205,8 @@ def start_game(message):
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
     text = f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
-┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
-┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
+┣➤⚫️Tổng cược bên TÀI: {total_bet_T:,}đ
+┣➤⚪️Tổng cược bên XỈU: {total_bet_X:,}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━\n
 """
     text += "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥"
@@ -400,8 +400,8 @@ def start_taixiu(_, message):
         reply_markup1 = InlineKeyboardMarkup(soicau1)
         bot.send_message(group_chat_id, f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
-┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
-┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
+┣➤⚫️Tổng cược bên TÀI: {total_bet_T:,}đ
+┣➤⚪️Tổng cược bên XỈU: {total_bet_X:,}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """, reply_markup=reply_markup1)
 
