@@ -269,8 +269,8 @@ def start_game(message):
         #bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
         #bot.send_message(user_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
     kq += f"""
-    Tổng thắng: {total_win}đ
-    Tổng thua: {total_bet_T + total_bet_X - total_win}đ
+    Tổng thắng: {total_win:,}đ
+    Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     """    
     bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
     # Save updated balances to the file
