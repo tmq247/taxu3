@@ -272,6 +272,7 @@ def start_game(message):
     another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
     requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq}")
     requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={kq}")
+    bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
     # Save updated balances to the file
     save_balance_to_file()
     load_balance_from_file()
