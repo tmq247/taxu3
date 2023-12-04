@@ -203,14 +203,14 @@ def start_game(message):
     reply_markup = InlineKeyboardMarkup(soicau)
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
     total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
-    text4 = f"""
+    text = f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T}đ
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━\n
 """
-    text4 += "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥"
-    bot.send_message(group_chat_id, text4)
+    text += "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥"
+    text4 = bot.send_message(group_chat_id, text)
     idtext4 = text4.id
 
     time.sleep(3)  # Simulating dice rolling
