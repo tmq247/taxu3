@@ -276,7 +276,7 @@ async def set_balance(_, message):
       user_balance[user_id] = 0
       return await message.reply_text("Tôi không thể tìm thấy người dùng này hoặc họ chưa khởi động bot.")
   else:
-    update_balance(diem, user_id, message)
+    await update_balance(diem, user_id, message)
    
     
 async def update_balance(diem, user_id, message):
