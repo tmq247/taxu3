@@ -147,7 +147,7 @@ async def create_gitcode_handler(_, message):
     lenh, amount = message.text.split(" ", 2)
     try:
       val = int(amount)
-      process_gitcode_amount(message, amount)
+      await process_gitcode_amount(message, amount)
     except ValueError:
       return await message.reply_text("Số tiền cho giftcode phải là số nguyên.")
 
@@ -168,7 +168,7 @@ async def naptien_gitcode(_, message):
       user_id = message.from_user.id
       lenh, gitcode = message.text.split()
       if gitcode in gitcode_amounts:
-        process_naptien_gitcode(user_id, gitcode, message)
+        await process_naptien_gitcode(user_id, gitcode, message)
       else:
           await message.reply_text("Giftcode không hợp lệ hoặc đã được sử dụng.")
     
