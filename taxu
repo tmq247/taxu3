@@ -36,7 +36,7 @@ else:
     from sample_config import *
 
 bot = Client(
-    ":memory:",
+    ":taxu:",
     bot_token=bot_token2,
     api_id=api_id,
     api_hash=api_hash,
