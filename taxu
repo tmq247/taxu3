@@ -161,7 +161,7 @@ async def process_gitcode_amount(message, amount):
         await message.reply_text("Số điểm không hợp lệ.")
 
 @bot.on_message(filters.command("code"))
-await def naptien_gitcode(_, message):
+async def naptien_gitcode(_, message):
     if len(message.text.split()) != 2:
        return await message.reply_text("Nhập Code bằng lệnh /code [dấu cách] code của bạn \n➡️VD: /code ABCD") 
     if len(message.text.split()) == 2:
