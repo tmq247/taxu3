@@ -362,8 +362,7 @@ async def show_main_menu(_, message):
     await bot.send_photo(message.chat.id,
                  photo_url,
                  caption=caption,
-                 reply_markup=markup,
-                 parse_mode='HTML')
+                 reply_markup=markup)
     
     await bot.send_message(message.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
 
