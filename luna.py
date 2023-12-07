@@ -38,7 +38,7 @@ else:
     from sample_config import *
 
 bot = Client(
-    ":memory:",
+    ":luna:",
     bot_token=bot_token,
     api_id=api_id,
     api_hash=api_hash,
