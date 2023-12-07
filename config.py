@@ -5,7 +5,7 @@
 #6337933296 or 6630692765 or 5838967403
 #list(map(int, os.environ.get('6145782184', '5838967403').split()))
 bot_token = "6982786295:AAGrLzZzUBulmPqH28yikLEovd5xgkWnzj4"
-#bot_token2 = "6272942112:AAFvppVJA8l0qS2tfkeCVJa4MIDuEszbTtA"
+bot_token2 = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
 api_id=27062094
 api_hash="2edbe92cfa9db035248bfc8957ba1b95"
 # 6272942112:AAFvppVJA8l0qS2tfkeCVJa4MIDuEszbTtA
