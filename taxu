@@ -65,9 +65,9 @@ user_balances = {}
 # Dictionary to store user bets
 user_bets = {}  # {user_id: {"bet_type": "", "amount": 0, "chosen_number": ""}}
 
-group_chat_id2 = -1002030087607  # Replace with your second group chat ID
+group_chat_id2 = -1002078347006  # Replace with your second group chat ID
 # Định nghĩa id của nhóm mà bạn muốn gửi thông báo
-group_chat_id = -1002030087607
+group_chat_id = -1002078347006
 
 def get_user_info(user_id):
   try:
@@ -183,7 +183,7 @@ def process_naptien_gitcode(user_id, gitcode, message):
         remove_gitcode(gitcode)
         del gitcode_amounts[gitcode]
         message.reply_text(f"Nhập Giftcode Thành Công!\nSố điểm của bạn là: {user_balance[user_id]:,}đ.\n💹Chúc Bạn May Mắn Nhé💖")
-        #group_chat_id = '-1002030087607'
+        #group_chat_id = '-1002078347006'
         # Sử dụng phương thức send_message để gửi thông báo vào nhóm
         bot.send_message(group_chat_id, f"""
 Người chơi {message.from_user.first_name} 
@@ -303,7 +303,7 @@ def update_balance(diem, user_id, message):
 """ 
     bot.send_message(user_id, notification_message)
     # Gửi thông báo đến nhóm về việc có người chơi đặt cược
-    group_chat_id = -1002030087607  # Thay thế bằng ID thực sự của nhóm chat
+    group_chat_id = -1002078347006  # Thay thế bằng ID thực sự của nhóm chat
     bot.send_message(group_chat_id, notification_message
                      )  # Sử dụng notification_message thay cho result_message
   except ValueError:
