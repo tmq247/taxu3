@@ -1,0 +1,906 @@
+import re
+import os
+from asyncio import gather, get_event_loop, sleep
+#from pyromod import Client, Message, listen
+from aiohttp import ClientSession
+from pyrogram import Client, filters, idle
+from Python_ARQ import ARQ
+import requests
+import random
+from datetime import datetime, timedelta
+import time
+import atexit
+import pytz
+import threading
+import asyncio
+from pyrogram import filters
+from pyrogram.types import ForceReply, Message, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
+from pyrogram.filters import command
+from functions import (
+    extract_user,
+    extract_user_and_reason,
+    time_converter
+)
+from pyrogram.types import (InlineQueryResultArticle, InputTextMessageContent,
+                            InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup)
+#from telebot.util import quick_markup
+#from keyboard import ikb
+#from pykeyboard import InlineKeyboard
+from pyromod.exceptions import ListenerTimeout
+
+is_config = os.path.exists("config.py")
+
+if is_config:
+    from config import *
+else:
+    from sample_config import *
+
+bot = Client(
+    ":memory:",
+    bot_token=bot_token2,
+    api_id=api_id,
+    api_hash=api_hash,
+)
+
+bot_id = int(bot_token.split(":")[0])
+client = bot
+# Dùng trạng thái (state) để theo dõi quá trình cược
+user_state = {}
+rut = {}
+nap = {}
+# Dùng từ điển để lưu số dư của người dùng
+user_balance = {}
+# Tạo từ điển lưu lịch sử cược và lịch sử rút tiền
+user_bet_history = {}
+user_withdraw_history = {}
+napuser_withdraw_history = {}
+# Tạo từ điển gitcodes
+used_gitcodes = []
+gitcode_amounts = {}
+user_pending_gitcodes = {}
+# Define a separate dictionary to track user game states
+user_game_state = {}
+# Dictionary to store user balances (user_id: balance)
+user_balances = {}
+# Dictionary to store user bets
+user_bets = {}  # {user_id: {"bet_type": "", "amount": 0, "chosen_number": ""}}
+
+group_chat_id2 = -1002030087607  # Replace with your second group chat ID
+# Định nghĩa id của nhóm mà bạn muốn gửi thông báo
+group_chat_id = -1002030087607
+
+def get_user_info(user_id):
+  try:
+    user = bot.get_chat(user_id)
+    return user
+  except Exception as e:
+    print("Error fetching user info:", e)
+    return None
+
+# Hàm để lưu tất cả số dư vào tệp văn bản
+def save_balance_to_file():
+  with open("id.txt", "w") as f:
+    for user_id, balance in user_balance.items():
+      f.write(f"{user_id} {balance}\n")
+
+# Hàm để đọc số dư từ tệp văn bản và cập nhật vào từ điển user_balance
+def load_balance_from_file():
+  if os.path.exists("id.txt"):
+    with open("id.txt", "r") as f:
+      for line in f:
+        user_id, balance_str = line.strip().split()
+        balance = float(balance_str)
+        if balance.is_integer():
+          balance = int(balance)
+        user_balance[int(user_id)] = balance
+
+# Gọi hàm load_balance_from_file khi chương trình chạy để tải số dư từ tệp
+load_balance_from_file()
+
+# Hàm xử lý khi bot bị tắt hoặc lỗi, để lưu số dư vào tệp id.txt trước khi thoát
+def on_exit():
+  save_balance_to_file()
+
+# Xử lý khi bot bị tắt hoặc lỗi
+#atexit.register(save_balance_to_file)
+
+# Add these variables for Gitcode handling
+GITCODE_FILE = "gitcode.txt"
+# Function to create a Gitcode with a custom amount
+def create_gitcode(amount):
+    gitcode = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=8))
+    gitcode_amounts[gitcode] = amount
+    with open(GITCODE_FILE, "a") as f:
+        f.write(f"{gitcode}:{amount}\n")
+    return gitcode
+
+# Function to read Gitcodes from the file
+def read_gitcodes():
+    if not os.path.exists(GITCODE_FILE):
+        return
+    with open(GITCODE_FILE, "r") as f:
+        for line in f:
+            gitcode, amount = line.strip().split(":")
+            gitcode_amounts[gitcode] = int(amount)
+
+# Function to remove a used Gitcode
+def remove_gitcode(gitcode):
+    with open(GITCODE_FILE, "r") as f:
+        lines = f.readlines()
+    with open(GITCODE_FILE, "w") as f:
+        for line in lines:
+            if not line.startswith(gitcode):
+                f.write(line)
+
+# Read Gitcodes from the file
+read_gitcodes()
+
+# Define the admin's user ID
+admin_user_id = 6337933296 or 6630692765 or 5838967403 or 6050066066  # Replace with the actual admin user ID
+
+@bot.on_message(filters.command("regcode"))
+def create_gitcode_handler(_, message):
+    if message.from_user.id != admin_user_id:
+      return message.reply_text("Bạn không có quyền thực hiện lệnh này.")
+    if len(message.text.split()) != 2:
+      return message.reply_text("Vui lòng nhập số tiền cho giftcode.Ví dụ: /regcode 1000")
+    lenh, amount = message.text.split(" ", 2)
+    try:
+      val = int(amount)
+      process_gitcode_amount(message, amount)
+    except ValueError:
+      return message.reply_text("Số tiền cho giftcode phải là số nguyên.")
+
+def process_gitcode_amount(message, amount):
+    try:
+        amount = int(amount)
+        formatted_amount = "{:,.0f}".format(amount).replace(".", ",")
+        gitcode = create_gitcode(amount)
+        message.reply_text(f"Đã tạo giftcode thành công. Giftcode của bạn là: {gitcode} ({formatted_amount} điểm).")
+    except ValueError:
+        message.reply_text("Số điểm không hợp lệ.")
+
+@bot.on_message(filters.command("code"))
+def naptien_gitcode(_, message):
+    if len(message.text.split()) != 2:
+       return message.reply_text("Nhập Code bằng lệnh /code [dấu cách] code của bạn \n➡️VD: /code ABCD") 
+    if len(message.text.split()) == 2:
+      user_id = message.from_user.id
+      lenh, gitcode = message.text.split()
+      if gitcode in gitcode_amounts:
+        process_naptien_gitcode(user_id, gitcode, message)
+      else:
+          message.reply_text("Giftcode không hợp lệ hoặc đã được sử dụng.")
+    
+def process_naptien_gitcode(user_id, gitcode, message):
+    load_balance_from_file()
+    if gitcode in gitcode_amounts:
+        amount = gitcode_amounts[gitcode]
+        # Check if the user's balance exists in the dictionary, initialize it if not
+        if user_id not in user_balance:
+            user_balance[user_id] = 0
+        user_balance[user_id] += amount
+        remove_gitcode(gitcode)
+        del gitcode_amounts[gitcode]
+        message.reply_text(f"Nhập Giftcode Thành Công!\nSố điểm của bạn là: {user_balance[user_id]:,}đ.\n💹Chúc Bạn May Mắn Nhé💖")
+        #group_chat_id = '-1002030087607'
+        # Sử dụng phương thức send_message để gửi thông báo vào nhóm
+        bot.send_message(group_chat_id, f"""
+Người chơi {message.from_user.first_name} 
+User: {user_id}
+Đã Nạp: {amount:,}đ bằng Giftcode.""")
+        # Save the updated balance to the file
+        save_balance_to_file()
+        load_balance_from_file()
+    else:
+        message.reply_text("Giftcode không hợp lệ hoặc đã được sử dụng.")
+
+
+
+############################################
+
+# Hàm xử lý chuyển tiền và cập nhật số dư của cả người gửi và người được chuyển
+def deduct_balance(from_user, user_id, amount, message):
+    load_balance_from_file()
+    
+    amount = int(amount)
+    if from_user not in user_balance or int(user_balance[from_user]) < amount:
+      return message.reply_text("Bạn không có đủ số điểm để tặng người này.")
+    # Kiểm tra xem cả sender_id và recipient_id có tồn tại trong user_balance không
+    if from_user not in user_balance or user_id not in user_balance:
+      return message.reply_text(f"Người này chưa khởi động bot.")
+    # Kiểm tra xem số tiền cần chuyển có lớn hơn 0 và không vượt quá số dư của người gửi
+    if amount <= 0 or int(user_balance[from_user]) < amount:
+        return message.reply_text("Bạn không có đủ số điểm để tặng người này.")
+    # Trừ số tiền từ số dư của người gửi và cộng cho người được chuyển
+    user_balance[from_user] -= amount
+    user_balance[user_id] += amount
+
+    # Lưu số dư vào tệp văn bản
+    save_balance_to_file()
+    return True
+    
+
+@bot.on_message(filters.command("tangdiem"))
+def chuyentien_money(_, message: Message):
+  load_balance_from_file()
+  try:
+    if len(message.text.split()) == 3:
+      lenh, user_id1, amount = message.text.split(" ", 3)
+      user_id = extract_user(message)
+      user = bot.get_users(user_id)
+      from_user = message.from_user.id
+      if deduct_balance(from_user, user_id, amount, message):
+        amount = int(amount)
+        from_user1 = message.from_user.mention
+        message.reply_text(f"Tặng điểm thành công! {amount:,}đ chuyển đến người dùng {user.mention}.")
+        bot.send_message(user_id, f"Bạn đã nhận được {amount:,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+        return
+
+    if len(message.text.split()) == 2:
+      lenh, amount = message.text.split(" ", 2)
+      user_id = extract_user(message)
+      user = bot.get_users(user_id)
+      from_user = message.from_user.id
+      if deduct_balance(from_user, user_id, amount, message):
+        amount = int(amount)
+        from_user1 = message.from_user.mention
+        message.reply_text(f"Tặng điểm thành công! {amount:,}đ chuyển đến người dùng {user.mention}.")
+        bot.send_message(user_id, f"Bạn đã nhận được {amount:,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+        return
+    #else:
+  except ValueError:
+    message.reply("""
+Để tặng điểm của mình cho người chơi khác bằng 2 cách:
+Cách 1: Trả người bằng lệnh /tangdiem [dấu cách] số điểm.
+Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
+/tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
+VD: /tangdiem 987654321 10000""")
+    
+admin = '6337933296', '6630692765', '5838967403', '6050066066'        
+@bot.on_message(filters.command("cdiem"))
+def set_balance(_, message):
+  load_balance_from_file()
+
+  from_user = message.from_user.id
+  
+  if from_user == admin:
+    return message.reply_text("Bạn không có quyền sử dụng lệnh này.")
+  if len(message.text.split()) != 3:
+     return message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+  lenh, user_id, diem = message.text.split()
+  user_id = int(user_id)
+  
+  #user = bot.get_users(user_id)
+  if user_id not in user_balance:
+      user_balance[user_id] = 0
+      return message.reply_text("Tôi không thể tìm thấy người dùng này hoặc họ chưa khởi động bot.")
+  else:
+    update_balance(diem, user_id, message)
+   
+    
+def update_balance(diem, user_id, message):
+  load_balance_from_file()
+  chat_id = message.chat.id
+  try:
+    user_input = message.text.split()
+    if len(user_input) != 3:
+      return message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+      
+
+    balance_change = int(diem)
+    #user_id, _ = user_state[message.from_user.id]
+    current_balance = user_balance.get(user_id, 0)
+    new_balance = current_balance + balance_change
+    user_balance[user_id] = new_balance
+    #del user_state[message.from_user.id]
+    save_balance_to_file()
+    load_balance_from_file()
+    notification_message = f"""
+🫥Bạn Đã Nạp Điểm Thành Công🤖
+🫂Số Điểm Hiện Tại: {new_balance:,} điểm🐥
+🐝Chúc Bạn Chơi Game Vui Vẻ🐳
+""" 
+    bot.send_message(user_id, notification_message)
+    # Gửi thông báo đến nhóm về việc có người chơi đặt cược
+    group_chat_id = -1002030087607  # Thay thế bằng ID thực sự của nhóm chat
+    bot.send_message(group_chat_id, notification_message
+                     )  # Sử dụng notification_message thay cho result_message
+  except ValueError:
+    message.reply_text("Vui lòng nhập một số điểm hợp lệ.⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+
+
+###########################
+
+# Hàm hiển thị menu chính
+@bot.on_message(filters.command("start"))
+async def show_main_menu(_, message):
+    user_id = message.from_user.id
+
+  # Check if the user is already in the user_balance dictionary
+    if user_id not in user_balance:
+        user_balance[user_id] = 0  # Set initial balance to 0 for new users
+        save_balance_to_file()  # Save user balances to the text file
+        
+    
+    markup = ReplyKeyboardMarkup([
+      ["👤 Điểm", "🎲 Soi cầu"],
+      ["💸 Rút Điểm", "💵 Nạp Điểm"],
+      ["📈 Lịch Sử Rút", "📊 Lịch Sử Nạp"],
+      ["📤Tặng Điểm📪", "🫧Nhập CODE💶"],
+  ], resize_keyboard=True)
+    
+  # Send a message with a photo link
+    soicau = [
+        [
+            InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
+            InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),
+        ],
+        [
+            InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
+        ],]
+    reply_markup = InlineKeyboardMarkup(soicau)
+    photo_url = "https://gamebaidoithuong.zone/wp-content/uploads/2021/12/game-bai-doi-thuong-gamebaidoithuongzone-3.jpg"
+    caption = """
+<b>Chào Mừng Bạn Đã Đến Với Sân Chơi Giải Trí</b>
+        <code>🅶🅰🅼🅴 🆃🅰🆇🆄</code>
+<b>Game Xanh Chính Nói Không Với Chỉnh Cầu</b>
+
+👉 <strong>Cách chơi đơn giản, tiện lợi</strong> 🎁
+
+👉 <b>Nạp rút nhanh chóng, đa dạng hình thức</b> 💸
+
+👉 <b>Có Nhiều Phần Quà Dành Cho Người Chơi Mới</b> 🤝
+
+👉 <b>Đua top thật hăng, nhận quà cực căng</b> 💍
+
+👉 <b>An toàn, bảo mật tuyệt đối</b> 🏆
+
+⚠️ <b>Chú ý đề phòng lừa đảo, Chúng Tôi Không inbox Trước</b> ⚠️
+"""
+    await bot.send_photo(message.chat.id,
+                 photo_url,
+                 caption=caption,
+                 reply_markup=markup,
+                 parse_mode='HTML')
+    
+    await bot.send_message(message.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
+
+
+# Hàm xử lý khi người dùng chọn nút
+@bot.on_callback_query(filters.regex ("👤 Điểm"))
+async def handle_check_balance_button(_, message):
+  check_balance(_, message)
+  
+
+@bot.on_callback_query(filters.regex ("💸 Rút Điểm"))
+async def handle_withdraw_balance_button(_, message):
+  withdraw_balance(_, message)
+  
+
+@bot.on_callback_query(filters.regex ("🎲 Soi cầu"))
+async def handle_game_list_button(_, message):
+  show_game_options(_, message)
+
+@bot.on_callback_query(filters.regex ("💵 Nạp Điểm"))
+async def handle_deposit_button(_, message):
+  napwithdraw_balance(_, message)
+
+@bot.on_callback_query(filters.regex ("📈 Lịch Sử Rút"))
+async def handle_bet_history_button(_, message):
+  show_withdraw_history(_, message)
+
+@bot.on_callback_query(filters.regex ("📊 Lịch Sử Nạp"))
+async def handle_withdraw_history_button(_, message):
+  napshow_withdraw_history(_, message)
+
+@bot.on_callback_query(filters.regex ("📤Tặng Điểm📪"))
+async def handle_chuyentien_money_button(_, message):
+    chuyentien_money(_, message)
+
+@bot.on_callback_query(filters.regex ("🫧Nhập CODE💶"))
+async def handle_naptien_gitcode_button(_, message):
+    naptien_gitcode(_, message)
+
+async def show_game_options(msg):
+   bot.send_message(msg.chat.id, "Vào @kqtaixiu để xem lịch sử cầu")
+   
+# Hàm kiểm tra số dư
+@bot.on_message(filters.command("diem"))
+async def check_balance(_, message):
+  load_balance_from_file()
+  user_id = message.from_user.id
+  balance = user_balance.get(user_id, 0)
+  await bot.send_message(user_id, f"""
+👤 Tên tài khoản: {message.from_user.first_name}
+💳 ID Tài khoản: {message.from_user.id}
+💰 Số dư của bạn: {balance:,} đ
+        """)
+
+async def show_game_options(msg):
+   chat_id = msg.chat.id
+   await bot.send_message(chat_id, "Soi cầu tài xỉu.", reply_markup=soi_cau())
+
+async def soi_cau():
+  markup = InlineKeyboardMarkup()
+  momo_button = InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu")
+  bank_button = InlineKeyboardButton("Nạp - Rút", url="https://t.me/testtaixiu1bot")
+  markup.row(momo_button, bank_button)  # Đặt cả hai nút trên cùng một hàng
+  return markup
+
+client = bot
+@bot.on_message(filters.command("rut"))
+async def withdraw_balance(_, message):
+  chat_id = message.chat.id
+  user_id = message.from_user.id
+  rut[user_id] = "withdraw_method"
+  user_game_state.pop(user_id, None)  # Clear game state to avoid conflicts
+
+  ruttien = [[InlineKeyboardButton("Rút qua MoMo", callback_data="_momo")],
+   [InlineKeyboardButton("Rút qua ngân hàng", callback_data="_bank")]]
+  markup = InlineKeyboardMarkup(ruttien)
+    # Tạo bàn phím cho phương thức rút
+  if chat_id == group_chat_id:
+    await bot.send_message(chat_id,
+                   "Vui lòng nhắn tin riêng với bot")
+  await bot.send_message(user_id,
+                   "Chọn phương thức rút điểm:",
+                   reply_markup=markup)
+
+#rut momo
+@bot.on_callback_query(filters.regex("_momo"))
+async def handle_withdrawal_method_selection_momo(_, callback_query):
+  user_id = callback_query.from_user.id
+  
+  if filters.regex("_momo"):
+    rut[user_id] = "momo_account"
+    await bot.send_message(user_id, "Nhập số MoMo của bạn:")
+    rutdiem = await client.listen(user_id=user_id)
+    await process_account_inforut(_, rutdiem, user_id)
+    
+  await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức rút điểm.")
+  #process_account_inforut(_, message)
+
+#rut bank
+@bot.on_callback_query(filters.regex("_bank"))
+async def handle_withdrawal_method_selection_bank(_, callback_query):
+    user_id = callback_query.from_user.id
+    if filters.regex("_bank"):
+      rut[user_id] = "bank_account"
+      await bot.send_message(
+          user_id, """
+Nhập thông tin tài khoản ngân hàng của bạn:
+VD: 0987654321 VCB 
+TÊN NGÂN HÀNG - MÃ NGÂN HÀNG
+📌 Vietcombank => VCB
+📌 BIDV => BIDV 
+📌 Vietinbank => VTB
+📌 Techcombank => TCB
+📌 MB Bank => MBB 
+📌 Agribank => AGR 
+📌 TienPhong Bank => TPB
+📌 SHB bank => SHB
+📌 ACB => ACB 
+📌 Maritime Bank => MSB
+📌 VIB => VIB
+📌 Sacombank => STB
+📌 VP Bank => VPB
+📌 SeaBank => SEAB
+📌 Shinhan bank Việt Nam => SHBVN
+📌 Eximbank => EIB 
+📌 KienLong Bank => KLB 
+📌 Dong A Bank => DAB 
+📌 HD Bank => HDB 
+📌 LienVietPostBank => LPB 
+📌 VietBank => VBB
+📌 ABBANK => ABB 
+📌 PG Bank => PGB
+📌 PVComBank => PVC
+📌 Bac A Bank => BAB 
+📌 Sai Gon Commercial Bank => SCB
+📌 BanVietBank => VCCB 
+📌 Saigonbank => SGB
+📌 Bao Viet Bank => BVB  
+📌 Orient Commercial Bank => OCB 
+
+⚠️ Lưu ý: ❌ Không hỗ trợ hoàn tiền nếu bạn nhập sai thông tin Tài khoản. 
+❗️ Rút min 50K
+  """)
+      rutdiem = await client.listen(user_id=user_id)
+      await process_account_inforut(_, rutdiem, user_id)
+
+    await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức rút điểm.")
+
+
+        
+#@bot.on_message(filters.reply & rut in ["momo_account"] or ["bank_account"])
+async def process_account_inforut(_, rutdiem, user_id):
+  if user_id in rut and rut in ["momo_account"] or ["bank_account"]:
+    try:
+      account_info = rutdiem.text
+      #user_id = message.from_user.id
+
+      if rut[user_id] == "momo_account":
+        rut[user_id] = (account_info, "withdraw_amount_momo")
+        await bot.send_message(user_id, """
+❗️Nhập số tiền bạn muốn rút qua MoMo💮
+🚫VD: 50.000 - 50.000.000🚮
+              """)
+        diemrut = await client.listen(user_id=user_id)
+        await process_withdraw_amountrut(diemrut, user_id)
+      elif rut[user_id] == "bank_account":
+        rut[user_id] = (account_info, "withdraw_amount_bank")
+        await bot.send_message(user_id, """
+❗️Nhập số tiền bạn muốn rút qua ngân hàng💮
+🚫VD: 50.000 - 50.000.000🚮
+              """)
+        diemrut = await client.listen(user_id=user_id)
+        await process_withdraw_amountrut(diemrut, user_id)
+    except ValueError:
+      pass
+  
+
+#@bot.on_message(filters.text & rut in ["withdraw_amount_momo"] or ["withdraw_amount_bank"])
+async def process_withdraw_amountrut(diemrut, user_id):
+  if user_id in rut and rut[user_id][1] in ["withdraw_amount_momo"] or ["withdraw_amount_bank"]:
+    user = await bot.get_users(user_id)
+    try:
+      account_info, withdraw_amount_type = rut[user_id]
+      withdraw_amount = int(diemrut.text)
+      user_balance_value = user_balance.get(user_id, 0)
+      if withdraw_amount < 50000:
+        await bot.send_message(user_id, 
+            """
+🖇 Số điểm rút phải lớn hơn hoặc bằng 50,000 đồng.🗳
+              """)
+        del rut[user_id]
+        return
+
+      if withdraw_amount > user_balance_value:
+        await bot.send_message(user_id,
+            """
+🌀Số điểm của bạn không đủ💳
+🪫Vui Lòng 🔎Chơi Tiếp🔍 Để Có Số Dư Mới💎
+              """)
+        del rut[user_id]
+        return
+
+      # Trừ số tiền từ số dư của người chơi
+      user_balance_value -= withdraw_amount
+      user_balance[user_id] = user_balance_value
+
+      with open("id.txt", "r") as f:
+        lines = f.readlines()
+
+      with open("id.txt", "w") as f:
+        for line in lines:
+          user_id_str, balance_str = line.strip().split()
+          if int(user_id_str) == user_id:
+            balance = int(balance_str)
+            if withdraw_amount <= balance:
+              balance -= withdraw_amount
+              f.write(f"{user_id} {balance}\n")
+            else:
+              await bot.send_message(user_id, "Số dư không đủ để rút điểm.")
+          else:
+            f.write(line)
+
+      formatted_balance = "{:,.0f} đ".format(user_balance_value)
+      account_type = "MoMo" if withdraw_amount_type == "withdraw_amount_momo" else "ngân hàng"
+      await bot.send_message(user_id,
+          f"""
+⏺Lệnh rút: {withdraw_amount:,} VNĐ🔚
+✅Của bạn về {account_type}: {account_info} đang chờ hệ thống xử lý🔚
+☢️Số điểm khi chưa rút: {user_balance_value+withdraw_amount:,}
+              """)
+
+      request_message = f"""
+➤Tên Người Rút: {user.mention} 
+➤ID Người Rút: {user.id} 
+➤Yêu Cầu Rút: {withdraw_amount:,} VNĐ 
+➤Về {account_type}: {account_info}
+          """
+      another_bot_token = "6698135046:AAH7PWSndks__CEgjVZRZHa5FzZUGHf02D4"
+      another_bot_chat_id = "6337933296"
+      another_bot_chat_id2 = "6630692765"
+      requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}")
+      requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id2}&text={request_message}")
+      await bot.send_message(group_chat_id, request_message)
+
+      del rut[user_id]
+
+      user_withdraw_history.setdefault(user_id, []).append(
+          (account_info, withdraw_amount))
+      time.sleep(10)
+      user_notification = f"""
+📬 Rút điểm thành công!
+⏺ Số điểm rút: {withdraw_amount:,} VNĐ
+📈 Số điểm còn lại: {formatted_balance}
+          """
+      await bot.send_message(user_id, user_notification)
+
+    except ValueError:
+      pass
+  else:
+    await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
+
+
+# Hàm lệnh nạp tiền
+def deposit_info(message):
+  user_id = message.from_user.id
+  momo_account = "034xxxxxx"
+  username = message.from_user.username or message.from_user.first_name
+
+  photo_link = "https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/368953112_304417105585877_8104665371433145272_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=9tNmHpvwO7UAX97Ml6f&_nc_ht=scontent.fdad1-3.fna&oh=00_AfDCHSKEY4xF2TL3e4YhEjvP0kh4uVR_4cEPa_GyN5hzXA&oe=64E49255"  # Replace with the actual image link
+
+  # Creating the caption
+  caption = f"""
+🏧<b>Phương Thức Nạp Bank</b>🏧
+💰<b>MB BANK _ MOMO</b>💰
+🔊Tài Khoản: <code>{momo_account}</code>🔚
+🔊Nội Dung: <code>naptien_{message.from_user.id}</code>🔚
+🔊<b>Min Nạp: 10.000k Min Rút: 100.000k</b>
+🔊<b>Min Nạp: 10.000 - 3.000.000</b>🔚
+🔊<b>Vui lòng ghi đúng nội dung khi nạp.</b>🔚
+🔊<b>Không Hỗ Trợ Lỗi Nội Dung.</b>🔚
+🔊<b>NẠP NHANH QR PHÍA BÊN DƯỚI NHÉ</b> 🔚
+    """
+
+  # Sending the caption and photo
+  bot.send_message(message.chat.id, caption, parse_mode='HTML')
+  bot.send_photo(message.chat.id, photo_link)
+
+####################################
+
+# Hàm nạp tiền tài khoản
+@bot.on_message(filters.command("nap"))
+async def napwithdraw_balance(_, message):
+  chat_id = message.chat.id
+  user_id = message.from_user.id
+  nap[user_id] = "napwithdraw_method"
+  user_game_state.pop(user_id, None)  # Clear game state to avoid conflicts
+
+  naptien = [[InlineKeyboardButton("Nạp qua MoMo", callback_data="_napmomo")],
+  [InlineKeyboardButton("Nạp qua ngân hàng", callback_data="_napbank")]]
+  markup = InlineKeyboardMarkup(naptien)
+   # Tạo bàn phím cho phương thức rút
+  if chat_id == group_chat_id:
+    await bot.send_message(chat_id,
+                   "Vui lòng nhắn tin riêng với bot")
+  await bot.send_message(user_id,
+                   "Chọn phương thức nạp điểm:",
+                   reply_markup=markup)
+  
+@bot.on_callback_query(filters.regex("_napmomo"))
+async def naphandle_withdrawal_method_selectionmomo(_, callback_query):
+  user_id = callback_query.from_user.id
+
+  if filters.regex("_napmomo"):
+    nap[user_id] = "napmomo_account"
+    await bot.send_message(user_id, "Nhập số MoMo của bạn:")
+    napdiem = await client.listen(user_id=user_id)
+    await process_account_info_nap(_, napdiem, user_id)
+  await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức nạp điểm.")
+
+@bot.on_callback_query(filters.regex("_napbank"))
+async def naphandle_withdrawal_method_selectionbank(_, callback_query):
+  user_id = callback_query.from_user.id
+
+  if filters.regex("_napbank"):
+    nap[user_id] = "napbank_account"
+    await bot.send_message(
+        user_id, """
+Nhập thông tin tài khoản ngân hàng của bạn:
+VD: 0987654321 VCB 
+ TÊN NGÂN HÀNG - MÃ NGÂN HÀNG
+📌 Vietcombank => VCB
+📌 BIDV => BIDV 
+📌 Vietinbank => VTB
+📌 Techcombank => TCB
+📌 MB Bank => MBB 
+📌 Agribank => AGR 
+📌 TienPhong Bank => TPB
+📌 SHB bank => SHB
+📌 ACB => ACB 
+📌 Maritime Bank => MSB
+📌 VIB => VIB
+📌 Sacombank => STB
+📌 VP Bank => VPB
+📌 SeaBank => SEAB
+📌 Shinhan bank Việt Nam => SHBVN
+📌 Eximbank => EIB 
+📌 KienLong Bank => KLB 
+📌 Dong A Bank => DAB 
+📌 HD Bank => HDB 
+📌 LienVietPostBank => LPB 
+📌 VietBank => VBB
+📌 ABBANK => ABB 
+📌 PG Bank => PGB
+📌 PVComBank => PVC
+📌 Bac A Bank => BAB 
+📌 Sai Gon Commercial Bank => SCB
+📌 BanVietBank => VCCB 
+📌 Saigonbank => SGB
+📌 Bao Viet Bank => BVB  
+📌 Orient Commercial Bank => OCB 
+
+⚠️ Lưu ý: ❌ Không hỗ trợ hoàn tiền nếu bạn nhập sai thông tin Tài khoản. 
+❗️ Nạp min 10K
+""")
+    napdiem = await client.listen(user_id=user_id)
+    await process_account_info_nap(_, napdiem, user_id)
+
+  await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức nạp điểm.")
+
+
+#@bot.on_callback_query(filters.text & nap in ["napmomo_account", "napbank_account"])
+async def process_account_info_nap(_, napdiem, user_id):
+  try:
+    account_info = napdiem.text
+    #user_id = message.from_user.id
+
+    if nap[user_id] == "napmomo_account":
+      nap[user_id] = (account_info, "withdraw_amount_napmomo")
+      await bot.send_message(user_id,
+          """
+❗️Nhập số điểm bạn muốn nạp qua MoMo💮
+🚫VD: 10.000 - 50.000.000🚮
+            """)
+      diemnap = await client.listen(user_id=user_id)
+      await process_withdraw_amountnap(diemnap, user_id)
+    elif nap[user_id] == "napbank_account":
+      nap[user_id] = (account_info, "withdraw_amount_napbank")
+      await bot.send_message(user_id,
+          """
+❗️Nhập số điểm bạn muốn nạp qua ngân hàng💮
+🚫VD: 10.000 - 50.000.000🚮
+            """)
+      diemnap = await client.listen(user_id=user_id)
+      await process_withdraw_amountnap(diemnap, user_id)
+  except ValueError:
+    pass
+
+
+#@bot.on_message(nap in ["withdraw_amount_napmomo", "withdraw_amount_napbank"])
+async def process_withdraw_amountnap(diemnap, user_id):
+  if user_id in nap and nap[user_id][1] in ["withdraw_amount_napmomo", "withdraw_amount_napbank"]:
+    user = await bot.get_users(user_id)
+    try:
+      account_info, withdraw_amount_type = nap[user_id]
+      withdraw_amount = int(diemnap.text)
+      #user_id = message.from_user.id
+      user_balance_value = user_balance.get(user_id, 0)
+
+      if withdraw_amount < 10000:
+        await bot.send_message(user_id,
+            """
+🖇 Số điểm nạp phải lớn hơn hoặc bằng 10,000 đồng.🗳
+              """)
+        del nap[user_id]
+        return
+
+      formatted_balance = "{:,.0f} đ".format(user_balance_value)
+
+      account_type = "MoMo" if withdraw_amount_type == "withdraw_amount_napmomo" else "ngân hàng"
+      await bot.send_message(user_id,
+          f"""
+⏺Lệnh nạp: {withdraw_amount:,} VNĐ🔚
+✅Của bạn từ {account_type}: {account_info} đang chờ hệ thống check🔚
+☢️Số điểm trước khi nạp của bạn: {formatted_balance}
+              """)
+      napmomo_account = "108002189644"
+      photo_link = "https://github.com/tmq247/taxu2/blob/main/photo_2023-12-08_03-22-58.jpg?raw=true"
+      caption = f"""
+🏧Phương Thức Nạp Bank🏧
+💰Ngân hàng TMCP💰
+🔊Tài Khoản: {napmomo_account}🔚
+🔊Nội Dung: napdiem_{user.id}🔚
+🔊Min Nạp: 10.000k Min Rút: 100.000k
+🔊Min Nạp: 10.000 - 3.000.000🔚
+🔊Vui lòng ghi đúng nội dung nạp điểm.🔚
+🔊Vui lòng chụp lại bill.🔚
+🔊Không Hỗ Trợ Lỗi Nội Dung.🔚
+🔊NẠP NHANH BẰNG MÃ QR PHÍA BÊN DƯỚI NHÉ 🔚
+      """
+      await bot.send_message(user_id, caption)
+      await bot.send_photo(user_id, photo_link)
+
+      request_message = f"""
+➤Tên Người Nạp: {user.mention} 
+➤ID Người Nạp: {user.id}
+➤Yêu Cầu Nạp: {withdraw_amount:,} VNĐ 
+➤Từ {account_type}: {account_info}
+          """
+      another_bot_token = "6698135046:AAH7PWSndks__CEgjVZRZHa5FzZUGHf02D4"
+      another_bot_chat_id = "6337933296"
+      another_bot_chat_id2 = "6630692765"
+      requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}")
+      requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id2}&text={request_message}")
+      await bot.send_message(group_chat_id, request_message)
+
+      del nap[user_id]
+
+      napuser_withdraw_history.setdefault(user_id, []).append(
+          (account_info, withdraw_amount))
+      #time.sleep(10)
+      #user_notification = f"""
+  #📬 Nạp tiền thành công!
+  #⏺ Số tiền nạp: {withdraw_amount:,} VNĐ
+  #📈 Số điểm hiện tại: {formatted_balance}
+  #       """
+    # bot.send_message(user_id, user_notification)
+      
+
+    except ValueError:
+      pass
+#####################################
+
+
+
+#################################
+
+def show_withdraw_history(msg):
+  user_id = msg.from_user.id
+  withdraw_history = user_withdraw_history.get(user_id, [])
+  if not withdraw_history:
+    bot.reply_to(
+        msg, """
+🚥Bạn chưa có lịch sử Rút🔙
+🛰/rut - Lệnh rút điểm.
+🛰/nap - Lệnh nạp điểm.
+    """)
+  else:
+    history_text = """
+Lịch sử rút điểm:
+🎑🎑🎑🎑🎑🎑🎑
+        """
+    for withdraw_info in withdraw_history:
+      account_info, amount = withdraw_info
+      history_text += f"""
+🧑🏽‍💻Số điểm Đã Rút: {amount:,} VNĐ 
+👑Số Tài Khoản: {account_info}
+"""
+    bot.reply_to(msg, history_text)
+
+# Hàm xem lịch sử nạp tiền
+def napshow_withdraw_history(msg):
+  user_id = msg.from_user.id
+  napwithdraw_history = napuser_withdraw_history.get(user_id, [])
+  if not napwithdraw_history:
+    bot.reply_to(
+        msg, """
+🚥Bạn chưa có lịch sử Nạp🔙
+🛰/rut - Lệnh rút điểm.
+🛰/nap - Lệnh nạp điểm.
+    """)
+  else:
+    history_text = """
+Lịch sử nạp điểm:
+🎑🎑🎑🎑🎑🎑🎑
+        """
+    for withdraw_info in napwithdraw_history:
+      account_info, amount = withdraw_info
+      history_text += f"""
+🧑🏽‍💻Số điểm Đã Nạp: {amount:,} VNĐ 
+👑Số Tài Khoản: {account_info}
+"""
+    bot.reply_to(msg, history_text)
+
+###################################
+async def main2():
+
+
+    await bot.start()
+    print(
+        """
+-----------------
+| Taxu khởi động! |
+-----------------
+"""
+    )
+    await idle()
+
+
+loop = get_event_loop()
+loop.run_until_complete(main2())
