@@ -187,7 +187,13 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         else:
             bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
-        bot.send_message(group_chat_id, "Người chơi không có trong danh sách. Hãy thử lại.")
+         soicau = [
+        [
+            InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
+            InlineKeyboardButton(" Bot Nạp - Rút", url="https://t.me/diemallwin_bot"),
+        ],]
+        reply_markup = InlineKeyboardMarkup(soicau)
+        bot.send_message(chat_id, f"Người chơi chưa khởi động bot, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
     # Load user balances from the file
     save_balance_to_file()
     load_balance_from_file()
