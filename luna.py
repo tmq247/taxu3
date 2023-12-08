@@ -187,7 +187,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         else:
             bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
-         soicau = [
+        soicau = [
         [
             InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
             InlineKeyboardButton(" Bot Nạp - Rút", url="https://t.me/diemallwin_bot"),
