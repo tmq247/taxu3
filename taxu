@@ -794,7 +794,9 @@ async def process_withdraw_amountnap(diemnap, user_id):
 🏧Phương Thức Nạp Bank🏧
 💰Ngân hàng TMCP💰
 🔊Tài Khoản: {napmomo_account}🔚
-🔊Nội Dung: napdiem_{user.id}🔚
+
+🔊Nội Dung: napdiem_{user.id} 🔚
+
 🔊Min Nạp: 10.000k Min Rút: 100.000k
 🔊Min Nạp: 10.000 - 3.000.000🔚
 🔊Vui lòng ghi đúng nội dung nạp điểm.🔚
