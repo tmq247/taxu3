@@ -203,7 +203,7 @@ User: {user_id}
 async def deduct_balance(from_user, user_id, amount, message):
     load_balance_from_file()
     
-    amount = int(amount-0.05)
+    amount = int(amount)
     if from_user not in user_balance or int(user_balance[from_user]) < amount:
       return await message.reply_text("Bạn không có đủ số điểm để tặng người này.")
     # Kiểm tra xem cả sender_id và recipient_id có tồn tại trong user_balance không
@@ -214,7 +214,7 @@ async def deduct_balance(from_user, user_id, amount, message):
         return await message.reply_text("Bạn không có đủ số điểm để tặng người này.")
     # Trừ số tiền từ số dư của người gửi và cộng cho người được chuyển
     user_balance[from_user] -= amount
-    user_balance[user_id] += amount
+    user_balance[user_id] += amount-0.05
 
     # Lưu số dư vào tệp văn bản
     save_balance_to_file()
@@ -234,9 +234,9 @@ async def chuyentien_money(_, message: Message):
       if await deduct_balance(from_user, user_id, amount, message):
         amount = int(amount)
         from_user1 = message.from_user.mention
-        await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {amount:,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
-        await message.reply_text(f"Tặng điểm thành công! {amount:,}đ chuyển đến người dùng {user.mention}.")
-        await bot.send_message(user_id, f"Bạn đã nhận được {amount:,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+        await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {amount-0.05:,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+        await message.reply_text(f"Tặng điểm thành công! {amount0.05:,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
+        await bot.send_message(user_id, f"Bạn đã nhận được {amount-0.05:,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
         return
 
     if len(message.text.split()) == 2:
@@ -247,9 +247,9 @@ async def chuyentien_money(_, message: Message):
       if await deduct_balance(from_user, user_id, amount, message):
         amount = int(amount)
         from_user1 = message.from_user.mention
-        await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {amount:,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
-        await message.reply_text(f"Tặng điểm thành công! {amount:,}đ chuyển đến người dùng {user.mention}.")
-        await bot.send_message(user_id, f"Bạn đã nhận được {amount:,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+        await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {amount-0.05:,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+        await message.reply_text(f"Tặng điểm thành công! {amount-0.05:,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
+        await bot.send_message(user_id, f"Bạn đã nhận được {amount-0.05:,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
         return
     #else:
   except ValueError:
@@ -258,7 +258,8 @@ async def chuyentien_money(_, message: Message):
 Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
 Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
 /tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
-VD: /tangdiem 987654321 10000""")
+VD: /tangdiem 987654321 10000.
+Phí tặng điểm là 5%.""")
     
 admin = '6337933296', '6630692765', '5838967403', '6050066066'        
 @bot.on_message(filters.command("cdiem"))
