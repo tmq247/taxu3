@@ -214,7 +214,7 @@ async def deduct_balance(from_user, user_id, amount, message):
         return await message.reply_text("Bạn không có đủ số điểm để tặng người này.")
     # Trừ số tiền từ số dư của người gửi và cộng cho người được chuyển
     user_balance[from_user] -= amount
-    user_balance[user_id] += int(amount-0.05)
+    user_balance[user_id] += int(amount*0.95)
 
     # Lưu số dư vào tệp văn bản
     save_balance_to_file()
@@ -234,9 +234,9 @@ async def chuyentien_money(_, message: Message):
       if await deduct_balance(from_user, user_id, amount, message):
         amount = int(amount)
         from_user1 = message.from_user.mention
-        await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {int(amount-0.05):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
-        await message.reply_text(f"Tặng điểm thành công! {int(amount-0.05):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
-        await bot.send_message(user_id, f"Bạn đã nhận được {int(amount-0.05):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+        await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+        await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
+        await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
         return
 
     if len(message.text.split()) == 2:
@@ -247,9 +247,9 @@ async def chuyentien_money(_, message: Message):
       if await deduct_balance(from_user, user_id, amount, message):
         amount = int(amount)
         from_user1 = message.from_user.mention
-        await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {int(amount-0.05):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
-        await message.reply_text(f"Tặng điểm thành công! {int(amount-0.05):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
-        await bot.send_message(user_id, f"Bạn đã nhận được {int(amount-0.05):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+        await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+        await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
+        await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
         return
     #else:
   except ValueError:
