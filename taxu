@@ -814,8 +814,10 @@ async def process_withdraw_amountnap(diemnap, user_id):
       another_bot_token = "6698135046:AAH7PWSndks__CEgjVZRZHa5FzZUGHf02D4"
       another_bot_chat_id = "6337933296"
       another_bot_chat_id2 = "6630692765"
+      another_bot_chat_id3 = "6050066066"
       requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}")
       requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id2}&text={request_message}")
+      requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id3}&text={request_message}")
       await bot.send_message(group_chat_id, request_message)
 
       del nap[user_id]
