@@ -808,7 +808,7 @@ async def process_withdraw_amountnap(diemnap, user_id):
       request_message = f"""
 ➤Tên Người Nạp: {user.mention} 
 ➤ID Người Nạp: {user.id}
-➤Yêu Cầu Nạp: {withdraw_amount:,} VNĐ 
+➤Yêu Cầu Nạp: {withdraw_amount:,} VNĐ ( {withdraw_amount} )
 ➤Từ {account_type}: {account_info}
           """
       another_bot_token = "6698135046:AAH7PWSndks__CEgjVZRZHa5FzZUGHf02D4"
