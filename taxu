@@ -203,7 +203,7 @@ User: {user_id}
 async def deduct_balance(from_user, user_id, amount, message):
     load_balance_from_file()
     
-    amount = int(amount)
+    amount = int(amount-0.05)
     if from_user not in user_balance or int(user_balance[from_user]) < amount:
       return await message.reply_text("Bạn không có đủ số điểm để tặng người này.")
     # Kiểm tra xem cả sender_id và recipient_id có tồn tại trong user_balance không
