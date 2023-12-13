@@ -233,6 +233,7 @@ async def chuyentien_money(_, message: Message):
       if await deduct_balance(from_user, user_id, amount, message):
         amount = int(amount)
         from_user1 = message.from_user.mention
+        await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {amount:,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
         await message.reply_text(f"Tặng điểm thành công! {amount:,}đ chuyển đến người dùng {user.mention}.")
         await bot.send_message(user_id, f"Bạn đã nhận được {amount:,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
         return
