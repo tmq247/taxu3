@@ -495,9 +495,9 @@ def show_main_menu(_, message):
   # Send a message with a photo link
     photo_url = "https://github.com/tmq247/taxu2/blob/main/photo_2023-12-14_21-31-58.jpg?raw=true"
     caption = """
-        <code>𝐒ả𝐧𝐡 𝐀𝐋𝐋 𝐖𝐈𝐍</code>
+<code>𝐒ả𝐧𝐡 𝐀𝐋𝐋 𝐖𝐈𝐍</code>
         
-        <b>♨️Open 15-12 ♨️</b>
+<b>♨️Open 15-12 ♨️</b>
 
 🤝 <strong>Nơi hội tụ các chiến thần tài-xỉu</strong> 🎁
 
