@@ -391,7 +391,7 @@ def start_taixiu(_, message):
         grid = chat_id
         game_timer(message, grid, grtrangthai)
 
-    if mo_game[grid]['trangthai'] == 2: #len(mo_game) > 0 and 
+    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
         return bot.send_message(chat_id, "Đợi 10s để mở ván mới.")
         
     else:
