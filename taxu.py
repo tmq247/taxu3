@@ -361,7 +361,7 @@ async def show_main_menu(_, message):
             InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
-    photo_url = "https://github.com/tmq247/taxu2/blob/b0d6fcc684e52baa76488712d0a943698417dc6c/photo_2023-12-14_21-31-58.jpg"
+    photo_url = "https://github.com/tmq247/taxu2/blob/main/photo_2023-12-14_21-31-58.jpg?raw=true"
     caption = """
 <b>Chào Mừng Bạn Đã Đến Với Sân Chơi Giải Trí</b>
         <code>𝐒ả𝐧𝐡 𝐀𝐋𝐋 𝐖𝐈𝐍 (https://t.me/sanhallwin)</code>
