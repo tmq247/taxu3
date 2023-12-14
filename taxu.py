@@ -316,7 +316,7 @@ async def update_balance(diem, user_id, message):
 🫂Số Điểm Hiện Tại: {new_balance:,} điểm🐥
 🐝Chúc Bạn Chơi Game Vui Vẻ🐳
 """ 
-    text = f"🔥Chúc mừng "{user_ids}" đã bơm máu thành công⚡️⚡️
+    text = f"""🔥Chúc mừng {user_ids} đã bơm máu thành công⚡️⚡️"""
     await bot.send_message(user_id, notification_message)
     # Gửi thông báo đến nhóm về việc có người chơi đặt cược
     group_chat_id2 = -1001712715936
