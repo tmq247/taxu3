@@ -329,12 +329,9 @@ def handle_message(_, message: Message):
     chat_id = message.chat.id
     grid = chat_id
     print(mo_game, 3)
-    if len(mo_game) == 0:
-            print(mo_game, 2)
-            grtrangthai = 1
-            game_timer(message, grid, grtrangthai)
     if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
         return bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
+    
     # Check if the message is from the group chat
     if chat_id == group_chat_id:
         # Check if the message is a valid bet
@@ -349,11 +346,13 @@ def handle_message(_, message: Message):
 
             # Confirm the bet and check user balance
             confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message)
-            
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
 
-    
+    if len(mo_game) == 0:
+            print(mo_game, 2)
+            grtrangthai = 1
+            game_timer(message, grid, grtrangthai)
 
 
 # Load user balances from the file
