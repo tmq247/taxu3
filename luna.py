@@ -199,7 +199,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
     load_balance_from_file()
 
 # Function to start the dice game
-def start_game(message):
+def start_game(message, grid):
     load_balance_from_file()
     soicau = [
         [
@@ -320,7 +320,7 @@ def game_timer(message, grid, grtrangthai):
     
     bot.delete_messages(grid, text1.id)
     bot.delete_messages(grid, text4.id)
-    start_game(message)
+    start_game(message, grid)
         
 
 # Function to handle user messages
