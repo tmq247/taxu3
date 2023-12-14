@@ -218,8 +218,8 @@ def start_game(message):
     text += "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥"
     text4 = bot.send_message(group_chat_id, text)
     idtext4 = text4.id
-    
-    mo_game[grid]['trangthai'] += 1
+    grtrangthai = 1
+    mo_game[grid]['trangthai'] += grtrangthai
 
     time.sleep(3)  # Simulating dice rolling
 
