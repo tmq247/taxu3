@@ -218,6 +218,8 @@ def start_game(message):
     text += "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥"
     text4 = bot.send_message(group_chat_id, text)
     idtext4 = text4.id
+    
+    mo_game[grid]['trangthai'] += 1
 
     time.sleep(3)  # Simulating dice rolling
 
@@ -238,19 +240,21 @@ def start_game(message):
             winner[user_id] = []
             winner[user_id] += [int(user_bets[user_id]['T'] * winning_coefficient)] 
             tien_thang = int(user_bets[user_id]['T'] * winning_coefficient)
+            user_balance[user_id] += tien_thang
 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += int(user_bets[user_id]['X'] * winning_coefficient)
             winner[user_id] = []
             winner[user_id] += [int(user_bets[user_id]['X'] * winning_coefficient)]
             tien_thang = int(user_bets[user_id]['X'] * winning_coefficient)
+            user_balance[user_id] += tien_thang
 
     # Update user balances based on the game result
-    for user_id in user_bets:
-        if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
-            user_balance[user_id] += tien_thang 
-        elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
-            user_balance[user_id] += tien_thang
+   # for user_id in user_bets:
+        #if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
+            #user_balance[user_id] += tien_thang 
+        #elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
+            #user_balance[user_id] += tien_thang
 
     bot.set_chat_permissions(
     group_chat_id,
@@ -265,31 +269,24 @@ def start_game(message):
         user_ids =  bot.get_users(user_id).mention
         user_id = message.from_user.id
         user_id1 = message.from_user.first_name
-        #time.sleep(3)
         diem = diem[0]
         kq += f"""{user_ids} thắng {diem:,} điểm.\n"""
         kq1 += f"""{user_id1} thắng {diem:,} điểm.\n"""
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={kq1}")
-        #request_message = f"""{user_ids} thắng {diem:,} điểm.\n"""
-        #requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
-        #bot.send_message(group_chat_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
-        #bot.send_message(user_id, f"{user_ids} thắng {diem} điểm \n", time.sleep(1))#######
+        
     kq += f"""
-    Tổng thắng: {total_win:,}đ
-    Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
+Tổng thắng: {total_win:,}đ
+Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     """  
     user_bets.clear()
     save_balance_to_file()
     load_balance_from_file()
     bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
-    
-    
-    mo_game.clear()
     winner.clear()
-    
-    time.sleep(3)
+    print({mo_game}4)
+    #time.sleep(3)
     mo_game.clear()
     luu_cau.clear()
     #text7 = bot.send_message(group_chat_id, , reply_markup=reply_markup)
@@ -332,6 +329,8 @@ def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
     grid = chat_id
+    if  mo_game[grid]['trangthai'] == 2:
+        bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     # Check if the message is from the group chat
     if chat_id == group_chat_id:
         # Check if the message is a valid bet
@@ -349,7 +348,10 @@ def handle_message(_, message: Message):
             
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
+
+    print({mo_game}3)
     if len(mo_game) == 0:
+            print({mo_game}2)
             grtrangthai = 1
             game_timer(message, grid, grtrangthai)
 
@@ -367,6 +369,7 @@ async def check_balance(_, message):
         await bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
 
     else:
+        print({mo_game} 1)
         user_id1 = message.from_user.first_name
         user_id = message.from_user.id
         balance = user_balance.get(user_id, 0)
