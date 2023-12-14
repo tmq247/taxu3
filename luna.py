@@ -279,21 +279,23 @@ def start_game(message):
     kq += f"""
     Tổng thắng: {total_win:,}đ
     Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
-    """    
-    bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
-    # Save updated balances to the file
+    """  
+    user_bets.clear()
     save_balance_to_file()
     load_balance_from_file()
+    bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
+    
     
     mo_game.clear()
     winner.clear()
-    user_bets.clear()
+    
+    time.sleep(3)
     mo_game.clear()
     luu_cau.clear()
     #text7 = bot.send_message(group_chat_id, , reply_markup=reply_markup)
     bot.delete_messages(group_chat_id, idtext4)
     #bot.delete_messages(group_chat_id, idtext5)
-    time.sleep(3)
+    
     # Clear user bets
     
 # Function to handle the game timing
