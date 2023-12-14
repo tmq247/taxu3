@@ -563,7 +563,7 @@ async def main():
     print(
         """
 -----------------
-| Luna Started! |
+| Luna khởi động! |
 -----------------
 """
     )
