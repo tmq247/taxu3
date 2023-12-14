@@ -564,7 +564,21 @@ def show_main_menu(_, message):
    #bot.send_message(msg.chat.id, "Vào @kqtaixiu để xem lịch sử cầu")
 ##########################
 
-
+@bot.on_message(filters.command("hdan"))
+def soicau_taixiu(_, message):
+    chat_id = message.chat.id
+    bot.send_message(message.chat.id, "
+Hướng dẫn sử dụng lệnh của bot
+/tx :mở game tài xỉu
+/t điểm :đặt cửa tài với số điểm muốn cược
+/x điểm: đặt cửa xỉu với số điểm muốn cược
+/diem :để xem điểm hiện có
+/soicau :để soi cầu
+/tangdiem [id người nhận] số điểm muốn tặng :để tặng điểm cho người khác (bạn có thể trả lời tin nhắn của người muốn tặng để nhập lệnh tặng và số điểm muốn tặng) .Lưu ý :phí tặng 5%.
+/nap :để nạp điểm
+/rut :để rút điểm
+/code code của bạn :để nhận điểm bằng code
+")
 
 async def main():
 
