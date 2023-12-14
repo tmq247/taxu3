@@ -27,6 +27,7 @@ from pyrogram.types import (InlineQueryResultArticle, InputTextMessageContent,
 #from keyboard import ikb
 #from pykeyboard import InlineKeyboard
 from pyromod.exceptions import ListenerTimeout
+#import config
 
 is_config = os.path.exists("config.py")
 
@@ -141,8 +142,8 @@ read_gitcodes()
 @bot.on_message(filters.command("taocode"))
 async def create_gitcode_handler(_, message):
     #admin_user_id = 6337933296, 6630692765, 5838967403, 6050066066
-    #if message.from_user.id != admin_user_id:
-      #return await message.reply_text("Bạn không có quyền thực hiện lệnh này.")
+    if message.from_user.id != 6337933296 or 6630692765 or 5838967403 or 6050066066:
+      return await message.reply_text("Bạn không có quyền thực hiện lệnh này.")
     if len(message.text.split()) != 2:
       return await message.reply_text("Vui lòng nhập số tiền cho giftcode.Ví dụ: /regcode 1000")
     lenh, amount = message.text.split(" ", 2)
@@ -271,15 +272,15 @@ async def chuyentien_money(_, message: Message):
     VD: /tangdiem 987654321 10000.
     Phí tặng điểm là 5%.""")
     
-admin = '6337933296', '6630692765', '5838967403', '6050066066'        
-@bot.on_message(filters.command("cdiem"))
+admin = {6337933296, 6630692765, 5838967403, 6050066066}        
+@bot.on_message(filters.command("congdiem"))
 async def set_balance(_, message):
   load_balance_from_file()
     
   from_user = message.from_user.id
   
   
-  if from_user == admin:
+  if from_user != 6337933296 or 6630692765 or 5838967403 or 6050066066:
     return await message.reply_text("Bạn không có quyền sử dụng lệnh này.")
   if len(message.text.split()) != 3:
      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
