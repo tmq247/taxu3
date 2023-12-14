@@ -285,7 +285,7 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     load_balance_from_file()
     bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
     winner.clear()
-    print({mo_game}4)
+    print(mo_game 4)
     #time.sleep(3)
     mo_game.clear()
     luu_cau.clear()
@@ -349,9 +349,9 @@ def handle_message(_, message: Message):
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
 
-    print({mo_game}3)
+    print(mo_game 3)
     if len(mo_game) == 0:
-            print({mo_game}2)
+            print(mo_game 2)
             grtrangthai = 1
             game_timer(message, grid, grtrangthai)
 
@@ -369,7 +369,7 @@ async def check_balance(_, message):
         await bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
 
     else:
-        print({mo_game} 1)
+        print(mo_game 1)
         user_id1 = message.from_user.first_name
         user_id = message.from_user.id
         balance = user_balance.get(user_id, 0)
