@@ -384,10 +384,10 @@ async def check_balance(_, message):
 
 @bot.on_message(filters.command("tx"))
 def start_taixiu(_, message):
-    mo_game[grid] = {'trangthai': 0}
     grtrangthai = int('1')
     chat_id = message.chat.id
     grid = chat_id
+    mo_game[grid] = {'trangthai': 0}
     if mo_game[grid]['trangthai'] == 0:#len(mo_game) == 0:
         grtrangthai = 1
         grid = chat_id
