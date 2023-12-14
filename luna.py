@@ -450,7 +450,7 @@ def soicau_taixiu(_, message):
             cau = line.strip().split()
             cau1 = cau[0]
             cau2 = "".join(reversed(cau1))
-            scau += f"{cau2}<--"
+            scau += f"{cau2}<-"
         bot.send_message(chat_id, scau, reply_markup=reply_markup)
         
 def soi_cau():
