@@ -450,7 +450,7 @@ def soicau_taixiu(_, message):
             cau = line.strip().split()
             cau1 = cau[0]
             cau2 = "".join(reversed(cau1))
-            scau += f"➤{cau2}"
+            scau += f"{cau2}⬅️"
         bot.send_message(chat_id, scau, reply_markup=reply_markup)
         
 def soi_cau():
@@ -493,23 +493,24 @@ def show_main_menu(_, message):
         markup.row(*[types.KeyboardButton(button_text) for button_text in row])
 
   # Send a message with a photo link
-    photo_url = "https://gamebaidoithuong.zone/wp-content/uploads/2021/12/game-bai-doi-thuong-gamebaidoithuongzone-3.jpg"
+    photo_url = "https://github.com/tmq247/taxu2/blob/main/photo_2023-12-14_21-31-58.jpg?raw=true"
     caption = """
-<b>Chào Mừng Bạn Đã Đến Với Sân Chơi Giải Trí</b>
-        <code>🅶🅰🅼🅴 🆃🅰🆇🆄</code>
-<b>Game Xanh Chính Nói Không Với Chỉnh Cầu</b>
+        <code>𝐒ả𝐧𝐡 𝐀𝐋𝐋 𝐖𝐈𝐍</code>
+        
+        <b>♨️Open 15-12 ♨️</b>
 
-👉 <strong>Cách chơi đơn giản, tiện lợi</strong> 🎁
+🤝 <strong>Nơi hội tụ các chiến thần tài-xỉu</strong> 🎁
 
-👉 <b>Nạp rút nhanh chóng, đa dạng hình thức</b> 💸
+⚡️ <b>Tỉ lệ thắng cược 1.95</b> 💸
 
-👉 <b>Có Nhiều Phần Quà Dành Cho Người Chơi Mới</b> 🤝
+🔰 <b>Nạp-rút uy tín, chất lượng</b> 👌
 
-👉 <b>Đua top thật hăng, nhận quà cực căng</b> 💍
+🆘 <b>100% xanh chín</b> ✅
 
-👉 <b>An toàn, bảo mật tuyệt đối</b> 🏆
+⚠️ <b>Tuyệt đối không gian lận chỉnh cầu</b> ❗️
 
-⚠️ <b>Chú ý đề phòng lừa đảo, Chúng Tôi Không inbox Trước</b> ⚠️
+📎 <b> https://t.me/sanhallwin</b> 
+
 <b> LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME<b>
 """
     bot.send_photo(message.chat.id,
