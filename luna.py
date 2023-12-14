@@ -287,7 +287,7 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     winner.clear()
     print(mo_game,4)
     #time.sleep(3)
-    mo_game.pop('trangthai')
+    mo_game.clear()
     print(mo_game)
     luu_cau.clear()
     #text7 = bot.send_message(group_chat_id, , reply_markup=reply_markup)
@@ -298,7 +298,7 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     
 # Function to handle the game timing
 def game_timer(message, grid, grtrangthai):
-    #mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
+    mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
     mo_game[grid]['trangthai'] += grtrangthai
     soicau = [
         [
@@ -331,11 +331,11 @@ def handle_message(_, message: Message):
     chat_id = message.chat.id
     grid = chat_id
     print(mo_game, 3)
-    if mo_game[grid]['trangthai'] == 0:
+    if len(mo_game) == 0:
             print(mo_game, 2)
             grtrangthai = 1
             game_timer(message, grid, grtrangthai)
-    if mo_game[grid]['trangthai'] == 2: #len(mo_game) > 0 and 
+    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
         return bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     # Check if the message is from the group chat
     if chat_id == group_chat_id:
@@ -387,8 +387,8 @@ def start_taixiu(_, message):
     grtrangthai = int('1')
     chat_id = message.chat.id
     grid = chat_id
-    mo_game[grid] = {'trangthai': 0}
-    if mo_game[grid]['trangthai'] == 0:#len(mo_game) == 0:
+    #mo_game[grid] = {'trangthai': 0}
+    if len(mo_game) == 0:
         grtrangthai = 1
         grid = chat_id
         game_timer(message, grid, grtrangthai)
