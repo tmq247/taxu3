@@ -225,7 +225,7 @@ async def deduct_balance(from_user, user_id, amount, message):
 async def chuyentien_money(_, message: Message):
     group_chat_id = -1002001597187
     load_balance_from_file()
-    if len(message.text.split()) != 3 or len(message.text.split()) != 2::
+    if len(message.text.split()) != 3 or len(message.text.split()) != 2:
       try:
         if len(message.text.split()) == 3:
           lenh, user_id1, amount = message.text.split(" ", 3)
