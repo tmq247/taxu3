@@ -385,16 +385,13 @@ def start_taixiu(_, message):
     grtrangthai = int('1')
     chat_id = message.chat.id
     grid = chat_id
-    #mo_game[grid] = {'trangthai': 0}
+    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
+        return bot.send_message(chat_id, "Đợi 10s để mở ván mới.")
     if len(mo_game) == 0:
         grtrangthai = 1
         grid = chat_id
         game_timer(message, grid, grtrangthai)
-
-    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
-        return bot.send_message(chat_id, "Đợi 10s để mở ván mới.")
-        
-    else:
+    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 1:
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
         soicau = [
@@ -417,6 +414,9 @@ def start_taixiu(_, message):
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X:,}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """, reply_markup=reply_markup1)
+
+    else: 
+        mo_game.clear()
 
 
 
