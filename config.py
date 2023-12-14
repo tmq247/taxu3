@@ -1,7 +1,7 @@
 #API_KEY = '6784844273:AAGdaEkuudWmwe-PsfYLFXKBzW_TF_pWIDM' '6757521267:AAE5IHnHoESuOPViTNOJsxrYMlit6jtgbwQ'
 #group_chat_id = '-1002121532989'
 #group_chat_id2 = "-1002121532989"
-#admin_user_id = 6337933296, 6630692765, 5838967403
+admin_user_id = 6337933296, 6630692765, 5838967403
 #6337933296 or 6630692765 or 5838967403
 #list(map(int, os.environ.get('6145782184', '5838967403').split()))
 bot_token = "6982786295:AAGrLzZzUBulmPqH28yikLEovd5xgkWnzj4"
