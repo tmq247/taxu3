@@ -286,15 +286,14 @@ def start_game(message):
     load_balance_from_file()
     
     mo_game.clear()
-    time.sleep(3)
     winner.clear()
     user_bets.clear()
     mo_game.clear()
     luu_cau.clear()
-
     #text7 = bot.send_message(group_chat_id, , reply_markup=reply_markup)
     bot.delete_messages(group_chat_id, idtext4)
     #bot.delete_messages(group_chat_id, idtext5)
+    time.sleep(3)
     # Clear user bets
     
 # Function to handle the game timing
@@ -307,18 +306,21 @@ def game_timer(message, grid, grtrangthai):
             InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
-    text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 45s để đặt cược\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
+    text1 = bot.send_message(group_chat_id, "Bắt đầu ván mới! Có 60 giây để đặt cược\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
     time.sleep(15)
-    text2 = bot.send_message(group_chat_id, "Còn 30s để đặt cược.")
+    text2 = bot.send_message(group_chat_id, "Còn 45s để đặt cược.")
     
-    time.sleep(20)  # Wait for 120 seconds
-    text3 = bot.send_message(group_chat_id, "Còn 10s để đặt cược.")
+    time.sleep(15)  # Wait for 120 seconds
+    text3 = bot.send_message(group_chat_id, "Còn 30s để đặt cược.")
     bot.delete_messages(grid, text2.id)
-    
+
+    time.sleep(20)  # Wait for 120 seconds
+    text4 = bot.send_message(group_chat_id, "Còn 10s để đặt cược.")
+    bot.delete_messages(grid, text3.id)
     time.sleep(10)  # Wait for 120 seconds
     
     bot.delete_messages(grid, text1.id)
-    bot.delete_messages(grid, text3.id)
+    bot.delete_messages(grid, text4.id)
     start_game(message)
         
 
