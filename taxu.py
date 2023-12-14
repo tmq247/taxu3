@@ -296,7 +296,7 @@ async def set_balance(_, message):
 async def update_balance(diem, user_id, message):
   load_balance_from_file()
   chat_id = message.chat.id
-  user_ids =  await bot.get_users(user_id).mention
+  user_ids =  await bot.get_users(user_id)
   try:
     user_input = message.text.split()
     if len(user_input) != 3:
@@ -316,7 +316,7 @@ async def update_balance(diem, user_id, message):
 🫂Số Điểm Hiện Tại: {new_balance:,} điểm🐥
 🐝Chúc Bạn Chơi Game Vui Vẻ🐳
 """ 
-    text = f"""🔥Chúc mừng {user_ids} đã bơm máu thành công⚡️⚡️"""
+    text = f"""🔥Chúc mừng {user_ids.metion} đã bơm máu thành công⚡️⚡️"""
     await bot.send_message(user_id, notification_message)
     # Gửi thông báo đến nhóm về việc có người chơi đặt cược
     group_chat_id2 = -1001712715936
