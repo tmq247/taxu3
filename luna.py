@@ -404,7 +404,8 @@ def start_taixiu(_, message):
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
             InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
-        ],]
+        ],
+        [InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),],]
         reply_markup1 = InlineKeyboardMarkup(soicau1)
         bot.send_message(group_chat_id, f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
