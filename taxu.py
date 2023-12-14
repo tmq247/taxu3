@@ -274,8 +274,9 @@ admin = '6337933296', '6630692765', '5838967403', '6050066066'
 @bot.on_message(filters.command("cdiem"))
 async def set_balance(_, message):
   load_balance_from_file()
-
+    
   from_user = message.from_user.id
+  
   
   if from_user == admin:
     return await message.reply_text("Bạn không có quyền sử dụng lệnh này.")
@@ -283,6 +284,7 @@ async def set_balance(_, message):
      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
   lenh, user_id, diem = message.text.split()
   user_id = int(user_id)
+  user_ids =  bot.get_users(user_id).mention
   
   #user = bot.get_users(user_id)
   if user_id not in user_balance:
@@ -314,11 +316,13 @@ async def update_balance(diem, user_id, message):
 🫂Số Điểm Hiện Tại: {new_balance:,} điểm🐥
 🐝Chúc Bạn Chơi Game Vui Vẻ🐳
 """ 
+    text = f"🔥Chúc mừng "user_ids" đã bơm máu thành công⚡️⚡️
     await bot.send_message(user_id, notification_message)
     # Gửi thông báo đến nhóm về việc có người chơi đặt cược
+    group_chat_id2 = -1001712715936
     group_chat_id = -1002078347006  # Thay thế bằng ID thực sự của nhóm chat
-    await bot.send_message(group_chat_id, notification_message
-                     )  # Sử dụng notification_message thay cho result_message
+    await bot.send_message(group_chat_id, notification_message)  # Sử dụng notification_message thay cho result_message
+    await bot.send_message(group_chat_id2, text)
   except ValueError:
     await message.reply_text("Vui lòng nhập một số điểm hợp lệ.⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
 
