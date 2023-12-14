@@ -215,21 +215,21 @@ def start_game(message, grid):
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X:,}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━\n
 """
+    grtrangthai = 1
+    mo_game[grid]['trangthai'] += grtrangthai
     text += "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥"
     text4 = bot.send_message(group_chat_id, text)
     idtext4 = text4.id
-    grtrangthai = 1
-    mo_game[grid]['trangthai'] += grtrangthai
-
+    
     time.sleep(3)  # Simulating dice rolling
-
+    
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
     bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
-    bot.set_chat_permissions(group_chat_id, ChatPermissions())
+    #bot.set_chat_permissions(group_chat_id, ChatPermissions())
     
     # Determine the winner and calculate total winnings
     tien_thang = 0
@@ -256,15 +256,13 @@ def start_game(message, grid):
         #elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             #user_balance[user_id] += tien_thang
 
-    bot.set_chat_permissions(
-    group_chat_id,
-    ChatPermissions(
-        can_send_messages=True,
-        can_send_media_messages=True,
-        can_send_other_messages=True,
-        can_invite_users=True
-    )
-)
+    #bot.set_chat_permissions(
+    #group_chat_id,
+   # ChatPermissions(
+        #can_send_messages=True,
+        #can_send_media_messages=True,
+        #can_send_other_messages=True,
+        #can_invite_users=True))
     for user_id, diem in winner.items():
         user_ids =  bot.get_users(user_id).mention
         user_id = message.from_user.id
