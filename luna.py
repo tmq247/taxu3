@@ -329,8 +329,8 @@ def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
     grid = chat_id
-    if mo_game[grid]['trangthai'] == 2:
-        bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
+    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
+        return bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     # Check if the message is from the group chat
     if chat_id == group_chat_id:
         # Check if the message is a valid bet
