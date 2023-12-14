@@ -296,7 +296,7 @@ async def set_balance(_, message):
 async def update_balance(diem, user_id, message):
   load_balance_from_file()
   chat_id = message.chat.id
-  user_ids = await bot.get_users(user_id).mention
+  user_ids = (await bot.get_users(user_id)).mention
     
   try:
     user_input = message.text.split()
