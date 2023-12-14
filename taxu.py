@@ -284,7 +284,6 @@ async def set_balance(_, message):
      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
   lenh, user_id, diem = message.text.split()
   user_id = int(user_id)
-  user_ids =  bot.get_users(user_id).mention
   
   #user = bot.get_users(user_id)
   if user_id not in user_balance:
@@ -297,6 +296,7 @@ async def set_balance(_, message):
 async def update_balance(diem, user_id, message):
   load_balance_from_file()
   chat_id = message.chat.id
+  user_ids =  bot.get_users(user_id).mention
   try:
     user_input = message.text.split()
     if len(user_input) != 3:
