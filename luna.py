@@ -567,7 +567,7 @@ def show_main_menu(_, message):
 @bot.on_message(filters.command("hdan"))
 def soicau_taixiu(_, message):
     chat_id = message.chat.id
-    bot.send_message(message.chat.id, "
+    text = f"
 Hướng dẫn sử dụng lệnh của bot
 /tx :mở game tài xỉu
 /t điểm :đặt cửa tài với số điểm muốn cược
@@ -578,7 +578,8 @@ Hướng dẫn sử dụng lệnh của bot
 /nap :để nạp điểm
 /rut :để rút điểm
 /code code của bạn :để nhận điểm bằng code
-")
+"
+    bot.send_message(message.chat.id, text)
 
 async def main():
 
