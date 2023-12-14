@@ -136,7 +136,7 @@ def remove_gitcode(gitcode):
 read_gitcodes()
 
 # Define the admin's user ID
-admin_user_id = 6337933296 or 6630692765 or 5838967403 or 6050066066  # Replace with the actual admin user ID
+admin_user_id = '6337933296', '6630692765', '5838967403', '6050066066'  # Replace with the actual admin user ID
 
 @bot.on_message(filters.command("regcode"))
 async def create_gitcode_handler(_, message):
