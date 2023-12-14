@@ -279,7 +279,7 @@ async def set_balance(_, message):
   from_user = message.from_user.id
   
   
-  if from_user == admin:
+  if from_user != admin:
     return await message.reply_text("Bạn không có quyền sử dụng lệnh này.")
   if len(message.text.split()) != 3:
      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
