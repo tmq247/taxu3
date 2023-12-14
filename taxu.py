@@ -315,10 +315,11 @@ async def update_balance(diem, user_id, message):
     load_balance_from_file()
     notification_message = f"""
 🫥Bạn Đã Nạp Điểm Thành Công🤖
+🫥ID {userid}
 🫂Số Điểm Hiện Tại: {new_balance:,} điểm🐥
 🐝Chúc Bạn Chơi Game Vui Vẻ🐳
 """ 
-    text = f"""🔥Chúc mừng {user_id} đã bơm máu thành công⚡️⚡️"""
+    text = f"""🔥Chúc mừng {user_ids} đã bơm máu thành công⚡️⚡️"""
     await bot.send_message(user_id, notification_message)
     # Gửi thông báo đến nhóm về việc có người chơi đặt cược
     group_chat_id2 = -1001712715936
@@ -360,23 +361,23 @@ async def show_main_menu(_, message):
             InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
-    photo_url = "https://gamebaidoithuong.zone/wp-content/uploads/2021/12/game-bai-doi-thuong-gamebaidoithuongzone-3.jpg"
+    photo_url = "https://github.com/tmq247/taxu2/blob/b0d6fcc684e52baa76488712d0a943698417dc6c/photo_2023-12-14_21-31-58.jpg"
     caption = """
 <b>Chào Mừng Bạn Đã Đến Với Sân Chơi Giải Trí</b>
-        <code>🅶🅰🅼🅴 🆃🅰🆇🆄</code>
-<b>Game Xanh Chính Nói Không Với Chỉnh Cầu</b>
+        <code>𝐒ả𝐧𝐡 𝐀𝐋𝐋 𝐖𝐈𝐍 (https://t.me/sanhallwin)</code>
+<b>♨️Open 15-12 ♨️</b>
 
-👉 <strong>Cách chơi đơn giản, tiện lợi</strong> 🎁
+🤝 <strong>Nơi hội tụ các chiến thần tài-xỉu</strong> 🎁
 
-👉 <b>Nạp rút nhanh chóng, đa dạng hình thức</b> 💸
+⚡️ <b>Tỉ lệ thắng cược 1.95</b> 💸
 
-👉 <b>Có Nhiều Phần Quà Dành Cho Người Chơi Mới</b> 🤝
+🔰 <b>Nạp-rút uy tín, chất lượng</b> 👌
 
-👉 <b>Đua top thật hăng, nhận quà cực căng</b> 💍
+🆘 <b>100% xanh chín</b> ✅
 
-👉 <b>An toàn, bảo mật tuyệt đối</b> 🏆
+⚠️ <b>Tuyệt đối không gian lận chỉnh cầu</b> ❗️
 
-⚠️ <b>Chú ý đề phòng lừa đảo, Chúng Tôi Không inbox Trước</b> ⚠️
+📎 <b> https://t.me/sanhallwin</b> 
 """
     await bot.send_photo(message.chat.id,
                  photo_url,
