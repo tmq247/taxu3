@@ -298,7 +298,7 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     
 # Function to handle the game timing
 def game_timer(message, grid, grtrangthai):
-    mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
+    #mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
     mo_game[grid]['trangthai'] += grtrangthai
     soicau = [
         [
@@ -384,7 +384,7 @@ async def check_balance(_, message):
 
 @bot.on_message(filters.command("tx"))
 def start_taixiu(_, message):
-    
+    mo_game[grid] = {'trangthai': 0}
     grtrangthai = int('1')
     chat_id = message.chat.id
     grid = chat_id
