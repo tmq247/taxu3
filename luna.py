@@ -330,7 +330,12 @@ def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
     grid = chat_id
-    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
+    print(mo_game, 3)
+    if mo_game[grid]['trangthai'] == 0:
+            print(mo_game, 2)
+            grtrangthai = 1
+            game_timer(message, grid, grtrangthai)
+    if mo_game[grid]['trangthai'] == 2: #len(mo_game) > 0 and 
         return bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     # Check if the message is from the group chat
     if chat_id == group_chat_id:
@@ -350,11 +355,7 @@ def handle_message(_, message: Message):
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
 
-    print(mo_game, 3)
-    if len(mo_game) == 0:
-            print(mo_game, 2)
-            grtrangthai = 1
-            game_timer(message, grid, grtrangthai)
+    
 
 
 # Load user balances from the file
@@ -387,14 +388,15 @@ def start_taixiu(_, message):
     grtrangthai = int('1')
     chat_id = message.chat.id
     grid = chat_id
-    if len(mo_game) == 0:
+    if mo_game[grid]['trangthai'] == 0:#len(mo_game) == 0:
         grtrangthai = 1
         grid = chat_id
-        #bot.send_message(chat_id, f"Bắt đầu ván mới")
         game_timer(message, grid, grtrangthai)
+
+    if mo_game[grid]['trangthai'] == 2: #len(mo_game) > 0 and 
+        return bot.send_message(chat_id, "Đợi 10s để mở ván mới.")
         
     else:
-        
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
         soicau = [
