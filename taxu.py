@@ -140,6 +140,7 @@ admin_user_id = '6337933296', '6630692765', '5838967403', '6050066066'  # Replac
 
 @bot.on_message(filters.command("regcode"))
 async def create_gitcode_handler(_, message):
+    admin_user_id = 6337933296, 6630692765, 5838967403, 6050066066
     if message.from_user.id != admin_user_id:
       return await message.reply_text("Bạn không có quyền thực hiện lệnh này.")
     if len(message.text.split()) != 2:
