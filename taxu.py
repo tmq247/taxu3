@@ -363,9 +363,9 @@ async def show_main_menu(_, message):
     reply_markup = InlineKeyboardMarkup(soicau)
     photo_url = "https://github.com/tmq247/taxu2/blob/main/photo_2023-12-14_21-31-58.jpg?raw=true"
     caption = """
-<b>Chào Mừng Bạn Đã Đến Với Sân Chơi Giải Trí</b>
-        <code>𝐒ả𝐧𝐡 𝐀𝐋𝐋 𝐖𝐈𝐍 (https://t.me/sanhallwin)</code>
-<b>♨️Open 15-12 ♨️</b>
+        <code>𝐒ả𝐧𝐡 𝐀𝐋𝐋 𝐖𝐈𝐍</code>
+        
+        <b>♨️Open 15-12 ♨️</b>
 
 🤝 <strong>Nơi hội tụ các chiến thần tài-xỉu</strong> 🎁
 
