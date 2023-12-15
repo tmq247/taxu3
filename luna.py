@@ -327,8 +327,11 @@ def game_timer(message, grid, grtrangthai):
 def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
+    from_user = message.from_user.id
     grid = chat_id
     print(mo_game, 3)
+    if from_user not in user_balance:
+        return bot.send_message(chat_id, "Vui lòng khởi động bot để chơi game.")
     if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
         return bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     
@@ -363,6 +366,8 @@ async def check_balance(_, message):
     load_balance_from_file()
     if message.reply_to_message:
         user_id = await extract_user(message)
+        if user_id not in user_balance:
+            return bot.send_message(message.chat.id, "Bạn chưa khởi động bot Điểm. Vui lòng khởi động bot để nạp điểm.")
         balance = user_balance.get(user_id, 0)
         mention = (await bot.get_users(user_id)).mention
         await bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
