@@ -220,7 +220,7 @@ def start_game(message, grid):
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
     bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
-    #kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
+    kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
     
@@ -243,15 +243,15 @@ def start_game(message, grid):
             user_balance[user_id] += tien_thang
 
     for user_id, diem in winner.items():
-        user_ids =  bot.get_users(user_id).mention
+        user_ids =  bot.get_users(user_id)
         #user_id = message.from_user.id
-        user_id1 = message.from_user.first_name
+        #user_id1 = message.from_user.first_name
         diem = diem[0]
-        kq += f"""{user_ids} thắng {diem:,} điểm.\n"""
-        #kq1 += f"""{user_ids} thắng {diem:,} điểm.\n"""
+        kq += f"""{user_ids.mention} thắng {diem:,} điểm.\n"""
+        kq1 += f"""{user_ids.first_name} thắng {diem:,} điểm.\n"""
         #kq1 += f"{user_id1} có {balance:,} điểm"
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
-        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq}")
+        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
         
     kq += f"""
 Tổng thắng: {total_win:,}đ
