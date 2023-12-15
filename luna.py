@@ -166,24 +166,18 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         if user_balance[user_id] >= bet_amount:
             
             if user_id in user_bets:
-                user_bets[user_id][bet_type] += bet_amount
-                
+                user_bets[user_id][bet_type] += bet_amount  
             else:
                 user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
                 user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
-            
             request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
             another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
-            #another_bot_chat_id = "6337933296"
-            #another_bot_chat_id2 = "6630692765"
             requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
             requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
             bot.send_message(group_chat_id, request_message)
-            #bot.send_message(user_id, f"{diemcuoc}. \nCược đã được chấp nhận.")
-            #bot.send_message(group_chat_id, f"{diemcuoc} \nCược đã được chấp nhận.")
-            #bot.send_message(group_chat_id2, f"{diemcuoc} \nCược đã được chấp nhận.")
-
+            save_balance_to_file()
+            load_balance_from_file()
         else:
             bot.send_message(group_chat_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
@@ -195,8 +189,6 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         reply_markup = InlineKeyboardMarkup(soicau)
         bot.send_message(group_chat_id, f"Người chơi chưa khởi động bot, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
     # Load user balances from the file
-    save_balance_to_file()
-    load_balance_from_file()
 
 # Function to start the dice game
 def start_game(message, grid):
@@ -275,15 +267,10 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
     winner.clear()
     print(mo_game,4)
-    #time.sleep(3)
     mo_game.clear()
     print(mo_game)
     luu_cau.clear()
-    #text7 = bot.send_message(group_chat_id, , reply_markup=reply_markup)
     bot.delete_messages(group_chat_id, idtext4)
-    #bot.delete_messages(group_chat_id, idtext5)
-    
-    # Clear user bets
     
 # Function to handle the game timing
 def game_timer(message, grid, grtrangthai):
@@ -432,7 +419,7 @@ def ls_cau(result):
         luu_cau[cau].append(cau)
     try:
         soicau_text = f"{cau}\n"
-        with open("soicau.txt", "a", encoding='utf-8') as soicau_file: #, encoding='utf-8'ASCII
+        with open("soicau.txt", "a", encoding='utf-8') as soicau_file:
             soicau_file.write(soicau_text)
     except Exception as e:
         print(f"Error saving history: {str(e)}")
