@@ -220,7 +220,6 @@ def start_game(message, grid):
     text += "Hết thời gian cược. Kết quả sẽ được công bố ngay sau đây.\n 💥 Bắt đầu tung XX 💥"
     text4 = bot.send_message(group_chat_id, text)
     idtext4 = text4.id
-    
     time.sleep(3)  # Simulating dice rolling
     
     result = [send_dice(group_chat_id) for _ in range(3)]
@@ -229,7 +228,6 @@ def start_game(message, grid):
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
-    #bot.set_chat_permissions(group_chat_id, ChatPermissions())
     
     # Determine the winner and calculate total winnings
     tien_thang = 0
@@ -256,13 +254,6 @@ def start_game(message, grid):
         #elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             #user_balance[user_id] += tien_thang
 
-    #bot.set_chat_permissions(
-    #group_chat_id,
-   # ChatPermissions(
-        #can_send_messages=True,
-        #can_send_media_messages=True,
-        #can_send_other_messages=True,
-        #can_invite_users=True))
     for user_id, diem in winner.items():
         user_ids =  bot.get_users(user_id).mention
         user_id = message.from_user.id
@@ -346,16 +337,17 @@ def handle_message(_, message: Message):
                 bet_amount = user_balance.get(user_id, 0)  # Use the entire balance
             else:
                 bet_amount = int(message.text[3:])
-
             # Confirm the bet and check user balance
             confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message)
+        if len(mo_game) == 0:
+                print(mo_game, 2)
+                grtrangthai = 1
+                game_timer(message, grid, grtrangthai)
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
 
-    if len(mo_game) == 0:
-            print(mo_game, 2)
-            grtrangthai = 1
-            game_timer(message, grid, grtrangthai)
+    else:
+        bot.send_message(chat_id, "Vào nhóm để chơi GAME : t.me/sanhallwin")
 
 
 # Load user balances from the file
@@ -391,6 +383,8 @@ def start_taixiu(_, message):
     grtrangthai = int('1')
     chat_id = message.chat.id
     grid = chat_id
+    if chat_id != group_chat_id:
+        return bot.send_message(chat_id, "Vào nhóm để chơi GAME : t.me/sanhallwin")
     if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
         return bot.send_message(chat_id, "Đợi 10s để mở ván mới.")
     if len(mo_game) == 0:
