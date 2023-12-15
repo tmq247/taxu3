@@ -220,7 +220,7 @@ def start_game(message, grid):
     result = [send_dice(group_chat_id) for _ in range(3)]
     total_score = sum(result)
     bot.send_message(channel_id, f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}")
-    kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
+    #kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
     
@@ -242,21 +242,13 @@ def start_game(message, grid):
             tien_thang = int(user_bets[user_id]['X'] * winning_coefficient)
             user_balance[user_id] += tien_thang
 
-    # Update user balances based on the game result
-   # for user_id in user_bets:
-        #if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
-            #user_balance[user_id] += tien_thang 
-        #elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
-            #user_balance[user_id] += tien_thang
-    balance = user_balance.get(user_id, 0)
     for user_id, diem in winner.items():
         user_ids =  bot.get_users(user_id).mention
         #user_id = message.from_user.id
         user_id1 = message.from_user.first_name
-        
         diem = diem[0]
         kq += f"""{user_ids} thắng {diem:,} điểm.\n"""
-        kq1 += f"""{user_ids} thắng {diem:,} điểm.Có {balance:,} điểm\n"""
+        #kq1 += f"""{user_ids} thắng {diem:,} điểm.\n"""
         #kq1 += f"{user_id1} có {balance:,} điểm"
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
@@ -269,7 +261,7 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     save_balance_to_file()
     load_balance_from_file()
     bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
-    bot.send_message(group_chat_id2, kq1)
+    bot.send_message(group_chat_id2, kq)
     winner.clear()
     print(mo_game,4)
     mo_game.clear()
