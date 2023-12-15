@@ -812,7 +812,7 @@ async def process_withdraw_amountnap(diemnap, user_id):
       photo_link = "https://github.com/tmq247/taxu2/blob/main/photo_2023-12-08_03-22-58.jpg?raw=true"
       caption = f"""
 🏧Phương Thức Nạp Bank🏧
-💰Ngân hàng TMCP💰
+💰Ngân hàng PVCOM💰
 🔊Tài Khoản: {napmomo_account}🔚
 
 🔊Nội Dung: napdiem_{user.id} 🔚
