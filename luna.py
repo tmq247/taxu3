@@ -331,10 +331,10 @@ def handle_message(_, message: Message):
                 bet_amount = int(message.text[3:])
             # Confirm the bet and check user balance
             confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message)
-        if len(mo_game) == 0:
-                print(mo_game, 2)
-                grtrangthai = 1
-                game_timer(message, grid, grtrangthai)
+            if len(mo_game) == 0:
+                    print(mo_game, 2)
+                    grtrangthai = 1
+                    game_timer(message, grid, grtrangthai)
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
 
