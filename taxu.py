@@ -529,7 +529,7 @@ TÊN NGÂN HÀNG - MÃ NGÂN HÀNG
       rutdiem = await client.listen(user_id=user_id)
       await process_account_inforut(_, rutdiem, user_id)
 
-    await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức rút điểm.")
+    #await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức rút điểm.")
 
 
         
@@ -750,7 +750,7 @@ VD: 0987654321 VCB
     napdiem = await client.listen(user_id=user_id)
     await process_account_info_nap(_, napdiem, user_id)
 
-  await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức nạp điểm.")
+  #await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức nạp điểm.")
 
 
 #@bot.on_callback_query(filters.text & nap in ["napmomo_account", "napbank_account"])
