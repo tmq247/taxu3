@@ -314,7 +314,7 @@ async def update_balance(diem, user_id, message):
     save_balance_to_file()
     load_balance_from_file()
     notification_message = f"""
-🫥Bạn Đã Nạp Điểm Thành Công🤖
+🫥{user_ids} Đã Nạp Điểm Thành Công🤖
 🫥ID {user_id}
 🫂Số Điểm Hiện Tại: {new_balance:,} điểm🐥
 🐝Chúc Bạn Chơi Game Vui Vẻ🐳
