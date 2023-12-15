@@ -253,16 +253,13 @@ def start_game(message, grid):
         user_ids =  bot.get_users(user_id).mention
         user_id = message.from_user.id
         user_id1 = message.from_user.first_name
+        balance = user_balance.get(user_id, 0)
         diem = diem[0]
         kq += f"""{user_ids} thắng {diem:,} điểm.\n"""
         kq1 += f"""{user_id1} thắng {diem:,} điểm.\n"""
-        balance = user_balance.get(user_id, 0)
-        kq1 += f"{user_id} có {balance:,} điểm"
+        kq1 += f"{user_id1} có {balance:,} điểm"
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
-        
-    another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
-    requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={kq1}")
         
     kq += f"""
 Tổng thắng: {total_win:,}đ
@@ -272,6 +269,7 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     save_balance_to_file()
     load_balance_from_file()
     bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
+    bot.send_message(group_chat_id2, kq1)
     winner.clear()
     print(mo_game,4)
     mo_game.clear()
