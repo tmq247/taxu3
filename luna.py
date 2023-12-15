@@ -567,9 +567,10 @@ Hướng dẫn sử dụng lệnh của bot
 @bot.on_message(filters.command("listdiem"))
 def soicau_taixiu(_, message):
     #chat_id = message.chat.id
-    f = open("id.txt",'r',encoding = 'utf-8')a = f.read()
+    with open("id.txt", "r") as f:
+        a = f.read()
         
-        bot.send_message(group_chat_id2, f"{f}")
+        bot.send_message(group_chat_id2, f"{a}")
 
 async def main():
 
