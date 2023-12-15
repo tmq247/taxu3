@@ -251,7 +251,7 @@ def start_game(message, grid):
         #kq1 += f"""{user_ids} thắng {diem:,} điểm.\n"""
         #kq1 += f"{user_id1} có {balance:,} điểm"
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
-        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
+        requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq}")
         
     kq += f"""
 Tổng thắng: {total_win:,}đ
