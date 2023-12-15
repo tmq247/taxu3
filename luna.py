@@ -171,10 +171,13 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
                 user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
                 user_bets[user_id][bet_type] += bet_amount
             user_balance[user_id] -= bet_amount
+            text = f"""{diemcuoc} \nCược đã được chấp nhận."""
+            balance = user_balance.get(user_id, 0)
+            text += f"{ten_ncuoc} còn {balance:,} điểm"
             request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
             another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
             requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
-            requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
+            requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={text}")
             bot.send_message(group_chat_id, request_message)
             save_balance_to_file()
             load_balance_from_file()
@@ -253,6 +256,8 @@ def start_game(message, grid):
         diem = diem[0]
         kq += f"""{user_ids} thắng {diem:,} điểm.\n"""
         kq1 += f"""{user_id1} thắng {diem:,} điểm.\n"""
+        balance = user_balance.get(user_id, 0)
+        kq1 += f"{user_ids} có {balance:,} điểm"
         another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={kq1}")
@@ -352,7 +357,6 @@ async def check_balance(_, message):
         await bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
 
     else:
-        print(mo_game, 1)
         user_id1 = message.from_user.first_name
         user_id = message.from_user.id
         balance = user_balance.get(user_id, 0)
