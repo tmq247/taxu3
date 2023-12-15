@@ -551,7 +551,7 @@ async def process_account_inforut(_, rutdiem, user_id):
         rut[user_id] = (account_info, "withdraw_amount_momo")
         await bot.send_message(user_id, """
 ❗️Nhập số tiền bạn muốn rút qua MoMo💮
-🚫VD: 50.000 - 50.000.000🚮
+🚫VD: 50000 - 50000000🚮
               """)
         diemrut = await client.listen(user_id=user_id)
         await process_withdraw_amountrut(diemrut, user_id)
@@ -559,7 +559,7 @@ async def process_account_inforut(_, rutdiem, user_id):
         rut[user_id] = (account_info, "withdraw_amount_bank")
         await bot.send_message(user_id, """
 ❗️Nhập số tiền bạn muốn rút qua ngân hàng💮
-🚫VD: 50.000 - 50.000.000🚮
+🚫VD: 50000 - 50000000🚮
               """)
         diemrut = await client.listen(user_id=user_id)
         await process_withdraw_amountrut(diemrut, user_id)
@@ -771,7 +771,7 @@ async def process_account_info_nap(_, napdiem, user_id):
       await bot.send_message(user_id,
           """
 ❗️Nhập số điểm bạn muốn nạp qua MoMo💮
-🚫VD: 10.000 - 50.000.000🚮
+🚫VD: 10000 - 50000000🚮
             """)
       diemnap = await client.listen(user_id=user_id)
       await process_withdraw_amountnap(diemnap, user_id)
@@ -780,7 +780,7 @@ async def process_account_info_nap(_, napdiem, user_id):
       await bot.send_message(user_id,
           """
 ❗️Nhập số điểm bạn muốn nạp qua ngân hàng💮
-🚫VD: 10.000 - 50.000.000🚮
+🚫VD: 10000 - 50000000🚮
             """)
       diemnap = await client.listen(user_id=user_id)
       await process_withdraw_amountnap(diemnap, user_id)
