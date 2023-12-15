@@ -264,7 +264,7 @@ def start_game(message, grid):
 
     kq1 += f"""{user_id1} thắng {diem:,} điểm.\n"""
     balance = user_balance.get(user_id, 0)
-    kq1 += f"{user_ids} có {balance:,} điểm"
+    kq1 += f"{user_id1} có {balance:,} điểm"
     another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
     requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={kq1}")
         
