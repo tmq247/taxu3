@@ -163,6 +163,9 @@ async def process_gitcode_amount(message, amount):
 
 @bot.on_message(filters.command("code"))
 async def naptien_gitcode(_, message):
+    from_user = message.from_user.id
+    if from_user not in user_balance:
+        return bot.send_message(message.chat.id, "Bạn chưa khởi động bot Điểm. Vui lòng khởi động bot để nạp điểm.")
     if len(message.text.split()) != 2:
        return await message.reply_text("Nhập Code bằng lệnh /code [dấu cách] code của bạn \n➡️VD: /code ABCD") 
     if len(message.text.split()) == 2:
@@ -233,6 +236,8 @@ async def chuyentien_money(_, message: Message):
           user_id = await extract_user(message)
           user = await bot.get_users(user_id)
           from_user = message.from_user.id
+          if user_id not in user_balance:
+            return bot.send_message(chat_id, "Người này chưa khởi động bot. Vui lòng khởi động bot để chơi game.")
           if await deduct_balance(from_user, user_id, amount, message):
             amount = int(amount)
             from_user1 = message.from_user.mention
@@ -246,6 +251,8 @@ async def chuyentien_money(_, message: Message):
           user_id = await extract_user(message)
           user = await bot.get_users(user_id)
           from_user = message.from_user.id
+          if user_id not in user_balance:
+            return bot.send_message(chat_id, "Người này chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
           if await deduct_balance(from_user, user_id, amount, message):
             amount = int(amount)
             from_user1 = message.from_user.mention
