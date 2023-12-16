@@ -214,6 +214,13 @@ async def deduct_balance(from_user, user_id, amount, message):
 
 @bot.on_message(filters.command("tangdiem"))
 async def chuyentien_money(_, message: Message):
+    text = f"""
+Để tặng điểm của mình cho người chơi khác bằng 2 cách:
+Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
+Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
+/tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
+VD: /tangdiem 987654321 10000.
+Phí tặng điểm là 5%."""
     load_balance_from_file()
     print(message.text[3:])
     print(message.text[2:])
@@ -236,6 +243,9 @@ async def chuyentien_money(_, message: Message):
                         await bot.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ., id người tặng là: {from_user}.")
                         return
 
+                else:
+                    return await message.reply(text)
+
     #if and message.text[2:].isdigit():
         if len(message.text.split()) == 2:
             lenh, amount = message.text.split(" ", 2)
@@ -255,31 +265,19 @@ async def chuyentien_money(_, message: Message):
                     await bot.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ, id người tặng là: {from_user}.")
                     return
 
+            else:
+            return await message.reply(text)
+
         else:
-            return await message.reply("""
-Để tặng điểm của mình cho người chơi khác bằng 2 cách:
-Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
-Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
-/tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
-VD: /tangdiem 987654321 10000.
-Phí tặng điểm là 5%.""")
+            return await message.reply(text)
 
     else:
-        return await message.reply("""
-Để tặng điểm của mình cho người chơi khác bằng 2 cách:
-Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
-Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
-/tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
-VD: /tangdiem 987654321 10000.
-Phí tặng điểm là 5%.""")
+        return await message.reply(text)
        
 @bot.on_message(filters.command("cdiem"))
 async def set_balance(_, message):
   load_balance_from_file()
-    
   from_user = message.from_user.id
-  
-  
   if from_user not in admin:
       return await message.reply_text("Bạn không có quyền sử dụng lệnh này.")
   if len(message.text.split()) != 3:
@@ -290,10 +288,9 @@ async def set_balance(_, message):
       return await message.reply_text("không tìm thấy người này")
   if user_id not in user_balance:
       user_balance[user_id] = 0
-      return await message.reply_text("Tôi không thể tìm thấy người dùng này hoặc họ chưa khởi động bot.")
+      return await message.reply_text("Người dùng này chưa khởi động bot.")
   if diem.isdigit():
       await update_balance(diem, user_id, message)
-
   else:
       return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
    
@@ -334,8 +331,6 @@ async def update_balance(diem, user_id, message):
 @bot.on_message(filters.command("start"))
 async def show_main_menu(_, message):
     user_id = message.from_user.id
-
-  # Check if the user is already in the user_balance dictionary
     if user_id not in user_balance:
         user_balance[user_id] = 0  # Set initial balance to 0 for new users
         save_balance_to_file()  # Save user balances to the text file
@@ -424,7 +419,7 @@ async def show_game_options(msg):
    bot.send_message(msg.chat.id, "Vào @kqtaixiu để xem lịch sử cầu")
    
 # Hàm kiểm tra số dư
-@bot.on_message(filters.command("diem"))
+#@bot.on_message(filters.command("diem"))
 async def check_balance(_, message):
   load_balance_from_file()
   user_id = message.from_user.id
@@ -459,11 +454,8 @@ async def withdraw_balance(_, message):
   markup = InlineKeyboardMarkup(ruttien)
     # Tạo bàn phím cho phương thức rút
   if chat_id == group_id:
-    await bot.send_message(chat_id,
-                   "Vui lòng nhắn tin riêng với bot")
-  await bot.send_message(user_id,
-                   "Chọn phương thức rút điểm:",
-                   reply_markup=markup)
+    await bot.send_message(chat_id, "Vui lòng nhắn tin riêng với bot")
+  await bot.send_message(user_id, "Chọn phương thức rút điểm:", reply_markup=markup)
 
 #rut momo
 @bot.on_callback_query(filters.regex("_momo"))
@@ -477,7 +469,6 @@ async def handle_withdrawal_method_selection_momo(_, callback_query):
     await process_account_inforut(_, rutdiem, user_id)
     
   #await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức rút điểm.")
-  #process_account_inforut(_, message)
 
 #rut bank
 @bot.on_callback_query(filters.regex("_bank"))
@@ -562,7 +553,7 @@ async def process_account_inforut(_, rutdiem, user_id):
 async def process_withdraw_amountrut(diemrut, user_id):
   if user_id in rut and rut[user_id][1] in ["withdraw_amount_momo"] or ["withdraw_amount_bank"]:
     user = await bot.get_users(user_id)
-    try:
+    if diemrut.text.isdigit():
       account_info, withdraw_amount_type = rut[user_id]
       withdraw_amount = int(diemrut.text)
       user_balance_value = user_balance.get(user_id, 0)
@@ -624,9 +615,7 @@ async def process_withdraw_amountrut(diemrut, user_id):
       await bot.send_message(group_id3, request_message)
 
       del rut[user_id]
-
-      user_withdraw_history.setdefault(user_id, []).append(
-          (account_info, withdraw_amount))
+        
       time.sleep(10)
       user_notification = f"""
 📬 Rút điểm thành công!
@@ -634,37 +623,12 @@ async def process_withdraw_amountrut(diemrut, user_id):
 📈 Số điểm còn lại: {formatted_balance}
           """
       await bot.send_message(user_id, user_notification)
-
-    except ValueError:
-      pass
+    else:
+      await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
   else:
     await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
 
 
-# Hàm lệnh nạp tiền
-def deposit_info(message):
-  user_id = message.from_user.id
-  momo_account = "034xxxxxx"
-  username = message.from_user.username or message.from_user.first_name
-
-  photo_link = "https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/368953112_304417105585877_8104665371433145272_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=9tNmHpvwO7UAX97Ml6f&_nc_ht=scontent.fdad1-3.fna&oh=00_AfDCHSKEY4xF2TL3e4YhEjvP0kh4uVR_4cEPa_GyN5hzXA&oe=64E49255"  # Replace with the actual image link
-
-  # Creating the caption
-  caption = f"""
-🏧<b>Phương Thức Nạp Bank</b>🏧
-💰<b>MB BANK _ MOMO</b>💰
-🔊Tài Khoản: <code>{momo_account}</code>🔚
-🔊Nội Dung: <code>naptien_{message.from_user.id}</code>🔚
-🔊<b>Min Nạp: 10.000k Min Rút: 100.000k</b>
-🔊<b>Min Nạp: 10.000 - 3.000.000</b>🔚
-🔊<b>Vui lòng ghi đúng nội dung khi nạp.</b>🔚
-🔊<b>Không Hỗ Trợ Lỗi Nội Dung.</b>🔚
-🔊<b>NẠP NHANH QR PHÍA BÊN DƯỚI NHÉ</b> 🔚
-    """
-
-  # Sending the caption and photo
-  bot.send_message(message.chat.id, caption, parse_mode='HTML')
-  bot.send_photo(message.chat.id, photo_link)
 
 ####################################
 
@@ -781,7 +745,7 @@ async def process_account_info_nap(_, napdiem, user_id):
 async def process_withdraw_amountnap(diemnap, user_id):
   if user_id in nap and nap[user_id][1] in ["withdraw_amount_napmomo", "withdraw_amount_napbank"]:
     user = await bot.get_users(user_id)
-    try:
+    if diemnap.text.isdigit():
       account_info, withdraw_amount_type = nap[user_id]
       withdraw_amount = int(diemnap.text)
       #user_id = message.from_user.id
@@ -836,73 +800,8 @@ async def process_withdraw_amountnap(diemnap, user_id):
 
       del nap[user_id]
 
-      napuser_withdraw_history.setdefault(user_id, []).append(
-          (account_info, withdraw_amount))
-      #time.sleep(10)
-      #user_notification = f"""
-  #📬 Nạp tiền thành công!
-  #⏺ Số tiền nạp: {withdraw_amount:,} VNĐ
-  #📈 Số điểm hiện tại: {formatted_balance}
-  #       """
-    # bot.send_message(user_id, user_notification)
-      
-
-    except ValueError:
-      pass
-#####################################
-
-
-
 #################################
 
-def show_withdraw_history(msg):
-  user_id = msg.from_user.id
-  withdraw_history = user_withdraw_history.get(user_id, [])
-  if not withdraw_history:
-    bot.reply_to(
-        msg, """
-🚥Bạn chưa có lịch sử Rút🔙
-🛰/rut - Lệnh rút điểm.
-🛰/nap - Lệnh nạp điểm.
-    """)
-  else:
-    history_text = """
-Lịch sử rút điểm:
-🎑🎑🎑🎑🎑🎑🎑
-        """
-    for withdraw_info in withdraw_history:
-      account_info, amount = withdraw_info
-      history_text += f"""
-🧑🏽‍💻Số điểm Đã Rút: {amount:,} VNĐ 
-👑Số Tài Khoản: {account_info}
-"""
-    bot.reply_to(msg, history_text)
-
-# Hàm xem lịch sử nạp tiền
-def napshow_withdraw_history(msg):
-  user_id = msg.from_user.id
-  napwithdraw_history = napuser_withdraw_history.get(user_id, [])
-  if not napwithdraw_history:
-    bot.reply_to(
-        msg, """
-🚥Bạn chưa có lịch sử Nạp🔙
-🛰/rut - Lệnh rút điểm.
-🛰/nap - Lệnh nạp điểm.
-    """)
-  else:
-    history_text = """
-Lịch sử nạp điểm:
-🎑🎑🎑🎑🎑🎑🎑
-        """
-    for withdraw_info in napwithdraw_history:
-      account_info, amount = withdraw_info
-      history_text += f"""
-🧑🏽‍💻Số điểm Đã Nạp: {amount:,} VNĐ 
-👑Số Tài Khoản: {account_info}
-"""
-    bot.reply_to(msg, history_text)
-
-###################################
 async def main2():
 
 
