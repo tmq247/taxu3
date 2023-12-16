@@ -243,7 +243,7 @@ Phí tặng điểm là 5%."""
                     await bot.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ., id người tặng là: {from_user}.")
                     return
             else:
-            return await message.reply(text)
+                return await message.reply(text)
 
     #if and message.text[2:].isdigit():
         if len(message.text.split()) == 2:
