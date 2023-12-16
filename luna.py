@@ -253,7 +253,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             text += f"Còn {balance:,} điểm"
             request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
             requests.get(f"https://api.telegram.org/bot{bot_token2}/sendMessage?chat_id={user_id}&text={request_message}")
-            #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_chat_id2}&text={text}")
+            #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_id2}&text={text}")
             bot.send_message(group_id, request_message)
             save_balance_to_file()
             bot.send_message(group_id2, text)
@@ -266,7 +266,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             InlineKeyboardButton(" Bot Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
         reply_markup = InlineKeyboardMarkup(soicau)
-        bot.send_message(group_chat_id, f"Người chơi chưa khởi động bot, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
+        bot.send_message(group_id, f"Người chơi chưa khởi động bot, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
 
 # Function to start the dice game
 def start_game(message, grid):
@@ -288,7 +288,7 @@ def start_game(message, grid):
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X:,}đ
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━\n
 """
-    text4 = bot.send_message(group_chat_id, text)
+    text4 = bot.send_message(group_id, text)
     idtext4 = text4.id
     time.sleep(3)  # Simulating dice rolling
     
@@ -325,21 +325,21 @@ def start_game(message, grid):
         kq1 += f"""{user_ids.mention} thắng {diem:,} điểm.Có {balance:,} điểm\n"""
         #kq1 += f"{user_id1} có {balance:,} điểm"
         #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
-        bot.send_message(group_chat_id, kq)
+        bot.send_message(group_id, kq)
         
     kq += f"""
 Tổng thắng: {total_win:,}đ
 Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     """  
-    bot.send_message(group_chat_id, kq, reply_markup=reply_markup)
-    bot.send_message(group_chat_id2, kq1)
+    bot.send_message(group_id, kq, reply_markup=reply_markup)
+    bot.send_message(group_id2, kq1)
     save_balance_to_file()
     user_bets.clear()
     winner.clear()
     mo_game.clear()
     luu_cau.clear()
     time.sleep(3)
-    bot.delete_messages(group_chat_id, idtext4)
+    bot.delete_messages(group_id, idtext4)
 
 @bot.on_message(filters.command("diem"))
 async def check_balance(_, message):
