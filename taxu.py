@@ -222,16 +222,33 @@ async def chuyentien_money(_, message: Message):
     load_balance_from_file()
     print(message.text[3:])
     print(message.text[2:])
-    if len(message.text.split()) != 3 and message.text[3:].isdigit():
-        
+    if len(message.text.split()) != 3 or len(message.text.split()) != 2 :
         if len(message.text.split()) == 3:
               lenh, user_id1, amount = message.text.split(" ", 3)
-              user_id = await extract_user(message)
-              user = await bot.get_users(user_id)
-              from_user = message.from_user.id
-              if user_id not in user_balance:
-                    return await bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot. Vui lòng khởi động bot để chơi game.")
-              if await deduct_balance(from_user, user_id, amount, message):
+              if amount.isdigit():
+                  user_id = await extract_user(message)
+                  user = await bot.get_users(user_id)
+                  from_user = message.from_user.id
+                  if user_id not in user_balance:
+                        return await bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot. Vui lòng khởi động bot để chơi game.")
+                  if await deduct_balance(from_user, user_id, amount, message):
+                        amount = int(amount)
+                        from_user1 = message.from_user.mention
+                        await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
+                        await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+                        await bot.send_message(group_chat3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+                        return
+
+    #if and message.text[2:].isdigit():
+        if len(message.text.split()) == 2:
+            lenh, amount = message.text.split(" ", 2)
+            if amount.isdigit():
+                user_id = await extract_user(message)
+                user = await bot.get_users(user_id)
+                from_user = message.from_user.id
+                if user_id not in user_balance:
+                    return await bot.send_message(message.chat.id, "Người này chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
+                if await deduct_balance(from_user, user_id, amount, message):
                     amount = int(amount)
                     from_user1 = message.from_user.mention
                     await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
@@ -239,21 +256,14 @@ async def chuyentien_money(_, message: Message):
                     await bot.send_message(group_chat3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
                     return
 
-    if len(message.text.split()) != 2 and message.text[2:].isdigit():
-        if len(message.text.split()) == 2:
-            lenh, amount = message.text.split(" ", 2)
-            user_id = await extract_user(message)
-            user = await bot.get_users(user_id)
-            from_user = message.from_user.id
-            if user_id not in user_balance:
-                return await bot.send_message(message.chat.id, "Người này chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
-            if await deduct_balance(from_user, user_id, amount, message):
-                amount = int(amount)
-                from_user1 = message.from_user.mention
-                await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
-                await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                await bot.send_message(group_chat3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
-                return
+        else:
+            return await message.reply("""
+Để tặng điểm của mình cho người chơi khác bằng 2 cách:
+Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
+Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
+/tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
+VD: /tangdiem 987654321 10000.
+Phí tặng điểm là 5%.""")
 
     else:
         return await message.reply("""
