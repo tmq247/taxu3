@@ -66,9 +66,10 @@ user_balances = {}
 # Dictionary to store user bets
 user_bets = {}  # {user_id: {"bet_type": "", "amount": 0, "chosen_number": ""}}
 
-group_chat_id2 = -1002078347006  # Replace with your second group chat ID
+group_chat_id2 = -1002030087607  # Replace with your second group chat ID
 # Định nghĩa id của nhóm mà bạn muốn gửi thông báo
-group_chat_id = -1002078347006
+group_chat_id = -1002030087607
+another_bot_token = "6272942112:AAFvppVJA8l0qS2tfkeCVJa4MIDuEszbTtA"
 
 def get_user_info(user_id):
   try:
@@ -329,8 +330,7 @@ async def update_balance(diem, user_id, message):
     text = f"""🔥Chúc mừng {user_ids} đã bơm máu thành công⚡️⚡️"""
     await bot.send_message(user_id, notification_message)
     # Gửi thông báo đến nhóm về việc có người chơi đặt cược
-    group_chat_id2 = -1001712715936
-    group_chat_id = -1002078347006  # Thay thế bằng ID thực sự của nhóm chat
+      # Thay thế bằng ID thực sự của nhóm chat
     await bot.send_message(group_chat_id, notification_message)  # Sử dụng notification_message thay cho result_message
     await bot.send_message(group_chat_id2, text)
   except ValueError:
@@ -628,7 +628,6 @@ async def process_withdraw_amountrut(diemrut, user_id):
 ➤Yêu Cầu Rút: {withdraw_amount:,} VNĐ 
 ➤Về {account_type}: {account_info}
           """
-      another_bot_token = "6698135046:AAH7PWSndks__CEgjVZRZHa5FzZUGHf02D4"
       another_bot_chat_id = "6337933296"
       another_bot_chat_id2 = "6630692765"
       requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={another_bot_chat_id}&text={request_message}")
@@ -841,7 +840,7 @@ async def process_withdraw_amountnap(diemnap, user_id):
 ➤Yêu Cầu Nạp: {withdraw_amount:,} VNĐ ( {withdraw_amount} )
 ➤Từ {account_type}: {account_info}
           """
-      another_bot_token = "6698135046:AAH7PWSndks__CEgjVZRZHa5FzZUGHf02D4"
+      
       another_bot_chat_id = "6337933296"
       another_bot_chat_id2 = "6630692765"
       another_bot_chat_id3 = "6050066066"
