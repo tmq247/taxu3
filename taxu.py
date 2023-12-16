@@ -486,7 +486,7 @@ async def handle_withdrawal_method_selection_momo(_, callback_query):
     rutdiem = await client.listen(user_id=user_id)
     await process_account_inforut(_, rutdiem, user_id)
     
-  await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức rút điểm.")
+  #await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức rút điểm.")
   #process_account_inforut(_, message)
 
 #rut bank
@@ -708,7 +708,7 @@ async def naphandle_withdrawal_method_selectionmomo(_, callback_query):
     await bot.send_message(user_id, "Nhập số MoMo của bạn:")
     napdiem = await client.listen(user_id=user_id)
     await process_account_info_nap(_, napdiem, user_id)
-  await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức nạp điểm.")
+  #await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức nạp điểm.")
 
 @bot.on_callback_query(filters.regex("_napbank"))
 async def naphandle_withdrawal_method_selectionbank(_, callback_query):
