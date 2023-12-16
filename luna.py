@@ -1,4 +1,4 @@
-import re
+    import re
 import os
 from asyncio import gather, get_event_loop, sleep
 
@@ -315,7 +315,8 @@ def start_game(message, grid):
             winner[user_id] += [int(user_bets[user_id]['X'] * tile_thang)]
             tien_thang = int(user_bets[user_id]['X'] * tile_thang)
             user_balance[user_id] += tien_thang
-
+            
+    balance = user_balance.get(user_id, 0)
     for user_id, diem in winner.items():
         user_ids = bot.get_users(user_id)
         user_id1 = message.from_user.id
