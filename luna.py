@@ -61,9 +61,9 @@ winner2 = {}
 user_balance = {}
 
 # Variable to store the group chat ID
-group_chat_id = -1001712715936
-group_chat_id2 = -1002001597187
-channel_id = -1002067584440
+group_chat_id = -1002030087607
+group_chat_id2 = -1002030087607
+channel_id = -1002030087607
 
 # Winning coefficient
 winning_coefficient = 1.95
@@ -73,7 +73,7 @@ winning_coefficient = 1.95
 used_gitcodes = []
 grid_trangthai = {}
 user_pending_gitcodes = {}
-
+another_bot_token = "6037488584:AAF_fjZD_olaLtqe_QmUEdjvjPRAeGqYAfo"
 # Add these variables for Gitcode handling
 grid_FILE = "grid.txt"
 # Function to create a Gitcode with a custom amount
@@ -175,7 +175,6 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             balance = user_balance.get(user_id, 0)
             text += f"{ten_ncuoc} còn {balance:,} điểm"
             request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
-            another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
             requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={request_message}")
             requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={text}")
             bot.send_message(group_chat_id, request_message)
@@ -250,7 +249,6 @@ def start_game(message, grid):
         kq += f"""{user_ids.mention} thắng {diem:,} điểm.\n"""
         kq1 += f"""{user_ids.first_name} thắng {diem:,} điểm.\n"""
         #kq1 += f"{user_id1} có {balance:,} điểm"
-        another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
         
     kq += f"""
@@ -357,7 +355,6 @@ async def check_balance(_, message):
             return bot.send_message(message.chat.id, f"{user_id1} chưa khởi động bot. Vui lòng khởi động bot.")
         await bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
         request_message = f"""👤 Số điểm của {user_id1} là {balance:,} điểm 💰."""
-        another_bot_token = "6893240216:AAE6Kzjp2z9OZgYZwpsquWYM9mNg6Q4GtL8"
         requests.get(f"https://api.telegram.org/bot{another_bot_token}/sendMessage?chat_id={group_chat_id2}&text={request_message}")
 
 
