@@ -227,12 +227,12 @@ Phí tặng điểm là 5%."""
     if len(message.text.split()) != 3 or len(message.text.split()) != 2 :
         if len(message.text.split()) == 3:
             lenh, user_id1, amount = message.text.split(" ", 3)
-            if not user_id:
-                return await message.reply_text("không tìm thấy người này")
             if amount.isdigit():
                 user_id = await extract_user(message)
                 user = await bot.get_users(user_id)
                 from_user = message.from_user.id
+                if not user_id:
+                    return await message.reply_text("không tìm thấy người này")
                 if user_id not in user_balance:
                     return await bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot. Vui lòng khởi động bot để chơi game.")
                 if await deduct_balance(from_user, user_id, amount, message):
