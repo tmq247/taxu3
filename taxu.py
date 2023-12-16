@@ -245,13 +245,13 @@ async def chuyentien_money(_, message: Message):
                 from_user = message.from_user.id
                 if user_id not in user_balance:
                     return await bot.send_message(message.chat.id, "Người này chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
-              if await deduct_balance(from_user, user_id, amount, message):
-                amount = int(amount)
-                from_user1 = message.from_user.mention
-                await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
-                await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                await bot.send_message(group_chat3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
-                return
+                if await deduct_balance(from_user, user_id, amount, message):
+                    amount = int(amount)
+                    from_user1 = message.from_user.mention
+                    await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
+                    await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+                    await bot.send_message(group_chat3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+                    return
         #else:
       else
         await message.reply("""
