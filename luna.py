@@ -316,8 +316,8 @@ def start_game(message, grid):
             tien_thang = int(user_bets[user_id]['X'] * tile_thang)
             user_balance[user_id] += tien_thang
             
-    balance = user_balance.get(user_id, 0)
     for user_id, diem in winner.items():
+        balance = user_balance.get(user_id, 0)
         user_ids = bot.get_users(user_id)
         user_id1 = message.from_user.id
         #user_id2 = message.from_user.first_name
