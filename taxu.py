@@ -227,7 +227,7 @@ async def deduct_balance(from_user, user_id, amount, message):
 
 @bot.on_message(filters.command("tangdiem"))
 async def chuyentien_money(_, message: Message):
-    group_chat_id = -1002001597187
+    group_chat = -1002001597187
     load_balance_from_file()
     if len(message.text.split()) != 3 or len(message.text.split()) != 2:
       try:
@@ -243,7 +243,7 @@ async def chuyentien_money(_, message: Message):
             from_user1 = message.from_user.mention
             await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
             await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-            await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+            await bot.send_message(group_chat, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
             return
     
         if len(message.text.split()) == 2:
@@ -258,7 +258,7 @@ async def chuyentien_money(_, message: Message):
             from_user1 = message.from_user.mention
             await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
             await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-            await bot.send_message(group_chat_id, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+            await bot.send_message(group_chat, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
             return
         #else:
       except ValueError:
