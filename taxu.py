@@ -244,8 +244,8 @@ Phí tặng điểm là 5%."""
                     return
             else:
                 return await message.reply(text)
-
-    #if and message.text[2:].isdigit():
+        
+        #if and message.text[2:].isdigit():
         if len(message.text.split()) == 2:
             lenh, amount = message.text.split(" ", 2)
             if amount.isdigit():
@@ -253,7 +253,7 @@ Phí tặng điểm là 5%."""
                 user = await bot.get_users(user_id)
                 from_user = message.from_user.id
                 if not user_id:
-                  return await message.reply_text("không tìm thấy người này")
+                    return await message.reply_text("không tìm thấy người này")
                 if user_id not in user_balance:
                     return await bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
                 if await deduct_balance(from_user, user_id, amount, message):
@@ -263,10 +263,10 @@ Phí tặng điểm là 5%."""
                     await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
                     await bot.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ, id người tặng là: {from_user}.")
                     return
-
+            
             else:
-            return await message.reply(text)
-
+                return await message.reply(text)
+        
         else:
             return await message.reply(text)
 
