@@ -305,14 +305,14 @@ def start_game(message, grid):
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
             total_win += int(user_bets[user_id]['T'] * tile_thang)
             winner[user_id] = []
-            winner[user_id] += total_win 
+            winner[user_id] += int(user_bets[user_id]['T'] * tile_thang) 
             tien_thang = int(user_bets[user_id]['T'] * tile_thang)
             user_balance[user_id] += tien_thang
 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += int(user_bets[user_id]['X'] * tile_thang)
             winner[user_id] = []
-            winner[user_id] += total_win
+            winner[user_id] += int(user_bets[user_id]['X'] * tile_thang)
             tien_thang = int(user_bets[user_id]['X'] * tile_thang)
             user_balance[user_id] += tien_thang
 
