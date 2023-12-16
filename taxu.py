@@ -299,8 +299,8 @@ async def update_balance(diem, user_id, message):
   chat_id = message.chat.id
   user_ids = await bot.get_users(user_id)
 
-  if len(user_input) != 3:
-      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+  #if len(user_input) != 3:
+      #return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
       
   if user_id in user_balance and diem.isdigit():
     balance_change = int(diem)
