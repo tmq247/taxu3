@@ -220,6 +220,8 @@ async def chuyentien_money(_, message: Message):
     if len(message.text.split()) != 3 or len(message.text.split()) != 2 :
         if len(message.text.split()) == 3:
               lenh, user_id1, amount = message.text.split(" ", 3)
+              if not user_id:
+                  return await message.reply_text("không tìm thấy người này")
               if amount.isdigit():
                   user_id = await extract_user(message)
                   user = await bot.get_users(user_id)
@@ -229,9 +231,9 @@ async def chuyentien_money(_, message: Message):
                   if await deduct_balance(from_user, user_id, amount, message):
                         amount = int(amount)
                         from_user1 = message.from_user.mention
-                        await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
+                        await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
                         await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                        await bot.send_message(group_id3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+                        await bot.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ., id người tặng là: {from_user}.")
                         return
 
     #if and message.text[2:].isdigit():
@@ -241,14 +243,16 @@ async def chuyentien_money(_, message: Message):
                 user_id = await extract_user(message)
                 user = await bot.get_users(user_id)
                 from_user = message.from_user.id
+                if not user_id:
+                  return await message.reply_text("không tìm thấy người này")
                 if user_id not in user_balance:
                     return await bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
                 if await deduct_balance(from_user, user_id, amount, message):
                     amount = int(amount)
                     from_user1 = message.from_user.mention
-                    await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
+                    await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
                     await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                    await bot.send_message(group_id3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+                    await bot.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ, id người tặng là: {from_user}.")
                     return
 
         else:
@@ -277,52 +281,48 @@ async def set_balance(_, message):
   
   
   if from_user not in admin:
-    return await message.reply_text("Bạn không có quyền sử dụng lệnh này.")
+      return await message.reply_text("Bạn không có quyền sử dụng lệnh này.")
   if len(message.text.split()) != 3:
-     return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
   lenh, user_id, diem = message.text.split()
-  user_id = int(user_id)
-  
   #user = bot.get_users(user_id)
+  if not user_id:
+      return await message.reply_text("không tìm thấy người này")
   if user_id not in user_balance:
       user_balance[user_id] = 0
       return await message.reply_text("Tôi không thể tìm thấy người dùng này hoặc họ chưa khởi động bot.")
+  if diem.isdigit():
+      await update_balance(diem, user_id, message)
+
   else:
-    await update_balance(diem, user_id, message)
+      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
    
     
 async def update_balance(diem, user_id, message):
   load_balance_from_file()
   chat_id = message.chat.id
-  user_ids = (await bot.get_users(user_id)).first_name
-    
-  if message.text[3:].isdigit():
-    print(message.text[3:])
-    user_input = message.text.split()
-    if len(user_input) != 3:
+  user_ids = await bot.get_users(user_id)
+
+  if len(user_input) != 3:
       return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
       
-
+  if user_id in user_balance and diem.isdigit():
     balance_change = int(diem)
-    #user_id, _ = user_state[message.from_user.id]
     current_balance = user_balance.get(user_id, 0)
     new_balance = current_balance + balance_change
     user_balance[user_id] = new_balance
-    #del user_state[message.from_user.id]
     save_balance_to_file()
-    load_balance_from_file()
     notification_message = f"""
-🫥{user_ids} Đã Nạp Điểm Thành Công🤖
+🫥{user_ids.mention} Đã Nạp Điểm Thành Công🤖
 🫥ID {user_id}
 🫂Số Điểm Hiện Tại: {new_balance:,} điểm🐥
 🐝Chúc Bạn Chơi Game Vui Vẻ🐳
 """ 
-    text = f"""🔥Chúc mừng {user_ids} đã bơm máu thành công⚡️⚡️"""
+    text = f"""🔥Chúc mừng {user_ids.mention} đã bơm máu thành công⚡️⚡️"""
     await bot.send_message(user_id, notification_message)
-    # Gửi thông báo đến nhóm về việc có người chơi đặt cược
-    await bot.send_message(group_id3, notification_message)  # Sử dụng notification_message thay cho result_message
+    await bot.send_message(group_id3, notification_message)
     await bot.send_message(group_id, text)
-  #except ValueError:
+      
   else:
     await message.reply_text("Vui lòng nhập một số điểm hợp lệ.⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
 
