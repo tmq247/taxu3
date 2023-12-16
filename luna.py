@@ -408,7 +408,7 @@ def show_main_menu(_, message):
     if user_id not in user_balance:
         user_balance[user_id] = 0  # Set initial balance to 0 for new users
         save_balance_to_file()  # Save user balances to the text file
-    soicau = [
+    nut = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
             InlineKeyboardButton("Bot Nạp - Rút", url="https://t.me/diemallwin_bot"),
@@ -417,7 +417,7 @@ def show_main_menu(_, message):
             InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
             InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),
         ],]
-
+    reply_markup = InlineKeyboardMarkup(nut)
   # Send a message with a photo link
     photo_url = "https://github.com/tmq247/taxu2/blob/main/photo_2023-12-14_21-31-58.jpg?raw=true"
     caption = """
@@ -442,7 +442,7 @@ def show_main_menu(_, message):
     bot.send_photo(message.chat.id,
                  photo_url,
                  caption=caption,
-                 reply_markup=reply_markup,)
+                 reply_markup=reply_markup)
 
 @bot.on_message(filters.command("hdan"))
 def soicau_taixiu(_, message):
