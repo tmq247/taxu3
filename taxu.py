@@ -198,14 +198,9 @@ User: {user_id}
 # Hàm xử lý chuyển tiền và cập nhật số dư của cả người gửi và người được chuyển
 async def deduct_balance(from_user, user_id, amount, message):
     load_balance_from_file()
-    
     amount = int(amount)
     if from_user not in user_balance or int(user_balance[from_user]) < amount:
       return await message.reply_text("Bạn không có đủ số điểm để tặng người này.")
-    # Kiểm tra xem cả sender_id và recipient_id có tồn tại trong user_balance không
-    if from_user not in user_balance or user_id not in user_balance:
-      return await message.reply_text(f"Người này chưa khởi động bot.")
-    # Kiểm tra xem số tiền cần chuyển có lớn hơn 0 và không vượt quá số dư của người gửi
     if amount <= 0 or int(user_balance[from_user]) < amount:
         return await message.reply_text("Bạn không có đủ số điểm để tặng người này.")
     # Trừ số tiền từ số dư của người gửi và cộng cho người được chuyển
@@ -236,7 +231,7 @@ async def chuyentien_money(_, message: Message):
                         from_user1 = message.from_user.mention
                         await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
                         await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                        await bot.send_message(group_chat3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+                        await bot.send_message(group_id3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
                         return
 
     #if and message.text[2:].isdigit():
@@ -247,13 +242,13 @@ async def chuyentien_money(_, message: Message):
                 user = await bot.get_users(user_id)
                 from_user = message.from_user.id
                 if user_id not in user_balance:
-                    return await bot.send_message(message.chat.id, "Người này chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
+                    return await bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
                 if await deduct_balance(from_user, user_id, amount, message):
                     amount = int(amount)
                     from_user1 = message.from_user.mention
                     await message.reply_text(f"Tặng điểm thành công! {int(amount*0.95):,}đ chuyển đến người dùng {user.mention}.Phí tặng điểm là 5%")
                     await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                    await bot.send_message(group_chat3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
+                    await bot.send_message(group_id3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
                     return
 
         else:
