@@ -29,6 +29,8 @@ import telebot
 #from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from telebot import TeleBot, types
 from config import bot_token, bot_token2, group_id, group_id2, channel_id
+import photo1.jpg
+import photo2.jpg
 
 is_config = os.path.exists("config.py")
 
@@ -419,7 +421,7 @@ def show_main_menu(_, message):
         ],]
     reply_markup = InlineKeyboardMarkup(nut)
   # Send a message with a photo link
-    photo_url = "https://github.com/tmq247/taxu2/blob/main/photo_2023-12-14_21-31-58.jpg?raw=true"
+    photo_url = "photo2.jpg"
     caption = """
 <code>𝐒ả𝐧𝐡 𝐀𝐋𝐋 𝐖𝐈𝐍</code>
         
