@@ -220,8 +220,10 @@ async def deduct_balance(from_user, user_id, amount, message):
 @bot.on_message(filters.command("tangdiem"))
 async def chuyentien_money(_, message: Message):
     load_balance_from_file()
+    print(message.text[3:])
+    print(message.text[2:])
     if len(message.text.split()) != 3 and message.text[3:].isdigit():
-        print(message.text[3:])
+        
         if len(message.text.split()) == 3:
               lenh, user_id1, amount = message.text.split(" ", 3)
               user_id = await extract_user(message)
