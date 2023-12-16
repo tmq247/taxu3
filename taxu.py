@@ -237,7 +237,7 @@ async def chuyentien_money(_, message: Message):
           user = await bot.get_users(user_id)
           from_user = message.from_user.id
           if user_id not in user_balance:
-            return bot.send_message(chat_id, "Người này chưa khởi động bot. Vui lòng khởi động bot để chơi game.")
+            return await bot.send_message(chat_id, "Người này chưa khởi động bot. Vui lòng khởi động bot để chơi game.")
           if await deduct_balance(from_user, user_id, amount, message):
             amount = int(amount)
             from_user1 = message.from_user.mention
@@ -252,7 +252,7 @@ async def chuyentien_money(_, message: Message):
           user = await bot.get_users(user_id)
           from_user = message.from_user.id
           if user_id not in user_balance:
-            return bot.send_message(chat_id, "Người này chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
+            return await bot.send_message(chat_id, "Người này chưa khởi động bot.Vui lòng khởi động bot để chơi game.")
           if await deduct_balance(from_user, user_id, amount, message):
             amount = int(amount)
             from_user1 = message.from_user.mention
@@ -434,7 +434,7 @@ async def show_game_options(msg):
    bot.send_message(msg.chat.id, "Vào @kqtaixiu để xem lịch sử cầu")
    
 # Hàm kiểm tra số dư
-#@bot.on_message(filters.command("diem"))
+@bot.on_message(filters.command("diem"))
 async def check_balance(_, message):
   load_balance_from_file()
   user_id = message.from_user.id
