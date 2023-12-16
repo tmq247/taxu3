@@ -220,7 +220,7 @@ async def deduct_balance(from_user, user_id, amount, message):
 @bot.on_message(filters.command("tangdiem"))
 async def chuyentien_money(_, message: Message):
     load_balance_from_file()
-    if len(message.text.split()) != 3 and message.text[3:].isdigit()):
+    if len(message.text.split()) != 3 and message.text[3:].isdigit():
         print(message.text[3:])
         if len(message.text.split()) == 3:
               lenh, user_id1, amount = message.text.split(" ", 3)
@@ -237,7 +237,7 @@ async def chuyentien_money(_, message: Message):
                     await bot.send_message(group_chat3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
                     return
 
-        if len(message.text.split()) != 2 and message.text[2:].isdigit()):
+        if len(message.text.split()) != 2 and message.text[2:].isdigit():
             if len(message.text.split()) == 2:
                 lenh, amount = message.text.split(" ", 2)
                 user_id = await extract_user(message)
@@ -297,7 +297,7 @@ async def update_balance(diem, user_id, message):
   chat_id = message.chat.id
   user_ids = (await bot.get_users(user_id)).first_name
     
-  if message.text[3:].isdigit())
+  if message.text[3:].isdigit()
     print(message.text[3:])
     user_input = message.text.split()
     if len(user_input) != 3:
