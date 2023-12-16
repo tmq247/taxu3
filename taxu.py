@@ -253,22 +253,22 @@ async def chuyentien_money(_, message: Message):
                     await bot.send_message(group_chat3, f"{user.mention} đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người tặng là: {from_user}.")
                     return
         #else:
-    else:
-        await message.reply("""
-    Để tặng điểm của mình cho người chơi khác bằng 2 cách:
-    Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
-    Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
-    /tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
-    VD: /tangdiem 987654321 10000.
-    Phí tặng điểm là 5%.""")
+        else:
+            await message.reply("""
+Để tặng điểm của mình cho người chơi khác bằng 2 cách:
+Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
+Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
+/tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
+VD: /tangdiem 987654321 10000.
+Phí tặng điểm là 5%.""")
     else:
         return await message.reply("""
-    Để tặng điểm của mình cho người chơi khác bằng 2 cách:
-    Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
-    Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
-    /tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
-    VD: /tangdiem 987654321 10000.
-    Phí tặng điểm là 5%.""")
+Để tặng điểm của mình cho người chơi khác bằng 2 cách:
+Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
+Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy ID rồi nhập lệnh 
+/tangdiem [dấu cách] ID vừa lấy [dấu cách] số điểm.
+VD: /tangdiem 987654321 10000.
+Phí tặng điểm là 5%.""")
        
 @bot.on_message(filters.command("cdiem"))
 async def set_balance(_, message):
