@@ -289,7 +289,7 @@ async def update_balance(diem, user_id, message):
   chat_id = message.chat.id
   user_ids = (await bot.get_users(user_id)).first_name
     
-  if message.text[3:].isdigit()
+  if message.text[3:].isdigit():
     print(message.text[3:])
     user_input = message.text.split()
     if len(user_input) != 3:
@@ -315,7 +315,8 @@ async def update_balance(diem, user_id, message):
     # Gửi thông báo đến nhóm về việc có người chơi đặt cược
     await bot.send_message(group_id3, notification_message)  # Sử dụng notification_message thay cho result_message
     await bot.send_message(group_id, text)
-  except ValueError:
+  #except ValueError:
+  else:
     await message.reply_text("Vui lòng nhập một số điểm hợp lệ.⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
 
 
