@@ -787,8 +787,8 @@ async def process_withdraw_amountnap(diemnap, user_id):
       await bot.send_message(group_id3, request_message)
 
       del nap[user_id]
-   else:
-        await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
+    else:
+      await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
   else:
     await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
 
