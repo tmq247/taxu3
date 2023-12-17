@@ -258,6 +258,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             #requests.get(f"https://api.telegram.org/bot{bot_token2}/sendMessage?chat_id={user_id}&text={request_message}")
             #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_id2}&text={text}")
             bot.send_message(group_id, request_message)
+            print(user_id)
             bot.send_message(user_id, request_message)
             save_balance_to_file()
             bot.send_message(group_id2, text)
