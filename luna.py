@@ -499,8 +499,8 @@ def top_diem(_, message):
                 #diem = int(diem)
                 if int(diem) > 0:
                     topdiem = []
-                    #topdiem += {user_id}
-                    topdiem[user_id] += {diem}
+                    topdiem += {user_id} += {diem}
+                    #topdiem[user_id] += {diem}
                     td = sorted(topdiem, key=lambda diem: diem[1])
                     top += f"""{td}\n"""
                 #topdiem[int(user_id)] += (int(diem))
