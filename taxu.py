@@ -532,7 +532,7 @@ async def process_account_inforut(_, rutdiem, user_id):
         diemrut = await client.listen(user_id=user_id)
         await process_withdraw_amountrut(diemrut, user_id)
     except ValueError:
-      pass
+        pass
   
 
 #@bot.on_message(filters.text & rut in ["withdraw_amount_momo"] or ["withdraw_amount_bank"])
@@ -578,7 +578,7 @@ async def process_withdraw_amountrut(diemrut, user_id):
               f.write(f"{user_id} {balance}\n")
             else:
               await bot.send_message(user_id, "Số dư không đủ để rút điểm.")
-          else:
+        else:
             f.write(line)
 
       formatted_balance = "{:,.0f} đ".format(user_balance_value)
