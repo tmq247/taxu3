@@ -500,8 +500,8 @@ TÊN NGÂN HÀNG - MÃ NGÂN HÀNG
 ⚠️ Lưu ý: ❌ Không hỗ trợ hoàn tiền nếu bạn nhập sai thông tin Tài khoản. 
 ❗️ Rút min 50K
   """)
-      rutdiem = await client.listen(user_id=user_id)
-      await process_account_inforut(_, rutdiem, user_id)
+  rutdiem = await client.listen(user_id=user_id)
+  await process_account_inforut(_, rutdiem, user_id)
 
     #await bot.answer_callback_query(callback_query.id, "Bạn đã chọn phương thức rút điểm.")
 
