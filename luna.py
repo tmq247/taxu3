@@ -500,7 +500,7 @@ def top_diem(_, message):
                 if int(diem) > 0:
                     topdiem[user_id] = {'diem': 0}
                     #topdiem += {user_id}
-                    topdiem[user_id] += diem
+                    topdiem[user_id] += int(diem)
                     td = sorted(topdiem, key=lambda diem: diem[1])
                     top += f"""{td}\n"""
                 #topdiem[int(user_id)] += (int(diem))
