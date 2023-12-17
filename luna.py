@@ -501,7 +501,7 @@ def top_diem(_, message):
                     topdiem = []
                     topdiem += {user_id}
                     topdiem += {diem}
-                    user_id, diem = topdiem.get():
+                    user_id, diem = topdiem.get()
                         
                     tdi = topdiem
                     td = sorted(topdiem, key=diem)
