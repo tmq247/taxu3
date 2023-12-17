@@ -491,27 +491,43 @@ def listdiem(_, message):
 def top_diem(_, message):
     load_balance_from_file()
     chat_id = message.chat.id
-    with open("id.txt", "r", encoding='utf-8') as f:
-        lines = f.read().splitlines()
-        top = f"Top 10 điểm cao nhất:\n"
-        for line in lines:
-            user_id, diem = line.split()
-            #diem = int(diem)
-            if int(diem) > 0:
-                topdiem = []
-                topdiem += {user_id}
-                topdiem += {diem}
-                td = topdiem
-                top += f"""{td}\n"""
-            #topdiem[int(user_id)] += (int(diem))
-            # = "/n".join(reversed(diem))
+    if chat_id == group_id2 or group_id3:
+        with open("id.txt", "r", encoding='utf-8') as f:
+            lines = f.read().splitlines()
+            top = f"Top 10 điểm cao nhất:\n"
+            for line in lines:
+                user_id, diem = line.split()
+                #diem = int(diem)
+                if int(diem) > 0:
+                    topdiem = []
+                    topdiem += {user_id}
+                    topdiem += {diem}
+                    td = topdiem
+                    top += f"""{td}\n"""
+                #topdiem[int(user_id)] += (int(diem))
+                # = "/n".join(reversed(diem))
+    
+                
+            bot.send_message(chat_id, top)
+        #for user_id, balance in user_balance.items():
+            #topdiem = []
+            #topdiem += [user_id], [balance]
+        #bot.send_message(group_id2, f"{topdiem}")
 
-            
-        bot.send_message(chat_id, top)
-    #for user_id, balance in user_balance.items():
-        #topdiem = []
-        #topdiem += [user_id], [balance]
-    #bot.send_message(group_id2, f"{topdiem}")
+@bot.on_message(filters.command("listdiem"))
+def list(_, message):
+    chat_id = message.chat.id
+    if chat_id == group_id2 or group_id3:
+        bot.send_message(chat_id, f"luu_cau: {luu_cau}")
+        bot.send_message(chat_id, f"mo_game: {mo_game}")
+        bot.send_message(chat_id, f"topdiem: {topdiem}")
+        bot.send_message(chat_id, f"user_bets: {user_bets}")
+        bot.send_message(chat_id, f"winner: {winner}")
+        bot.send_message(chat_id, f"user_balance: {user_balance}")
+        bot.send_message(chat_id, f"grid_trangthai: {grid_trangthai}")
+        bot.send_message(chat_id, f"{winner}")
+                                          
+        
 ######################################################
 async def main():
     await bot.start()
