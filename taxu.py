@@ -652,9 +652,7 @@ async def naphandle_withdrawal_method_selectionmomo(_, callback_query):
 
 @bot.on_callback_query(filters.regex("_napbank"))
 async def naphandle_withdrawal_method_selectionbank(_, callback_query):
-  user_id = callback_query.from_user.id
-
-  if filters.regex("_napbank"):
+    user_id = callback_query.from_user.id
     nap[user_id] = "napbank_account"
     await bot.send_message(
         user_id, """***
