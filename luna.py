@@ -499,10 +499,9 @@ def top_diem(_, message):
                 diem = int(diem)
                 if diem > 0:
                     topdiem = []
-                    topdiem += [user_id]
-                    topdiem[int(user_id)] += [diem]
-            
-                    td = topdiem
+                    topdiem += {user_id}
+                    topdiem += {diem}
+                    td = sorted(topdiem, key=lambda diem: diem[1])
                     top += f"""{td}\n"""
                 #topdiem[int(user_id)] += (int(diem))
                 # = "/n".join(reversed(diem))
