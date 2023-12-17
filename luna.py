@@ -498,7 +498,7 @@ def top_diem(_, message):
                 user_id, diem = line.split()
                 #diem = int(diem)
                 if int(diem) > 0:
-                    topdiem[user_id] = {'diem': 0}
+                  #  topdiem[user_id] = {'diem': 0}
                     topdiem += {user_id}
                     topdiem += {diem}
                     td = sorted(topdiem, key=lambda diem: diem[1])
