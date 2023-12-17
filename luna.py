@@ -500,7 +500,7 @@ def top_diem(_, message):
                 if diem > 0:
                     topdiem = []
                     topdiem += [user_id]
-                    topdiem[user_id] += [diem]
+                    topdiem[int(user_id)] += [diem]
             
                     td = topdiem
                     top += f"""{td}\n"""
