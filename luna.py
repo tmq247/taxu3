@@ -219,7 +219,7 @@ async def handle_message(_, message: Message):
             else:
                 bet_amount = int(message.text[3:])
             # Confirm the bet and check user balance
-            confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message)
+            await confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message)
         else:
             await bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
     if len(mo_game) == 0:
