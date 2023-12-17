@@ -233,6 +233,8 @@ def handle_message(_, message: Message):
 
 # Function to confirm the bet and check user balance
 def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
+    from_user = message.from_user.id
+    user_id = bot.get_users(from_user).id
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
     else:
