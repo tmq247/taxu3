@@ -514,7 +514,7 @@ def top_diem(_, message):
             #topdiem += [user_id], [balance]
         #bot.send_message(group_id2, f"{topdiem}")
 
-@bot.on_message(filters.command("listdiem"))
+@bot.on_message(filters.command("list"))
 def list(_, message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
@@ -525,7 +525,6 @@ def list(_, message):
         bot.send_message(chat_id, f"winner: {winner}")
         bot.send_message(chat_id, f"user_balance: {user_balance}")
         bot.send_message(chat_id, f"grid_trangthai: {grid_trangthai}")
-        bot.send_message(chat_id, f"{winner}")
                                           
         
 ######################################################
