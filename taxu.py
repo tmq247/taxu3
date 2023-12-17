@@ -205,8 +205,6 @@ async def deduct_balance(from_user, user_id, amount, message):
 
 @bot.on_message(filters.command("tangdiem"))
 async def chuyentien_money(_, message: Message):
-    user_id, amount = await extract_user_and_reason(message)
-    user = await bot.get_users(user_id)
     from_user = message.from_user.id
     text = f"""
 Để tặng điểm của mình cho người chơi khác bằng 2 cách:
@@ -218,7 +216,10 @@ Phí tặng điểm là 5%."""
     load_balance_from_file()
     if len(message.text.split()) != 3 or len(message.text.split()) != 2 :
         if len(message.text.split()) == 3:
-            #lenh, user_id1, amount = message.text.split(" ", 3)
+            user_id, amount = await extract_user_and_reason(message)
+            user = await bot.get_users(user_id)
+            from_user1 = message.from_user.mention
+            #lenh, user_id, amount = message.text.split(" ", 3)
             if amount.isdigit():
                 if not user_id:
                     return await message.reply_text("không tìm thấy người này")
@@ -226,7 +227,6 @@ Phí tặng điểm là 5%."""
                     return await bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot. Vui lòng khởi động bot để chơi game.")
                 if await deduct_balance(from_user, user_id, amount, message):
                     amount = int(amount)
-                    from_user1 = message.from_user.mention
                     await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
                     await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
                     await bot.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. ID người tặng là: {from_user}.")
@@ -235,12 +235,11 @@ Phí tặng điểm là 5%."""
                 return await message.reply(text)
         
         #if and message.text[2:].isdigit():
-        if len(message.text.split()) == 2:
+        if len(message.text.split()) == 2 and message.reply_to_message:
             lenh, amount = message.text.split(" ", 2)
             if amount.isdigit():
                 user_id = await extract_user(message)
                 user = await bot.get_users(user_id)
-                from_user = message.from_user.id
                 if not user_id:
                     return await message.reply_text("không tìm thấy người này")
                 if user_id not in user_balance:
