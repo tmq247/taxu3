@@ -14,7 +14,8 @@ import pytz
 import threading
 import asyncio
 from pyrogram import filters
-from pyrogram.types import ForceReply, Message, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
+from pyrogram.enums import MessageEntityType
+from pyrogram.types import ForceReply, Message, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, MessageEntity
 from pyrogram.filters import command
 from functions import (
     extract_user,
@@ -214,6 +215,9 @@ async def deduct_balance(from_user, user_id, amount, message):
 
 @bot.on_message(filters.command("tangdiem"))
 async def chuyentien_money(_, message: Message):
+    user_id, amount = await extract_user_and_reason(message)
+    user = await bot.get_users(user_id)
+    from_user = message.from_user.id
     text = f"""
 Để tặng điểm của mình cho người chơi khác bằng 2 cách:
 Cách 1:Trả lời người muốn tặng điểm bằng lệnh /tangdiem [dấu cách] số điểm.
@@ -222,15 +226,10 @@ Cách 2:Trả lời người muốn tặng điểm rồi nhập /id để lấy 
 VD: /tangdiem 987654321 10000.
 Phí tặng điểm là 5%."""
     load_balance_from_file()
-    print(message.text[3:])
-    print(message.text[2:])
     if len(message.text.split()) != 3 or len(message.text.split()) != 2 :
         if len(message.text.split()) == 3:
-            lenh, user_id1, amount = message.text.split(" ", 3)
+            #lenh, user_id1, amount = message.text.split(" ", 3)
             if amount.isdigit():
-                user_id = await extract_user(message)
-                user = await bot.get_users(user_id)
-                from_user = message.from_user.id
                 if not user_id:
                     return await message.reply_text("không tìm thấy người này")
                 if user_id not in user_balance:
@@ -276,22 +275,25 @@ Phí tặng điểm là 5%."""
 @bot.on_message(filters.command("cdiem"))
 async def set_balance(_, message):
   load_balance_from_file()
+  user_id, diem = await extract_user_and_reason(message)
+  user = await bot.get_users(user_id)
   from_user = message.from_user.id
   if from_user not in admin:
       return await message.reply_text("Bạn không có quyền sử dụng lệnh này.")
   if len(message.text.split()) != 3:
       return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
-  lenh, user_id, diem = message.text.split()
+  #lenh, user_id, diem = message.text.split()
   #user = bot.get_users(user_id)
   if not user_id:
       return await message.reply_text("không tìm thấy người này")
   if user_id not in user_balance:
       user_balance[user_id] = 0
       return await message.reply_text("Người dùng này chưa khởi động bot.")
-  if diem.isdigit():
-      await update_balance(diem, user_id, message)
+  #if diem.isdigit():
+      #await update_balance(diem, user_id, message)
   else:
-      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+      #return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+      await update_balance(diem, user_id, message)
    
     
 async def update_balance(diem, user_id, message):
@@ -302,7 +304,7 @@ async def update_balance(diem, user_id, message):
   #if len(user_input) != 3:
       #return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
       
-  if user_id in user_balance and diem.isdigit():
+  if user_id in user_balance :#and diem.isdigit():
     balance_change = int(diem)
     current_balance = user_balance.get(user_id, 0)
     new_balance = current_balance + balance_change
@@ -418,7 +420,7 @@ async def show_game_options(msg):
    bot.send_message(msg.chat.id, "Vào @kqtaixiu để xem lịch sử cầu")
    
 # Hàm kiểm tra số dư
-#@bot.on_message(filters.command("diem"))
+@bot.on_message(filters.command("diem"))
 async def check_balance(_, message):
   load_balance_from_file()
   user_id = message.from_user.id
@@ -622,6 +624,7 @@ async def process_withdraw_amountrut(diemrut, user_id):
 📈 Số điểm còn lại: {formatted_balance}
           """
       await bot.send_message(user_id, user_notification)
+      await bot.send_message(group_id, f"""{user.mention} đã rút điểm thành công. Xin chúc mừng🥳🥳🥳""")
     else:
       await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
   else:
@@ -668,9 +671,10 @@ async def naphandle_withdrawal_method_selectionbank(_, callback_query):
   if filters.regex("_napbank"):
     nap[user_id] = "napbank_account"
     await bot.send_message(
-        user_id, """
+        user_id, """***
 Nhập thông tin tài khoản ngân hàng của bạn:
-VD: 0987654321 VCB 
+STK + MÃ NGÂN HÀNG
+VD: 0987654321 VCB
  TÊN NGÂN HÀNG - MÃ NGÂN HÀNG
 📌 Vietcombank => VCB
 📌 BIDV => BIDV 
@@ -705,7 +709,7 @@ VD: 0987654321 VCB
 
 ⚠️ Lưu ý: ❌ Không hỗ trợ hoàn tiền nếu bạn nhập sai thông tin Tài khoản. 
 ❗️ Nạp min 10K
-""")
+***""")
     napdiem = await client.listen(user_id=user_id)
     await process_account_info_nap(_, napdiem, user_id)
 
