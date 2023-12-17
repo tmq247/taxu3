@@ -128,17 +128,17 @@ def calculate_tai_xiu(total_score):
   return "⚫️Tài" if 11 <= total_score <= 18 else "⚪️Xỉu"
 
 @bot.on_message(filters.command("tx"))
-def start_taixiu(_, message):
+async def start_taixiu(_, message: Message):
     chat_id = message.chat.id
     grid = chat_id
     if chat_id != group_id:
-        return bot.send_message(chat_id, "Vào nhóm t.me/sanhallwin để chơi GAME.")
+        return await bot.send_message(chat_id, "Vào nhóm t.me/sanhallwin để chơi GAME.")
     if len(mo_game) == 0:
         grtrangthai = 1
         game_timer(message, grid, grtrangthai)
         
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
-        return bot.send_message(chat_id, "Đợi 10s để mở ván mới.")
+        return await bot.send_message(chat_id, "Đợi 10s để mở ván mới.")
         
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 1:
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
@@ -157,7 +157,7 @@ def start_taixiu(_, message):
             InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
         reply_markup2 = InlineKeyboardMarkup(nut2)
-        bot.send_message(group_id, f"""
+        await bot.send_message(group_id, f"""
 ┏ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 ┣➤⚫️Tổng cược bên TÀI: {total_bet_T:,}đ
 ┣➤⚪️Tổng cược bên XỈU: {total_bet_X:,}đ
@@ -167,7 +167,7 @@ def start_taixiu(_, message):
     else: 
         mo_game.clear()
 
-def game_timer(message, grid, grtrangthai):
+async def game_timer(message, grid, grtrangthai):
     mo_game[grid] = {'tthai': 0}  # Initialize the user's bets if not already present
     mo_game[grid]['tthai'] += grtrangthai
     print(mo_game,1)
@@ -177,37 +177,37 @@ def game_timer(message, grid, grtrangthai):
             InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot"),
         ],]
     reply_markup = InlineKeyboardMarkup(nut)
-    text1 = bot.send_message(group_id, "Bắt đầu ván mới! Có 90 giây để đặt cược\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
+    text1 = await bot.send_message(group_id, "Bắt đầu ván mới! Có 90 giây để đặt cược\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
     time.sleep(30)
-    text2 = bot.send_message(group_id, "Còn 60s để đặt cược.")
+    text2 = await bot.send_message(group_id, "Còn 60s để đặt cược.")
     
     time.sleep(20)  # Wait for 120 seconds
-    text3 = bot.send_message(group_id, "Còn 40s để đặt cược.")
-    bot.delete_messages(grid, text2.id)
+    text3 = await bot.send_message(group_id, "Còn 40s để đặt cược.")
+    await bot.delete_messages(grid, text2.id)
 
     time.sleep(30)  # Wait for 120 seconds
-    text4 = bot.send_message(group_id, "Còn 10s để đặt cược.")
-    bot.delete_messages(grid, text3.id)
+    text4 = await bot.send_message(group_id, "Còn 10s để đặt cược.")
+    await bot.delete_messages(grid, text3.id)
     time.sleep(10)  # Wait for 120 seconds
     
-    bot.delete_messages(grid, text1.id)
-    bot.delete_messages(grid, text4.id)
+    await bot.delete_messages(grid, text1.id)
+    await bot.delete_messages(grid, text4.id)
     start_game(message, grid)
 
 @bot.on_message(filters.command(["t", "x"]) & filters.text)
-def handle_message(_, message: Message):
+async def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
     user_id = message.from_user.id
     grid = chat_id
     if user_id not in user_balance:
-        return bot.send_message(chat_id, "Vui lòng khởi động bot để chơi game.")
+        return await bot.send_message(chat_id, "Vui lòng khởi động bot để chơi game.")
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
-        return bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
+        return await bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     
     # Check if the message is from the group chat
     if chat_id != group_id:
-        return bot.send_message(chat_id, "Vào nhóm để chơi GAME : t.me/sanhallwin")
+        return await bot.send_message(chat_id, "Vào nhóm để chơi GAME : t.me/sanhallwin")
     if chat_id == group_id:
         # Check if the message is a valid bet
         if message.text and message.text.upper() in ['/T ALL', '/X ALL'] or (message.text and message.text.upper()[1] in ['T', 'X'] and message.text[3:].isdigit()): 
@@ -221,7 +221,7 @@ def handle_message(_, message: Message):
             # Confirm the bet and check user balance
             confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message)
         else:
-            bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
+            await bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
     if len(mo_game) == 0:
             grtrangthai = 1
             grid = chat_id
@@ -232,7 +232,6 @@ def handle_message(_, message: Message):
 
 # Function to confirm the bet and check user balance
 def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
-    #mention =  bot.get_users(user_id).mention
     user_id = message.from_user.id
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
@@ -398,7 +397,7 @@ def ls_cau(result):
         print(f"Error saving history: {str(e)}")
 
 @bot.on_message(filters.command("soicau"))
-def soicau_taixiu(_, message):
+def soicau_taixiu(_, message: Message):
     chat_id = message.chat.id
     #load_cau_from_file()
     soicau = [
@@ -418,7 +417,7 @@ def soicau_taixiu(_, message):
         bot.send_message(chat_id, scau, reply_markup=reply_markup)
 
 @bot.on_message(filters.command("start"))
-def show_main_menu(_, message):
+def show_main_menu(_, message: Message):
     user_id = message.from_user.id
     load_balance_from_file()
     
@@ -463,7 +462,7 @@ def show_main_menu(_, message):
                  reply_markup=reply_markup)
 
 @bot.on_message(filters.command("hdan"))
-def soicau_taixiu(_, message):
+def soicau_taixiu(_, message: Message):
     chat_id = message.chat.id
     text = f"""
 Hướng dẫn sử dụng lệnh của bot
@@ -480,14 +479,14 @@ Hướng dẫn sử dụng lệnh của bot
     bot.send_message(message.chat.id, text)
 
 @bot.on_message(filters.command("listdiem"))
-def listdiem(_, message):
+def listdiem(_, message: Message):
     #chat_id = message.chat.id
     with open("id.txt", "r") as f:
         a = f.read()
         bot.send_message(group_id2, f"{a}")
 
 @bot.on_message(filters.command("topdiem"))
-def top_diem(_, message):
+def top_diem(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
@@ -518,7 +517,7 @@ def top_diem(_, message):
         #bot.send_message(group_id2, f"{topdiem}")
 
 @bot.on_message(filters.command("listdata"))
-def list(_, message):
+def list(_, message: Message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
         ls = f"luu_cau: {luu_cau}"
@@ -531,7 +530,7 @@ def list(_, message):
         bot.send_message(chat_id, ls)
 
 @bot.on_message(filters.command("xoalist"))
-def list(_, message):
+def list(_, message: Message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
         luu_cau.clear()
@@ -553,7 +552,7 @@ def list(_, message):
 
 @bot.on_message(filters.command("tatbot"))
 @atexit.register
-async def dong(_, message):
+async def dong(_, message: Message):
     chat_id = message.chat.id
     #save_balance_to_file()
     await bot.send_message(chat_id, "Tắt Bot Game")
