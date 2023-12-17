@@ -495,15 +495,16 @@ def top_diem(_, message):
             lines = f.read().splitlines()
             top = f"Top 10 điểm cao nhất:\n"
             for line in lines:
-                user_id, diem = line.split()
-                #diem = int(diem)
-                if int(diem) > 0:
-                    topdiem = []
-                    topdiem += {user_id}
-                    topdiem += {diem}
+                user_id, diem_str = line.strip().split()
+                diem = float(diem_str)
+                diem = int(diem)
+                if diem > 0:
+                    topdiem[user_id] = diem
+                    #topdiem += {user_id}
+                    #topdiem += {diem}
                     #user_id, diem = topdiem.get()
                         
-                    user_id, diem = topdiem.split()
+                    #user_id, diem = topdiem.split()
                     td = sorted(topdiem, key=diem)
                     top += f"""{td}\n"""
                     #topdiem[int(user_id)] += (int(diem))
