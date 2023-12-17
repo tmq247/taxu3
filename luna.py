@@ -49,7 +49,7 @@ bot_id = int(bot_token.split(":")[0])
 ###############
 luu_cau = {}
 mo_game = {}
-grtrangthai = {}
+topdiem = []
 
 # Dictionary to store user bets
 user_bets = {}
@@ -116,6 +116,7 @@ def load_balance_from_file():
 # Function to send a dice and get its value
 def send_dice(chat_id):
     response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
+    #response = bot.send_dice(chat_id, "🎲")
     if response.status_code == 200:
         data = response.json()
         if 'result' in data and 'dice' in data['result']:
@@ -132,11 +133,14 @@ def start_taixiu(_, message):
     grid = chat_id
     if chat_id != group_id:
         return bot.send_message(chat_id, "Vào nhóm t.me/sanhallwin để chơi GAME.")
+    if len(mo_game) == 0:
+        grtrangthai = 1
+        game_timer(message, grid, grtrangthai)
         
-    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
+    if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
         return bot.send_message(chat_id, "Đợi 10s để mở ván mới.")
         
-    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 1:
+    if len(mo_game) > 0 and mo_game[grid]['tthai'] == 1:
         total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
         total_bet_X = sum([user_bets[user_id]['X'] for user_id in user_bets])
         nut = [
@@ -160,16 +164,13 @@ def start_taixiu(_, message):
 ┗ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━
 """, reply_markup=reply_markup2)
 
-    if len(mo_game) == 0:
-        grtrangthai = 1
-        game_timer(message, grid, grtrangthai)
-
     else: 
         mo_game.clear()
 
 def game_timer(message, grid, grtrangthai):
-    mo_game[grid] = {'trangthai': 0}  # Initialize the user's bets if not already present
-    mo_game[grid]['trangthai'] += grtrangthai
+    mo_game[grid] = {'tthai': 0}  # Initialize the user's bets if not already present
+    mo_game[grid]['tthai'] += grtrangthai
+    print(mo_game,1)
     nut = [
         [
             InlineKeyboardButton("Bot Nạp - Rút", url="https://t.me/diemallwin_bot"),
@@ -177,17 +178,17 @@ def game_timer(message, grid, grtrangthai):
         ],]
     reply_markup = InlineKeyboardMarkup(nut)
     text1 = bot.send_message(group_id, "Bắt đầu ván mới! Có 90 giây để đặt cược\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
-    time.sleep(10)
+    time.sleep(30)
     text2 = bot.send_message(group_id, "Còn 60s để đặt cược.")
     
-    time.sleep(5)  # Wait for 120 seconds
-    text3 = bot.send_message(group_id, "Còn 30s để đặt cược.")
+    time.sleep(20)  # Wait for 120 seconds
+    text3 = bot.send_message(group_id, "Còn 40s để đặt cược.")
     bot.delete_messages(grid, text2.id)
 
-    time.sleep(5)  # Wait for 120 seconds
+    time.sleep(30)  # Wait for 120 seconds
     text4 = bot.send_message(group_id, "Còn 10s để đặt cược.")
     bot.delete_messages(grid, text3.id)
-    time.sleep(5)  # Wait for 120 seconds
+    time.sleep(10)  # Wait for 120 seconds
     
     bot.delete_messages(grid, text1.id)
     bot.delete_messages(grid, text4.id)
@@ -197,18 +198,20 @@ def game_timer(message, grid, grtrangthai):
 def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
-    from_user = message.from_user.id
+    user_id = message.from_user.id
     grid = chat_id
-    if from_user not in user_balance:
+    if user_id not in user_balance:
         return bot.send_message(chat_id, "Vui lòng khởi động bot để chơi game.")
-    if len(mo_game) > 0 and mo_game[grid]['trangthai'] == 2:
+    if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
         return bot.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     
     # Check if the message is from the group chat
+    if chat_id != group_id:
+        return bot.send_message(chat_id, "Vào nhóm để chơi GAME : t.me/sanhallwin")
     if chat_id == group_id:
         # Check if the message is a valid bet
         if message.text and message.text.upper() in ['/T ALL', '/X ALL'] or (message.text and message.text.upper()[1] in ['T', 'X'] and message.text[3:].isdigit()): 
-            user_id = message.from_user.id
+            #user_id = message.from_user.id
             ten_ncuoc = message.from_user#.mention#first_name
             bet_type = message.text.upper()[1]
             if message.text.upper() == '/T ALL' or message.text.upper() == '/X ALL':
@@ -217,15 +220,15 @@ def handle_message(_, message: Message):
                 bet_amount = int(message.text[3:])
             # Confirm the bet and check user balance
             confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message)
-            if len(mo_game) == 0:
-                grtrangthai = 1
-                grid = chat_id
-                game_timer(message, grid, grtrangthai)
         else:
             bot.send_message(chat_id, "Lệnh không hợp lệ. Vui lòng tuân thủ theo quy tắc cược.")
+    if len(mo_game) == 0:
+            grtrangthai = 1
+            grid = chat_id
+            game_timer(message, grid, grtrangthai)
 
-    else:
-        bot.send_message(chat_id, "Vào nhóm để chơi GAME : t.me/sanhallwin")      
+    
+              
 
 # Function to confirm the bet and check user balance
 def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
@@ -252,9 +255,10 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             balance = user_balance.get(user_id, 0)
             text += f"Còn {balance:,} điểm"
             request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
-            requests.get(f"https://api.telegram.org/bot{bot_token2}/sendMessage?chat_id={user_id}&text={request_message}")
+            #requests.get(f"https://api.telegram.org/bot{bot_token2}/sendMessage?chat_id={user_id}&text={request_message}")
             #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_id2}&text={text}")
             bot.send_message(group_id, request_message)
+            bot.send_message(user_id, request_message)
             save_balance_to_file()
             bot.send_message(group_id2, text)
         else:
@@ -271,8 +275,10 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
 # Function to start the dice game
 def start_game(message, grid):
     load_balance_from_file()
-    grtrangthai = 1
-    mo_game[grid]['trangthai'] += grtrangthai
+    grtrangthai2 = 1
+    print(mo_game,2)
+    mo_game[grid]['tthai'] += grtrangthai2
+    print(mo_game,3)
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
@@ -306,16 +312,17 @@ def start_game(message, grid):
             total_win += int(user_bets[user_id]['T'] * tile_thang)
             winner[user_id] = []
             winner[user_id] += [int(user_bets[user_id]['T'] * tile_thang)] 
-            tien_thang = int(user_bets[user_id]['T'] * tile_thang)
-            user_balance[user_id] += tien_thang
+            tien_thang = user_bets[user_id]['T'] * tile_thang
+            user_balance[user_id] += (int(tien_thang))
 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += int(user_bets[user_id]['X'] * tile_thang)
             winner[user_id] = []
             winner[user_id] += [int(user_bets[user_id]['X'] * tile_thang)]
-            tien_thang = int(user_bets[user_id]['X'] * tile_thang)
-            user_balance[user_id] += tien_thang
+            tien_thang = user_bets[user_id]['X'] * tile_thang
+            user_balance[user_id] += (int(tien_thang))
             
+    
     for user_id, diem in winner.items():
         balance = user_balance.get(user_id, 0)
         user_ids = bot.get_users(user_id)
@@ -326,7 +333,7 @@ def start_game(message, grid):
         kq1 += f"""{user_ids.mention} thắng {diem:,} điểm.Có {balance:,} điểm\n"""
         #kq1 += f"{user_id1} có {balance:,} điểm"
         #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={user_id}&text={kq1}")
-        bot.send_message(group_id, kq)
+        bot.send_message(user_id, kq)
         
     kq += f"""
 Tổng thắng: {total_win:,}đ
@@ -339,29 +346,41 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     winner.clear()
     mo_game.clear()
     luu_cau.clear()
-    time.sleep(3)
+    time.sleep(10)
     bot.delete_messages(group_id, idtext4)
 
 @bot.on_message(filters.command("diem"))
-async def check_balance(_, message):
+async def check_balance(_, message: Message):
     load_balance_from_file()
-    if message.reply_to_message:
-        user_id = await extract_user(message)
+    from_user = message.from_user#
+    if len(message.text.split()) == 1 and not message.reply_to_message:
+        if from_user.id not in user_balance:
+            return bot.send_message(message.chat.id, f"{from_user.mention} chưa khởi động bot. Vui lòng khởi động bot.")
+        balance = user_balance.get(from_user.id, 0)
+        await bot.send_message(message.chat.id, f"👤 Số điểm của {from_user.mention} là {balance:,} điểm 💰")
+        await bot.send_message(group_id2, f"👤 Số điểm của {from_user.mention} là {balance:,} điểm 💰")
+        return
+    if len(message.text.split()) == 1 and message.reply_to_message: 
+        user_id, username = await extract_user_and_reason(message)#
+        user = await bot.get_users(user_id)#
+        if not user_id: #
+            return await message.reply_text("không tìm thấy người này")
         if user_id not in user_balance:
-            return bot.send_message(message.chat.id, f"{mention} chưa khởi động bot. Vui lòng khởi động bot.")
+            return bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot. Vui lòng khởi động bot.")
         balance = user_balance.get(user_id, 0)
-        mention = (await bot.get_users(user_id)).mention
-        await bot.send_message(message.chat.id, f"👤 Số điểm của {mention} là {balance:,} điểm 💰")
-
+        await bot.send_message(message.chat.id, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
+        await bot.send_message(group_id2, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
+        return
     else:
-        user_id1 = message.from_user.first_name
-        user_id = message.from_user.id
-        balance = user_balance.get(user_id, 0)
-        mention = (await bot.get_users(user_id)).mention
+        user_id, username = await extract_user_and_reason(message)#
+        user = await bot.get_users(user_id)#
+        if not user_id: #
+            return await message.reply_text("không tìm thấy người này")
         if user_id not in user_balance:
-            return await bot.send_message(message.chat.id, f"{mention} chưa khởi động bot. Vui lòng khởi động bot.")
-        await bot.send_message(message.chat.id, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
-        await bot.send_message(group_id2, f"👤 Số điểm của {message.from_user.mention} là {balance:,} điểm 💰")
+            return bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot. Vui lòng khởi động bot.")
+        balance = user_balance.get(user_id, 0)
+        await bot.send_message(message.chat.id, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
+        await bot.send_message(group_id2, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
 
 def loai_cau(total_score):
   return "⚫️" if 11 <= total_score <= 18 else "⚪️"
@@ -462,11 +481,37 @@ Hướng dẫn sử dụng lệnh của bot
     bot.send_message(message.chat.id, text)
 
 @bot.on_message(filters.command("listdiem"))
-def soicau_taixiu(_, message):
+def listdiem(_, message):
     #chat_id = message.chat.id
     with open("id.txt", "r") as f:
         a = f.read()
         bot.send_message(group_id2, f"{a}")
+
+@bot.on_message(filters.command("topdiem"))
+def top_diem(_, message):
+    load_balance_from_file()
+    chat_id = message.chat.id
+    with open("id.txt", "r", encoding='utf-8') as f:
+        lines = f.read().splitlines()
+        top = f"Top 10 điểm cao nhất:\n"
+        for line in lines:
+            user_id, diem = line.split()
+            #diem = int(diem)
+            if int(diem) > 0:
+                topdiem = []
+                topdiem += {user_id}
+                topdiem += {diem}
+                td = topdiem
+                top += f"""{td}\n"""
+            #topdiem[int(user_id)] += (int(diem))
+            # = "/n".join(reversed(diem))
+
+            
+        bot.send_message(chat_id, top)
+    #for user_id, balance in user_balance.items():
+        #topdiem = []
+        #topdiem += [user_id], [balance]
+    #bot.send_message(group_id2, f"{topdiem}")
 ######################################################
 async def main():
     await bot.start()
