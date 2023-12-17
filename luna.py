@@ -179,7 +179,7 @@ def game_timer(message, grid, grtrangthai):
     reply_markup = InlineKeyboardMarkup(nut)
     text1 = bot.send_message(group_id, "Bắt đầu ván mới! Có 90 giây để đặt cược\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
     time.sleep(30)
-    text2 = await bot.send_message(group_id, "Còn 60s để đặt cược.")
+    text2 = bot.send_message(group_id, "Còn 60s để đặt cược.")
     
     time.sleep(20)  # Wait for 120 seconds
     text3 = bot.send_message(group_id, "Còn 40s để đặt cược.")
