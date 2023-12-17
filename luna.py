@@ -518,13 +518,27 @@ def top_diem(_, message):
 def list(_, message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
-        bot.send_message(chat_id, f"luu_cau: {luu_cau}")
-        bot.send_message(chat_id, f"mo_game: {mo_game}")
-        bot.send_message(chat_id, f"topdiem: {topdiem}")
-        bot.send_message(chat_id, f"user_bets: {user_bets}")
-        bot.send_message(chat_id, f"winner: {winner}")
-        bot.send_message(chat_id, f"user_balance: {user_balance}")
-        bot.send_message(chat_id, f"grid_trangthai: {grid_trangthai}")
+        ls = f"luu_cau: {luu_cau}"
+        ls += f"mo_game: {mo_game}"
+        ls += f"topdiem: {topdiem}"
+        ls += f"user_bets: {user_bets}"
+        ls += f"winner: {winner}"
+        ls += f"user_balance: {user_balance}"
+        ls += f"grid_trangthai: {grid_trangthai}"
+        bot.send_message(chat_id, ls)
+
+@bot.on_message(filters.command("clist"))
+def list(_, message):
+    chat_id = message.chat.id
+    if chat_id == group_id2 or group_id3:
+        luu_cau.clear()
+        mo_game.clear()
+        topdiem.clear()
+        user_bets.clear()
+        winner.clear()
+        user_balance.clear()
+        grid_trangthai.clear()
+        bot.send_message(chat_id, "Đã clear data")
                                           
         
 ######################################################
@@ -537,6 +551,7 @@ async def main():
 -----------------
 """
     )
+    await bot.send_message(group_id3, "bot Game đã mở")
     await idle()
 
 
