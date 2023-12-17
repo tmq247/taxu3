@@ -198,7 +198,8 @@ def game_timer(message, grid, grtrangthai):
 def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
-    user_id = message.from_user.id
+    user_id, diem = extract_user_and_reason(message)
+    #user_id = message.from_user.id
     grid = chat_id
     if user_id not in user_balance:
         return bot.send_message(chat_id, "Vui lòng khởi động bot để chơi game.")
