@@ -820,10 +820,10 @@ async def list(_, message):
         ls += f"user_game_state: {user_game_state}"
         ls += f"user_balances: {user_balances}"
         ls += f"user_bets: {user_bets}"
-        bot.send_message(chat_id, ls)
+        await bot.send_message(chat_id, ls)
 
 @bot.on_message(filters.command("clist"))
-def list(_, message):
+async def list(_, message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
         luu_cau.clear()
@@ -833,7 +833,7 @@ def list(_, message):
         winner.clear()
         user_balance.clear()
         grid_trangthai.clear()
-        bot.send_message(chat_id, "Đã clear data")
+        await bot.send_message(chat_id, "Đã clear data")
                          
 
 #################################
