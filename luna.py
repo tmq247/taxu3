@@ -231,7 +231,7 @@ async def handle_message(_, message: Message):
               
 
 # Function to confirm the bet and check user balance
-def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
+async def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
     user_id = message.from_user.id
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
@@ -255,12 +255,12 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
             #requests.get(f"https://api.telegram.org/bot{bot_token2}/sendMessage?chat_id={user_id}&text={request_message}")
             #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_id2}&text={text}")
-            bot.send_message(group_id, request_message)
-            bot.send_message(user_id, request_message)
+            await bot.send_message(group_id, request_message)
+            await bot.send_message(user_id, request_message)
             save_balance_to_file()
-            bot.send_message(group_id2, text)
+            await bot.send_message(group_id2, text)
         else:
-            bot.send_message(group_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
+            await bot.send_message(group_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
         soicau = [
         [
@@ -268,7 +268,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             InlineKeyboardButton(" Bot Nạp - Rút", url="https://t.me/diemallwin_bot"),
         ],]
         reply_markup = InlineKeyboardMarkup(soicau)
-        bot.send_message(group_id, f"Người chơi chưa khởi động bot, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
+        await bot.send_message(group_id, f"Người chơi chưa khởi động bot, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
 
 # Function to start the dice game
 def start_game(message, grid):
