@@ -341,7 +341,9 @@ async def update_balance_tru(diem, user_id, message):
   if user_id in user_balance and diem.isdigit():
     balance_change = int(diem)
     current_balance = user_balance.get(user_id, 0)
-    if current_balance <= 0 and current_balance < balance_change:
+    if current_balance <= 0 :
+        return await bot.send_message(group_id3, f"{user.mention} không đủ điểm để trừ")
+    if current_balance < balance_change:
         return await bot.send_message(group_id3, f"{user.mention} không đủ điểm để trừ")
     new_balance = current_balance - balance_change
     user_balance[user_id] = new_balance
