@@ -807,19 +807,20 @@ async def process_withdraw_amountnap(diemnap, user_id):
 async def list(_, message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
-        await bot.send_message(chat_id, f"user_state: {user_state}")
-        await bot.send_message(chat_id, f"rut: {rut}")
-        await bot.send_message(chat_id, f"nap: {nap}")
-        await bot.send_message(chat_id, f"user_balance: {user_balance}")
-        await bot.send_message(chat_id, f"user_bet_history: {user_bet_history}")
-        await bot.send_message(chat_id, f"user_withdraw_history: {user_withdraw_history}")
-        await bot.send_message(chat_id, f"napuser_withdraw_history: {napuser_withdraw_history}")
-        await bot.send_message(chat_id, f"used_gitcodes: {used_gitcodes}")
-        await bot.send_message(chat_id, f"gitcode_amounts: {gitcode_amounts}")
-        await bot.send_message(chat_id, f"user_pending_gitcodes: {user_pending_gitcodes}")
-        await bot.send_message(chat_id, f"user_game_state: {user_game_state}")
-        await bot.send_message(chat_id, f"user_balances: {user_balances}")
-        await bot.send_message(chat_id, f"user_bets: {user_bets}")
+        ls = f"user_state: {user_state}"
+        ls += f"rut: {rut}"
+        ls += f"nap: {nap}"
+        ls += f"user_balance: {user_balance}"
+        ls += f"user_bet_history: {user_bet_history}"
+        ls += f"user_withdraw_history: {user_withdraw_history}"
+        ls += f"napuser_withdraw_history: {napuser_withdraw_history}"
+        ls += f"used_gitcodes: {used_gitcodes}"
+        ls += f"gitcode_amounts: {gitcode_amounts}"
+        ls += f"user_pending_gitcodes: {user_pending_gitcodes}"
+        ls += f"user_game_state: {user_game_state}"
+        ls += f"user_balances: {user_balances}"
+        ls += f"user_bets: {user_bets}"
+        bot.send_message(chat_id, ls)
                          
 
 
