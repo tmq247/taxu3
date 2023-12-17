@@ -269,7 +269,7 @@ async def set_balance_cong(_, message: Message):
   if from_user not in admin:
       return await message.reply_text("Bạn không có quyền sử dụng lệnh này.")
   if len(message.text.split()) != 3:
-      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+      return await message.reply_text("⏲Nhập id và số điểm muốn cộng 🪤 \n🚬(ví dụ: /cdiem 12345 1000 )🎚")
   #lenh, user_id, diem = message.text.split()
   #user = bot.get_users(user_id)
   user_id, diem = await extract_user_and_reason(message)
@@ -282,7 +282,7 @@ async def set_balance_cong(_, message: Message):
   elif diem.isdigit():
       await update_balance_cong(diem, user_id, message)
   else:
-      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+      return await message.reply_text("⏲Nhập id và số điểm muốn cộng🪤 \n🚬(ví dụ: /cdiem 12345 1000)🎚")
       #await update_balance(diem, user_id, message)
    
     
@@ -311,7 +311,7 @@ async def update_balance_cong(diem, user_id, message):
     await bot.send_message(group_id, text)
       
   else:
-    await message.reply_text("Vui lòng nhập một số điểm hợp lệ.⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+    await message.reply_text("Vui lòng nhập một số điểm hợp lệ.⏲Nhập id và số điểm muốn cộng🪤 \n🚬(ví dụ: /cdiem 12345 1000)🎚")
 
 
 @bot.on_message(filters.command("tdiem"))
@@ -321,7 +321,7 @@ async def set_balance_tru(_, message: Message):
   if from_user not in admin:
       return await message.reply_text("Bạn không có quyền sử dụng lệnh này.")
   if len(message.text.split()) != 3:
-      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+      return await message.reply_text("⏲Nhập id và số điểm muốn trừ🪤 \n🚬(ví dụ: /tdiem 12345 1000)🎚)🎚")
   user_id, diem = await extract_user_and_reason(message)
   user = await bot.get_users(user_id)
   if not user_id:
@@ -331,7 +331,7 @@ async def set_balance_tru(_, message: Message):
   if diem.isdigit():
       await update_balance_tru(diem, user_id, message)
   else:
-      return await message.reply_text("⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+      return await message.reply_text("⏲Nhập id và số điểm muốn trừ🪤 \n🚬(ví dụ: /tdiem 12345 1000)🎚")
       #await update_balance(diem, user_id, message)
    
     
@@ -364,7 +364,7 @@ async def update_balance_tru(diem, user_id, message):
     #await bot.send_message(group_id, text)
       
   else:
-    await message.reply_text("Vui lòng nhập một số điểm hợp lệ.⏲Nhập id và số điểm muốn cộng hoặc trừ🪤 \n🚬(ví dụ: /cdiem 12345 +1000 hoặc /cdiem 12345 -1000)🎚")
+    await message.reply_text("Vui lòng nhập một số điểm hợp lệ.⏲Nhập id và số điểm muốn trừ🪤 \n🚬(ví dụ: /tdiem 12345 1000)🎚)🎚")
 
 
 
