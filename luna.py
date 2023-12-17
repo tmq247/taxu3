@@ -225,7 +225,7 @@ async def handle_message(_, message: Message):
     if len(mo_game) == 0:
             grtrangthai = 1
             grid = chat_id
-            game_timer(message, grid, grtrangthai)
+            await game_timer(message, grid, grtrangthai)
 
     
               
