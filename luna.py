@@ -198,7 +198,7 @@ def game_timer(message, grid, grtrangthai):
 def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
-    from_user = message.from_user.id
+    from_user = message.from_user
     user_id = bot.get_users(from_user).id
     grid = chat_id
     if user_id not in user_balance:
