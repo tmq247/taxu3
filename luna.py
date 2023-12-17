@@ -199,7 +199,7 @@ def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
     from_user = message.from_user.id
-    user_id = await bot.get_users(from_user)
+    user_id = bot.get_users(from_user)
     grid = chat_id
     if user_id not in user_balance:
         return bot.send_message(chat_id, "Vui lòng khởi động bot để chơi game.")
