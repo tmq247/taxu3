@@ -200,6 +200,7 @@ def handle_message(_, message: Message):
     chat_id = message.chat.id
     from_user = message.from_user
     user_id = bot.get_users(from_user).id
+    print(user_id)
     grid = chat_id
     if user_id not in user_balance:
         return bot.send_message(chat_id, "Vui lòng khởi động bot để chơi game.")
@@ -212,7 +213,6 @@ def handle_message(_, message: Message):
     if chat_id == group_id:
         # Check if the message is a valid bet
         if message.text and message.text.upper() in ['/T ALL', '/X ALL'] or (message.text and message.text.upper()[1] in ['T', 'X'] and message.text[3:].isdigit()): 
-            #user_id = message.from_user.id
             ten_ncuoc = message.from_user#.mention#first_name
             bet_type = message.text.upper()[1]
             if message.text.upper() == '/T ALL' or message.text.upper() == '/X ALL':
@@ -233,7 +233,6 @@ def handle_message(_, message: Message):
 
 # Function to confirm the bet and check user balance
 def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
-    user_id = message.from_user.id
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
     else:
