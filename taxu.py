@@ -237,9 +237,9 @@ Phí tặng điểm là 5%."""
         
         #if and message.text[2:].isdigit():
         if len(message.text.split()) == 2 and message.reply_to_message:
+            user_id, amount = await extract_user_and_reason(message)
             #lenh, amount = message.text.split(" ", 2)
             if amount.isdigit():
-                user_id = await extract_user_and_reason(message)
                 user = await bot.get_users(user_id)
                 if not user_id:
                     return await message.reply_text("không tìm thấy người này")
