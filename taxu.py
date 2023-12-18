@@ -15,20 +15,18 @@ import threading
 import asyncio
 from pyrogram import filters
 from pyrogram.enums import MessageEntityType
-from pyrogram.types import ForceReply, Message, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, MessageEntity
+from pyrogram.types import ForceReply, Message, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, MessageEntity, ReplyKeyboardMarkup
 from pyrogram.filters import command
 from functions import (
     extract_user,
     extract_user_and_reason,
     time_converter
 )
-from pyrogram.types import (InlineQueryResultArticle, InputTextMessageContent,
-                            InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup)
 #from telebot.util import quick_markup
 #from keyboard import ikb
 #from pykeyboard import InlineKeyboard
 from pyromod.exceptions import ListenerTimeout
-from config import bot_token, bot_token2, bot_token3, group_id, group_id2, group_id3, admin_id, admin_id2, admin_id3
+from config import bot_token, bot_token2, bot_token3, group_id, group_id2, group_id3, admin_id, admin_id2, admin_id3, channel_id
 #from luna import Luna, main
 
 is_config = os.path.exists("config.py")
