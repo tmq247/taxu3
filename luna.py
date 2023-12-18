@@ -70,11 +70,6 @@ def mo_bot():
         with open(bot_FILE, "a") as f:
             f.write(f"{user_id}:{trangthai}\n")
         return user_id
-    if bot_trangthai[user_id] == "bot_diem":
-        bot_trangthai[user_id] = ("bot_diem", trangthai)
-        with open(bot_FILE, "a") as f:
-            f.write(f"{user_id}: {"bot_diem"}: {trangthai}\n")
-        return user_id
     
 
 # Function to read Gitcodes from the file
