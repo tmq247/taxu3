@@ -192,6 +192,7 @@ def game_timer(message, grid, grtrangthai):
 @Luna.on_message(filters.command(["t", "x"]) & filters.text)
 def handle_message(_, message: Message):
     load_balance_from_file()
+    xem_bot()
     chat_id = message.chat.id
     from_user = message.from_user.id
     user_id = Luna.get_users(from_user).id
