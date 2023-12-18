@@ -69,7 +69,7 @@ def mo_bot(user_id):
     if user_id not in bot_trangthai:
         bot_trangthai[user_id] = trangthai
         with open(bot_FILE, "a") as f:
-            f.write(f"{user_id}:{trangthai}\n")
+            f.write(f"{user_id} {trangthai}\n")
         return user_id
     
 
