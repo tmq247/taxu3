@@ -77,7 +77,7 @@ def mo_bot(user_id):
 def xem_bot():
     with open(bot_FILE, "r") as f:
         for line in f:
-            user_id, trangthai  = line.strip().split(":")
+            user_id, trangthai  = line.strip().split()
             bot_trangthai[user_id] = trangthai
 
 # Function to remove a used Gitcode
@@ -108,7 +108,7 @@ def load_balance_from_file():
                 user_balance[int(user_id)] = balance
 
 #######################################################
-
+xem_bot()
 
 # Function to send a dice and get its value
 def send_dice(chat_id):
@@ -194,7 +194,6 @@ def game_timer(message, grid, grtrangthai):
 @Luna.on_message(filters.command(["t", "x"]) & filters.text)
 def handle_message(_, message: Message):
     load_balance_from_file()
-    xem_bot()
     chat_id = message.chat.id
     from_user = message.from_user.id
     user_id = Luna.get_users(from_user).id
