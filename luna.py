@@ -199,7 +199,7 @@ def handle_message(_, message: Message):
     print(user_id)
     grid = chat_id
     if user_id not in bot_trangthai:
-        return Luna.send_message(chat_id, "Vui lòng khởi động bot để chơi game.")
+        return Luna.send_message(chat_id, "Vui lòng khởi động bot @diemallwin_bot để chơi game.")
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
         return Luna.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     
@@ -262,7 +262,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             except Exception as e:
                 print("Error fetching user info:", e)
                 Luna.send_message(group_id3, f"Lỗi:{e}")
-                Luna.send_message(group_id, f"Lỗi:{ten_ncuoc.mention} chưa khởi động Bot https://t.me/alltowin_bot, hãy khởi động bot và đặt cược lại.")
+                Luna.send_message(group_id, f"Lỗi:{ten_ncuoc.mention} chưa khởi động Bot @alltowin_bot, hãy khởi động bot và đặt cược lại.")
         else:
             Luna.send_message(group_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
