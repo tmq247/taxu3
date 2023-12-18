@@ -64,6 +64,8 @@ bot_FILE = "bot.txt"
 # Function to create a Gitcode with a custom amount
 def mo_bot(user_id):
     trangthai = "bot_game"
+    if user_id in bot_trangthai:
+        return
     if user_id not in bot_trangthai:
         bot_trangthai[user_id] = trangthai
         with open(bot_FILE, "a") as f:
