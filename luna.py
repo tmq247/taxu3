@@ -364,6 +364,7 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
 @Luna.on_message(filters.command("diem"))
 async def check_balance(_, message: Message):
     load_balance_from_file()
+    xem_bot()
     from_user = message.from_user#
     if len(message.text.split()) == 1 and not message.reply_to_message:
         if from_user.id not in user_balance:
