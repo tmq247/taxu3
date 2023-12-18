@@ -155,7 +155,7 @@ def start_taixiu(_, message: Message):
         ],
             [InlineKeyboardButton("Vào nhóm để chơi GAME", url="https://t.me/sanhallwin"),],]
         reply_markup = InlineKeyboardMarkup(nut)
-        Luna.send_message(chat_id, f"Đang đợi đổ xúc xắc\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
+        Luna.send_message(chat_id, f"Đang đợi đổ xúc xắc\n LƯU Ý : HÃY BẤM VÀO 2 NÚT BÊN DƯỚI, ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
         nut2 = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
@@ -182,7 +182,7 @@ def game_timer(message, grid, grtrangthai):
             InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot?start=hi"),
         ],]
     reply_markup = InlineKeyboardMarkup(nut)
-    text1 = Luna.send_message(group_id, "Bắt đầu ván mới! Có 90 giây để đặt cược\n LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
+    text1 = Luna.send_message(group_id, "Bắt đầu ván mới! Có 90 giây để đặt cược\n LƯU Ý : HÃY BẤM VÀO 2 NÚT BÊN DƯỚI, ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
     time.sleep(30)
     text2 = Luna.send_message(group_id, "Còn 60s để đặt cược.")
     
@@ -214,7 +214,7 @@ def handle_message(_, message: Message):
             InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot?start=hi"),
         ],]
         reply_markup = InlineKeyboardMarkup(nut)
-        return Luna.send_message(chat_id, "Lỗi!!! Vui lòng bấm vào cả 2 nút bên dưới để chơi game.", reply_markup=reply_markup)
+        return Luna.send_message(chat_id, "Lỗi!!! Vui lòng bấm vào cả 2 nút bên dưới và thử lại.", reply_markup=reply_markup)
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
         return Luna.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     
@@ -298,7 +298,7 @@ def start_game(message, grid):
     soicau = [
         [
             InlineKeyboardButton("Soi cầu", url="https://t.me/kqtaixiu"),
-            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot"),
+            InlineKeyboardButton("Nạp - Rút", url="https://t.me/diemallwin_bot?start=hi"),
         ],]
     reply_markup = InlineKeyboardMarkup(soicau)
     total_bet_T = sum([user_bets[user_id]['T'] for user_id in user_bets])
@@ -476,7 +476,7 @@ def show_main_menu(_, message: Message):
 
 📎 <b> https://t.me/sanhallwin</b> 
 
-<b> LƯU Ý : HÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME<b>
+<b> LƯU Ý : HÃY BẤM VÀO 2 NÚT BÊN DƯỚI, ĐỂ CÓ THỂ CHƠI GAME<b>
 """
     Luna.send_photo(message.chat.id,
                  photo_url,
