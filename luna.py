@@ -197,7 +197,7 @@ def handle_message(_, message: Message):
     user_id = Luna.get_users(from_user).id
     print(user_id)
     grid = chat_id
-    if user_id not in user_balance:
+    if user_id not in bot_trangthai:
         return Luna.send_message(chat_id, "Vui lòng khởi động bot để chơi game.")
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
         return Luna.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
