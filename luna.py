@@ -255,12 +255,11 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
                 request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
                 #requests.get(f"https://api.telegram.org/bot{bot_token2}/sendMessage?chat_id={user_id}&text={request_message}")
                 #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_id2}&text={text}")
-                Luna.send_message(group_id, request_message)
                 print(user_id)
                 Luna.send_message(user_id, request_message)
-                save_balance_to_file()
+                Luna.send_message(group_id, request_message)
                 Luna.send_message(group_id2, text)
-
+                save_balance_to_file()
             except Exception as e:
                 print("Error fetching user info:", e)
                 Luna.send_message(group_id3, f"Lỗi:{e}")
