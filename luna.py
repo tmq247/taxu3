@@ -424,7 +424,7 @@ def soicau_taixiu(_, message: Message):
 def show_main_menu(_, message: Message):
     user_id = message.from_user.id
     load_balance_from_file()
-    if user_id not in bot_trangthai
+    if user_id not in bot_trangthai:
         mo_bot()
         print(bot_trangthai)
   # Check if the user is already in the user_balance dictionary
