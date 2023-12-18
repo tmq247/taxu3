@@ -203,8 +203,8 @@ def game_timer(message, grid, grtrangthai):
 def handle_message(_, message: Message):
     load_balance_from_file()
     chat_id = message.chat.id
-    from_user = message.from_user.id
-    user_id = Luna.get_users(from_user).id
+    user_id = message.from_user.id
+    #user_id = Luna.get_users(from_user).id
     grid = chat_id
     xem_bot()
     if user_id not in bot_trangthai:
