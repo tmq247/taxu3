@@ -14,14 +14,14 @@ import pytz
 import threading
 import asyncio
 from pyrogram import filters
-from pyrogram.types import  Message, InlineKeyboardButton, InlineKeyboardMarkup, ChatPermissions
+from pyrogram.types import ForceReply, Message, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, MessageEntity
 from pyrogram.filters import command
 from functions import (
     extract_user,
     extract_user_and_reason,
     time_converter,
 )
-#from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from pyrogram.enums import MessageEntityType
 from telebot.util import quick_markup
 #from keyboard import ikb
 #from pykeyboard import InlineKeyboard
