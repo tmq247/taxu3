@@ -29,7 +29,7 @@ from pyrogram.types import (InlineQueryResultArticle, InputTextMessageContent,
 #from pykeyboard import InlineKeyboard
 from pyromod.exceptions import ListenerTimeout
 from config import bot_token, bot_token2, bot_token3, group_id, group_id2, group_id3, admin_id, admin_id2, admin_id3
-from luna import Luna, main
+#from luna import Luna, main
 
 is_config = os.path.exists("config.py")
 
