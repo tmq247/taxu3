@@ -854,7 +854,6 @@ async def dong(_, message: Message):
 
 ##################################
 async def main2():
-    main()
 
     await bot.start()
     await Luna.start()
