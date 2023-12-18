@@ -196,10 +196,9 @@ def handle_message(_, message: Message):
     chat_id = message.chat.id
     from_user = message.from_user.id
     user_id = Luna.get_users(from_user).id
-    print(user_id)
     grid = chat_id
     if user_id not in bot_trangthai:
-        return Luna.send_message(chat_id, "Vui lòng khởi động bot @diemallwin_bot để chơi game.")
+        return Luna.send_message(chat_id, "Vui lòng khởi động bot @diemallwin_bot bằng lệnh /start để chơi game.")
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
         return Luna.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     
@@ -424,7 +423,7 @@ def soicau_taixiu(_, message: Message):
 def show_main_menu(_, message: Message):
     user_id = message.from_user.id
     load_balance_from_file()
-    if user_id not in bot_trangthai:
+    if user_id not in bot_trangthai and filters.private:
         mo_bot(user_id)
         print(bot_trangthai)
   # Check if the user is already in the user_balance dictionary
