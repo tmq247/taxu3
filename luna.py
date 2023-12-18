@@ -75,7 +75,7 @@ def mo_bot(user_id):
 
 # Function to read Gitcodes from the file
 def xem_bot():
-    if os.path.exists("bot.txt"):
+    if os.path.exists("bot_FILE"):
         with open(bot_FILE, "r") as f:
             for line in f:
                 user_id, trangthai  = line.strip().split()
@@ -107,6 +107,14 @@ def load_balance_from_file():
                 if balance.is_integer():
                     balance = int(balance)
                 user_balance[int(user_id)] = balance
+
+def get_user_info(user_id):
+  try:
+    user = bot.get_chat(user_id)
+    return user
+  except Exception as e:
+    print("Error fetching user info:", e)
+    return None
 
 #######################################################
 load_balance_from_file()
@@ -198,9 +206,9 @@ def handle_message(_, message: Message):
     from_user = message.from_user.id
     user_id = Luna.get_users(from_user).id
     grid = chat_id
-    xem_bot()
-    if user_id not in bot_trangthai:
-        return Luna.send_message(chat_id, "Vui lòng khởi động bot @diemallwin_bot và @alltowin_bot bằng lệnh /start trong ib để chơi game.")
+    #xem_bot()
+    #if user_id not in bot_trangthai:
+        #return Luna.send_message(chat_id, "Vui lòng khởi động bot @diemallwin_bot và @alltowin_bot bằng lệnh /start trong ib để chơi game.")
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
         return Luna.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     
