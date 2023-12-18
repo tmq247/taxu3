@@ -405,7 +405,7 @@ async def show_main_menu(_, message: Message):
 
 📎 <b> https://t.me/sanhallwin</b> 
 
-Khởi động bot GAME và vào nhóm bên dưới để chơi GAME
+LƯU Ý: BẤM VÀO NÚT bot GAME VÀ NÚT vào nhóm bên dưới để chơi GAME
 """
     await bot.send_photo(message.chat.id,
                  photo_url,
