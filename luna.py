@@ -206,9 +206,10 @@ def handle_message(_, message: Message):
     from_user = message.from_user.id
     user_id = Luna.get_users(from_user).id
     grid = chat_id
-    #xem_bot()
-    #if user_id not in bot_trangthai:
-        #return Luna.send_message(chat_id, "Vui lòng khởi động bot @diemallwin_bot và @alltowin_bot bằng lệnh /start trong ib để chơi game.")
+    xem_bot()
+    if user_id not in bot_trangthai:
+        bot_trangthai[user_id] = 0
+        return Luna.send_message(chat_id, "Vui lòng khởi động bot @diemallwin_bot và @alltowin_bot bằng lệnh /start trong ib để chơi game.")
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
         return Luna.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     
