@@ -14,7 +14,7 @@ import pytz
 import threading
 import asyncio
 from pyrogram import filters
-from pyrogram.types import ForceReply, Message, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, MessageEntity
+from pyrogram.types import ForceReply, Message, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, MessageEntity, ReplyKeyboardMarkup
 from pyrogram.filters import command
 from functions import (
     extract_user,
@@ -22,13 +22,10 @@ from functions import (
     time_converter,
 )
 from pyrogram.enums import MessageEntityType
-from telebot.util import quick_markup
-#from keyboard import ikb
-#from pykeyboard import InlineKeyboard
-import telebot
+#import telebot
 #from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
-from telebot import TeleBot, types
-from config import bot_token, bot_token2, group_id, group_id2, channel_id
+#from telebot import TeleBot, types
+from config import bot_token, bot_token2, bot_token3, group_id, group_id2, group_id3, admin_id, admin_id2, admin_id3, channel_id
 
 is_config = os.path.exists("config.py")
 
