@@ -857,6 +857,7 @@ async def main2():
     main()
 
     await bot.start()
+    await Luna.start()
     print(
         """
 -----------------
