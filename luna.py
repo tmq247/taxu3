@@ -263,7 +263,8 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
 
             except Exception as e:
                 print("Error fetching user info:", e)
-                Luna.send_message(group_id, f"Lỗi:{e}")
+                Luna.send_message(group_id3, f"Lỗi:{e}")
+                Luna.send_message(group_id, f"Lỗi:{ten_ncuoc.mention} chưa khởi động Bot https://t.me/alltowin_bot, hãy khởi động bot và đặt cược lại.")
         else:
             Luna.send_message(group_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
