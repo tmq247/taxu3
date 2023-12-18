@@ -247,18 +247,23 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
             else:
                 user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
                 user_bets[user_id][bet_type] += bet_amount
-            user_balance[user_id] -= bet_amount
-            text = f"""{diemcuoc} \nCược đã được chấp nhận."""
-            balance = user_balance.get(user_id, 0)
-            text += f"Còn {balance:,} điểm"
-            request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
-            #requests.get(f"https://api.telegram.org/bot{bot_token2}/sendMessage?chat_id={user_id}&text={request_message}")
-            #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_id2}&text={text}")
-            Luna.send_message(group_id, request_message)
-            print(user_id)
-            Luna.send_message(user_id, request_message)
-            save_balance_to_file()
-            Luna.send_message(group_id2, text)
+            try:
+                user_balance[user_id] -= bet_amount
+                text = f"""{diemcuoc} \nCược đã được chấp nhận."""
+                balance = user_balance.get(user_id, 0)
+                text += f"Còn {balance:,} điểm"
+                request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
+                #requests.get(f"https://api.telegram.org/bot{bot_token2}/sendMessage?chat_id={user_id}&text={request_message}")
+                #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_id2}&text={text}")
+                Luna.send_message(group_id, request_message)
+                print(user_id)
+                Luna.send_message(user_id, request_message)
+                save_balance_to_file()
+                Luna.send_message(group_id2, text)
+
+            except Exception as e:
+                print("Error fetching user info:", e)
+                Luna.send_message(group_id, f"Lỗi:{e})
         else:
             Luna.send_message(group_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
