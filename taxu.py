@@ -92,7 +92,7 @@ def load_balance_from_file():
         user_balance[int(user_id)] = balance
 
 # Gọi hàm load_balance_from_file khi chương trình chạy để tải số dư từ tệp
-#load_balance_from_file()
+load_balance_from_file()
 
 # Add these variables for Gitcode handling
 GITCODE_FILE = "gitcode.txt"
