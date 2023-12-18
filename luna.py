@@ -57,28 +57,32 @@ user_balance = {}
 
 #########################
 
-grid_trangthai = {}
+bot_trangthai = {}
 
 # Add these variables for Gitcode handling
-grid_FILE = "grid.txt"
+bot_FILE = "bot.txt"
 # Function to create a Gitcode with a custom amount
-def tao_grid(chat_id):
-    th = '1'
-    trangthai = int(th)
-    grid = chat_id
-    grid_trangthai[grid] = trangthai
-    with open(grid_FILE, "a") as f:
-        f.write(f"{grid}:{trangthai}\n")
-    return grid
+def mo_bot():
+    trangthai = "bot_game"
+    user_id = message.from_user.id
+    if user_id not in bot_trangthai
+        bot_trangthai[user_id] = trangthai
+        with open(bot_FILE, "a") as f:
+            f.write(f"{user_id}:{trangthai}\n")
+        return user_id
+    if bot_trangthai[user_id] == "bot_diem":
+        bot_trangthai[user_id] = ("bot_diem", trangthai)
+        with open(bot_FILE, "a") as f:
+            f.write(f"{user_id}:{"bot_diem"}, {trangthai}\n")
+        return user_id
+    
 
 # Function to read Gitcodes from the file
-def xem_grid():
-    if not os.path.exists(grid_FILE):
-        return
-    with open(grid_FILE, "r") as f:
+def xem_bot():
+    with open(bot_FILE, "r") as f:
         for line in f:
-            grid, trangthai = line.strip().split(":")
-            grid_trangthai[grid] = int(trangthai)
+            user_id, trangthai  = line.strip().split(":")
+            bot_trangthai[user_id] = trangthai
 
 # Function to remove a used Gitcode
 def xoa_grid(grid):
@@ -425,7 +429,9 @@ def soicau_taixiu(_, message: Message):
 def show_main_menu(_, message: Message):
     user_id = message.from_user.id
     load_balance_from_file()
-    
+    if user_id not in bot_trangthai
+        mo_bot()
+        print(bot_trangthai)
   # Check if the user is already in the user_balance dictionary
     if user_id not in user_balance:
         user_balance[user_id] = 0  # Set initial balance to 0 for new users
@@ -531,7 +537,7 @@ def list(_, message: Message):
         ls += f"user_bets: {user_bets}"
         ls += f"winner: {winner}"
         ls += f"user_balance: {user_balance}"
-        ls += f"grid_trangthai: {grid_trangthai}"
+        ls += f"bot_trangthai: {bot_trangthai}"
         Luna.send_message(chat_id, ls)
 
 @Luna.on_message(filters.command("xoalist"))
@@ -544,7 +550,7 @@ def list(_, message: Message):
         user_bets.clear()
         winner.clear()
         user_balance.clear()
-        grid_trangthai.clear()
+        bot_trangthai.clear()
         Luna.send_message(chat_id, "Đã clear data")
 
 
@@ -633,7 +639,7 @@ async def main():
     user_bets.clear()
     winner.clear()
     user_balance.clear()
-    grid_trangthai.clear()
+    bot_trangthai.clear()
     await Luna.send_message(group_id3, "Bot Game đã mở")
     await idle()
 
