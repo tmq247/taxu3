@@ -213,8 +213,7 @@ def handle_message(_, message: Message):
             InlineKeyboardButton("Bot Nạp - Rút", url="https://t.me/diemallwin_bot?start=hi"),
             InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot?start=hi"),
         ],]
-    reply_markup = InlineKeyboardMarkup(nut)
-        bot_trangthai[user_id] = 0
+        reply_markup = InlineKeyboardMarkup(nut)
         return Luna.send_message(chat_id, "Lỗi!!! Vui lòng bấm vào cả 2 nút bên dưới để chơi game.", reply_markup=reply_markup)
     if len(mo_game) > 0 and mo_game[grid]['tthai'] == 2:
         return Luna.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
