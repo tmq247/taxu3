@@ -242,12 +242,12 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
     if user_id in user_balance:
         # Check user balance
         if user_balance[user_id] >= bet_amount:
-            if user_id in user_bets:
-                user_bets[user_id][bet_type] += bet_amount  
-            else:
-                user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
-                user_bets[user_id][bet_type] += bet_amount
             try:
+                if user_id in user_bets:
+                    user_bets[user_id][bet_type] += bet_amount  
+                else:
+                    user_bets[user_id] = {'T': 0, 'X': 0}  # Initialize the user's bets if not already present
+                    user_bets[user_id][bet_type] += bet_amount
                 user_balance[user_id] -= bet_amount
                 text = f"""{diemcuoc} \nCược đã được chấp nhận."""
                 balance = user_balance.get(user_id, 0)
