@@ -562,7 +562,7 @@ async def chuyentien_money(_, message: Message):
                 if not user_id:
                     return await message.reply_text("không tìm thấy người này")
                 if user_id not in user_balance:
-                    user_balance[user_id] = 0
+                    #user_balance[user_id] = 0
                 #if await deduct_balance(from_user, user_id, amount, message):
                     amount = int(amount)
                     #await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
@@ -581,7 +581,7 @@ async def chuyentien_money(_, message: Message):
                 if not user_id:
                     return await message.reply_text("không tìm thấy người này")
                 if user_id not in user_balance:
-                    user_balance[user_id] = 0
+                    #user_balance[user_id] = 0
                 #if await deduct_balance(from_user, user_id, amount, message):
                     amount = int(amount)
                     from_user1 = message.from_user.mention
