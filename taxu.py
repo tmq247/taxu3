@@ -29,6 +29,7 @@ from pyrogram.types import (InlineQueryResultArticle, InputTextMessageContent,
 #from pykeyboard import InlineKeyboard
 from pyromod.exceptions import ListenerTimeout
 from config import bot_token, bot_token2, bot_token3, group_id, group_id2, group_id3, admin_id, admin_id2, admin_id3
+from luna import Luna
 
 is_config = os.path.exists("config.py")
 
@@ -250,6 +251,7 @@ Phí tặng điểm là 5%."""
                     from_user1 = message.from_user.mention
                     await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
                     await bot.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+                    await Luna.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
                     await bot.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ, id người tặng là: {from_user}.")
                     return
             
