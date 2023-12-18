@@ -75,10 +75,11 @@ def mo_bot(user_id):
 
 # Function to read Gitcodes from the file
 def xem_bot():
-    with open(bot_FILE, "r") as f:
-        for line in f:
-            user_id, trangthai  = line.strip().split()
-            bot_trangthai[user_id] = trangthai
+    if os.path.exists("bot.txt"):
+        with open(bot_FILE, "r") as f:
+            for line in f:
+                user_id, trangthai  = line.strip().split()
+                bot_trangthai[user_id] = trangthai
 
 # Function to remove a used Gitcode
 def xoa_grid(grid):
