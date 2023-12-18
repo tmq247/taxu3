@@ -548,7 +548,7 @@ def list(_, message: Message):
 
 ################################
 
-@bot.on_message(filters.command("tangdiem"))
+@Luna.on_message(filters.command("tangdiem"))
 async def chuyentien_money(_, message: Message):
     from_user = message.from_user.id
     load_balance_from_file()
