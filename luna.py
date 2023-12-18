@@ -108,7 +108,7 @@ def load_balance_from_file():
                 user_balance[int(user_id)] = balance
 
 #######################################################
-
+load_balance_from_file()
 # Function to send a dice and get its value
 def send_dice(chat_id):
     response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
