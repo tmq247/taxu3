@@ -561,14 +561,14 @@ async def chuyentien_money(_, message: Message):
             if amount.isdigit():
                 if not user_id:
                     return await message.reply_text("không tìm thấy người này")
-                if user_id not in user_balance:
+                #if user_id not in user_balance:
                     #user_balance[user_id] = 0
                 #if await deduct_balance(from_user, user_id, amount, message):
-                    amount = int(amount)
-                    #await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
-                    await Luna.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                    #await Luna.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. ID người tặng là: {from_user}.")
-                    return
+                amount = int(amount)
+                #await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
+                await Luna.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+                #await Luna.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. ID người tặng là: {from_user}.")
+                return
             else:
                 return await message.reply(text)
         
@@ -580,15 +580,15 @@ async def chuyentien_money(_, message: Message):
                 user = await Luna.get_users(user_id)
                 if not user_id:
                     return await message.reply_text("không tìm thấy người này")
-                if user_id not in user_balance:
+                #if user_id not in user_balance:
                     #user_balance[user_id] = 0
                 #if await deduct_balance(from_user, user_id, amount, message):
-                    amount = int(amount)
-                    from_user1 = message.from_user.mention
-                    #await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
-                    await Luna.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                    #await Luna.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ, id người tặng là: {from_user}.")
-                    return
+                amount = int(amount)
+                from_user1 = message.from_user.mention
+                #await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
+                await Luna.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
+                #await Luna.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ, id người tặng là: {from_user}.")
+                return
             
             else:
                 return
