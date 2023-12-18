@@ -62,9 +62,8 @@ bot_trangthai = {}
 # Add these variables for Gitcode handling
 bot_FILE = "bot.txt"
 # Function to create a Gitcode with a custom amount
-def mo_bot():
+def mo_bot(user_id):
     trangthai = "bot_game"
-    user_id = message.from_user.id
     if user_id not in bot_trangthai:
         bot_trangthai[user_id] = trangthai
         with open(bot_FILE, "a") as f:
@@ -425,7 +424,7 @@ def show_main_menu(_, message: Message):
     user_id = message.from_user.id
     load_balance_from_file()
     if user_id not in bot_trangthai:
-        mo_bot()
+        mo_bot(user_id)
         print(bot_trangthai)
   # Check if the user is already in the user_balance dictionary
     if user_id not in user_balance:
