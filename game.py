@@ -1416,7 +1416,7 @@ atexit.register(save_balance_to_file)
 ######################################################
 async def main():
     apps = (bot, Luna)
-    await compose(apps)
+    await apps.start()
     #Luna.start()
     print(
         """
