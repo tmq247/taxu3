@@ -275,13 +275,14 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
                 Luna.send_message(user_id, request_message)
                 Luna.send_message(group_id, request_message)
                 Luna.send_message(group_id2, text)
+                save_balance_to_file()
+                load_balance_from_file()
             
             except Exception as e:
                 print("Error fetching user info:", e)
                 Luna.send_message(group_id3, f"Lỗi:{e}")
                 Luna.send_message(group_id, f"Lỗi:{ten_ncuoc.mention} chưa khởi động Bot @alltowin_bot, hãy khởi động bot và đặt cược lại.")
 
-        save_balance_to_file()
         else:
             Luna.send_message(group_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
@@ -343,7 +344,8 @@ def start_game(message, grid):
             #tien_thang = user_bets[user_id]['X'] * tile_thang
             user_balance[user_id] += (int(user_bets[user_id]['X'] * tile_thang))
             
-    save_balance_to_file()        
+    save_balance_to_file()
+    load_balance_from_file()
     
     for user_id, diem in winner.items():
         balance = user_balance.get(user_id, 0)
