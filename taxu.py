@@ -885,14 +885,14 @@ async def list(_, message: Message):
                          
 
 #################################
-
+@atexit.register
 def on_exit():
     save_balance_to_file()
-    bot.send_message(group_id3, "Bot điểm đã tắt")
+    #bot.send_message(group_id3, "Bot điểm đã tắt")
     print("Bot điểm đã tắt")
 
 # Xử lý khi bot bị tắt hoặc lỗi
-atexit.register(on_exit)
+#atexit.register(on_exit)
 
 #@bot.on_message(filters.command("tatbotdiem"))
 #@atexit.register
