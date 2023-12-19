@@ -122,8 +122,8 @@ def get_user_info(user_id):
 
 # Function to send a dice and get its value
 def send_dice(chat_id):
-    response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
-    #response = Luna.send_dice(chat_id, "🎲")
+    #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
+    response = Luna.send_dice(chat_id, "🎲")
     if response.status_code == 200:
         data = response.json()
         if 'result' in data and 'dice' in data['result']:
