@@ -1418,7 +1418,7 @@ async def dong(_, message: Message):
                                           
         
 ######################################################
-def main():
+async def main():
     Luna.start()
     print(
         """
@@ -1427,7 +1427,7 @@ def main():
 -----------------
 """
     )
-  bot.start()
+  await bot.start()
     print(
         """
 -----------------
@@ -1445,14 +1445,14 @@ def main():
     user_pending_gitcodes.clear()
     user_game_state.clear()
     user_bets.clear()
-    bot.send_message(group_id3, "bot Điểm đã mở")
+    await bot.send_message(group_id3, "bot Điểm đã mở")
     luu_cau.clear()
     mo_game.clear()
     topdiem.clear()
     user_bets.clear()
     winner.clear()
-    Luna.send_message(group_id3, "Bot Game đã mở")
-    idle()
+    await Luna.send_message(group_id3, "Bot Game đã mở")
+    await idle()
 
 
 loop = get_event_loop()
