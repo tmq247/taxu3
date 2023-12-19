@@ -81,6 +81,8 @@ def xem_bot():
                 user_id, trangthai  = line.strip().split()
                 bot_trangthai[user_id] = trangthai
 
+xem_bot()
+
 # Function to remove a used Gitcode
 def xoa_grid(grid):
     with open(grid_FILE, "r") as f:
@@ -108,6 +110,8 @@ def load_balance_from_file():
                     balance = int(balance)
                 user_balance[int(user_id)] = balance
 
+load_balance_from_file()
+
 def get_user_info(user_id):
   try:
     user = bot.get_chat(user_id)
@@ -117,8 +121,7 @@ def get_user_info(user_id):
     return None
 
 #######################################################
-load_balance_from_file()
-#xem_bot()
+
 # Function to send a dice and get its value
 def send_dice(chat_id):
     response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
