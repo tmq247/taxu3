@@ -129,8 +129,8 @@ def send_dice(_, message: Message):
     response = Luna.send_dice(chat_id, "🎲") #🎲
     print({response.dice.value})
     while m.dice.value == 2:
-        await response.delete()
-        response = await client.send_dice(chat_id, "🎲")
+        response.delete()
+        response = Luna.send_dice(chat_id, "🎲")
     #if response.status_code == 200:
         #data = response.json()
         #if 'result' in data and 'dice' in data['result']:
