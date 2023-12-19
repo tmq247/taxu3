@@ -80,7 +80,6 @@ def xem_bot():
             for line in f:
                 user_id, trangthai  = line.strip().split()
                 bot_trangthai[user_id] = trangthai
-
 xem_bot()
 
 # Function to remove a used Gitcode
@@ -109,7 +108,6 @@ def load_balance_from_file():
                 if balance.is_integer():
                     balance = int(balance)
                 user_balance[int(user_id)] = balance
-
 load_balance_from_file()
 
 def get_user_info(user_id):
@@ -211,7 +209,9 @@ def handle_message(_, message: Message):
     user_id = message.from_user.id
     #user_id = Luna.get_users(from_user).id
     grid = chat_id
+    print(bot_trangthai,1)
     xem_bot()
+    print(bot_trangthai,2)
     if chat_id != group_id:
         return Luna.send_message(chat_id, "Vào nhóm t.me/sanhallwin để chơi GAME.")
     if user_id not in bot_trangthai:
@@ -258,8 +258,8 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
     
     # Check if the user_id is present in user_balance dictionary
     if user_id in user_balance:
-        if bet_amount <= 0:
-            Luna.send_message(user_id, "Bạn không đủ điểm để đặt cược, vui lòng nạp điểm.")
+        if bet_amount <= 0 and user_balance[user_id] <= 0:
+            return Luna.send_message(user_id, "Bạn không đủ điểm để đặt cược, vui lòng nạp điểm.")
         # Check user balance
         if user_balance[user_id] >= bet_amount:
             try:
@@ -373,9 +373,9 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     
     user_bets.clear()
     winner.clear()
-    mo_game.clear()
     luu_cau.clear()
     time.sleep(10)
+    mo_game.clear()
     Luna.delete_messages(group_id, idtext4)
 
 @Luna.on_message(filters.command("diem"))
@@ -392,6 +392,8 @@ async def check_balance(_, message: Message):
     if len(message.text.split()) == 1 and message.reply_to_message: 
         user_id, username = await extract_user_and_reason(message)#
         user = await Luna.get_users(user_id)#
+        if user_id in admin
+            return
         if not user_id: #
             return await message.reply_text("không tìm thấy người này")
         if user_id not in user_balance:
@@ -403,6 +405,8 @@ async def check_balance(_, message: Message):
     else:
         user_id, username = await extract_user_and_reason(message)#
         user = await Luna.get_users(user_id)#
+        if user_id in admin
+            return
         if not user_id: #
             return await message.reply_text("không tìm thấy người này")
         if user_id not in user_balance:
@@ -456,7 +460,7 @@ def show_main_menu(_, message: Message):
         mo_bot(user_id)
         print(bot_trangthai)
   # Check if the user is already in the user_balance dictionary
-    #xem_bot()
+    xem_bot()
     if user_id not in user_balance:
         user_balance[user_id] = 0  # Set initial balance to 0 for new users
         save_balance_to_file()  # Save user balances to the text file
@@ -608,7 +612,9 @@ def list(_, message: Message):
 @atexit.register
 def on_exit():
     save_balance_to_file()
+    request_message = f"Bot Game đã tắt"
     #Luna.send_message(group_id3, "Bot Game đã tắt")
+    requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_id3}&text={request_message}")
     print("Bot Game đã tắt")
 
 # Xử lý khi bot bị tắt hoặc lỗi
