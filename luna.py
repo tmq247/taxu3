@@ -132,7 +132,7 @@ def send_dice(chat_id):
         #data = response.json()
         #if 'result' in data and 'dice' in data['result']:
             #print(data['result']['dice']['value'])
-            return data['result']['dice']['value']
+            #return data['result']['dice']['value']
     return result #None
     
 # Hàm kiểm Tài/Xỉu
