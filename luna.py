@@ -119,7 +119,7 @@ def get_user_info(user_id):
     return None
 
 #######################################################
-@Luna.on_message(filters.command("xx"))
+#@Luna.on_message(filters.command("xx"))
 def send_dice2(_, message: Message):
     chat_id = message.chat.id
     response = (Luna.send_dice(chat_id, "🎲") for _ in range(3))
@@ -147,7 +147,7 @@ def send_dice(chat_id):
         #if 'result' in data and 'dice' in data['result']:
             #print(data['result']['dice']['value'])
             #return data['result']['dice']['value']
-    return result #None
+    return result, response #None
     
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
@@ -317,6 +317,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         Luna.send_message(group_id, f"Người chơi chưa khởi động Luna, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
 
 # Function to start the dice game
+@Luna.on_message(filters.command("xx"))
 def start_game(message, grid):
     #load_balance_from_file()
     grtrangthai2 = 1
@@ -341,14 +342,11 @@ def start_game(message, grid):
     text4 = Luna.send_message(group_id, text)
     idtext4 = text4.id
     time.sleep(3)  # Simulating dice rolling
-    
-    #send_dice = (Luna.send_dice(group_id, "🎲")) #🎲
-    #print(response.dice.value)
-    #result = response.dice.value
-    response = [Luna.send_dice(group_id, "🎲") for _ in range(3)]
-    result = response.dice.value
-    print(result)
+
+    print(result, response)
+    result = [send_dice(group_id) for _ in range(3)]
     total_score = sum(result)
+    print(result)
     while total_score >= 11:
         result.delete()
         #response = Luna.send_dice(group_id, "🎲")
