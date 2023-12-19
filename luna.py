@@ -135,6 +135,7 @@ def send_dice2(_, message: Message):
         result = [response for _ in range(3)]
         total_score = sum(result)
         print(total_score)
+        
 
 # Function to send a dice and get its value
 def send_dice(chat_id):
@@ -143,11 +144,15 @@ def send_dice(chat_id):
     print(response.dice.value)
     result = response.dice.value
     #if response.status_code == 200:
+        while result >= 4:
+            response.delete()
+            response = Luna.send_dice(group_id, "🎲")
+            result = response.dice.value
         #data = response.json()
         #if 'result' in data and 'dice' in data['result']:
             #print(data['result']['dice']['value'])
             #return data['result']['dice']['value']
-    return result #None
+        return result #None
     
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
