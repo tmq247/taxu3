@@ -532,7 +532,7 @@ def listdiem(_, message: Message):
         #ls += f"topdiem: {topdiem}"
         #ls += f"user_bets: {user_bets}"
         #ls += f"winner: {winner}"
-        ls += f"user_balance: {user_balance}"
+        ls = f"user_balance: {user_balance}"
         #ls += f"bot_trangthai: {bot_trangthai}"
         Luna.send_message(chat_id, ls)
         save_balance_to_file()
@@ -602,56 +602,7 @@ def list(_, message: Message):
 
 ################################
 
-#@Luna.on_message(filters.command("tangdiem"))
-async def chuyentien_money(_, message: Message):
-    from_user = message.from_user.id
-    #load_balance_from_file()
-    if len(message.text.split()) != 3 or len(message.text.split()) != 2 :
-        if len(message.text.split()) == 3:
-            user_id, amount = await extract_user_and_reason(message)
-            user = await Luna.get_users(user_id)
-            from_user1 = message.from_user.mention
-            #lenh, user_id, amount = message.text.split(" ", 3)
-            if amount.isdigit():
-                if not user_id:
-                    return await message.reply_text("không tìm thấy người này")
-                #if user_id not in user_balance:
-                    #user_balance[user_id] = 0
-                #if await deduct_balance(from_user, user_id, amount, message):
-                amount = int(amount)
-                #await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
-                await Luna.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                #await Luna.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. ID người tặng là: {from_user}.")
-                return
-            else:
-                return await message.reply(text)
-        
-        #if and message.text[2:].isdigit():
-        if len(message.text.split()) == 2 and message.reply_to_message:
-            user_id, amount = await extract_user_and_reason(message)
-            #lenh, amount = message.text.split(" ", 2)
-            if amount.isdigit():
-                user = await Luna.get_users(user_id)
-                if not user_id:
-                    return await message.reply_text("không tìm thấy người này")
-                #if user_id not in user_balance:
-                    #user_balance[user_id] = 0
-                #if await deduct_balance(from_user, user_id, amount, message):
-                amount = int(amount)
-                from_user1 = message.from_user.mention
-                #await message.reply_text(f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ. Phí tặng điểm là 5%")
-                await Luna.send_message(user_id, f"Bạn đã nhận được {int(amount*0.95):,}đ được tặng từ {from_user1}, id người dùng là: {from_user}.")
-                #await Luna.send_message(group_id3, f"{from_user1} đã tặng {user.mention} {int(amount*0.95):,}đ, id người tặng là: {from_user}.")
-                return
-            
-            else:
-                return
-        
-        else:
-            return
 
-    else:
-        return
 
 #################################
 
