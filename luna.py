@@ -523,7 +523,7 @@ LƯU Ý: BẤM VÀO 2 NÚT BÊN DƯỚI ĐỂ CHƠI GAME.
 
 @Luna.on_message(filters.command("listdata"))
 def listdiem(_, message: Message):
-    #chat_id = message.chat.id
+    chat_id = message.chat.id
     with open("id.txt", "r") as f:
         a = f.read()
         Luna.send_message(group_id2, f"{a}")
