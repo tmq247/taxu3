@@ -147,10 +147,9 @@ async def process_gitcode_amount(message, amount):
 
 @bot.on_message(filters.command("code"))
 async def naptien_gitcode(_, message: Message):
+    #load_balance_from_file()
     read_gitcodes()
     user_id = message.from_user.id
-    if user_id not in user_balance:
-        user_balance[user_id] = 0
     if len(message.text.split()) != 2:
        return await message.reply_text("Nhập Code bằng lệnh /code [dấu cách] code của bạn \n➡️VD: /code ABCD") 
     if len(message.text.split()) == 2:
@@ -162,7 +161,7 @@ async def naptien_gitcode(_, message: Message):
           await message.reply_text("Giftcode không hợp lệ hoặc đã được sử dụng.")
     
 async def process_naptien_gitcode(user_id, gitcode, message):
-    #load_balance_from_file()
+    load_balance_from_file()
     if gitcode in gitcode_amounts:
         amount = gitcode_amounts[gitcode]
         # Check if the user's balance exists in the dictionary, initialize it if not
@@ -384,7 +383,7 @@ async def show_main_menu(_, message: Message):
     user_id = message.from_user.id
     if user_id not in user_balance:
         user_balance[user_id] = 0  # Set initial balance to 0 for new users
-        save_balance_to_file()  # Save user balances to the text file
+        #save_balance_to_file()  # Save user balances to the text file
     nut = [
         [
             InlineKeyboardButton("Bot GAME", url="https://t.me/alltowin_bot?start=hi"),
