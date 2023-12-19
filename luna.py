@@ -608,11 +608,11 @@ def list(_, message: Message):
 @atexit.register
 def on_exit():
     save_balance_to_file()
-    Luna.send_message(group_id3, "Bot Game đã tắt")
+    #Luna.send_message(group_id3, "Bot Game đã tắt")
     print("Bot Game đã tắt")
 
 # Xử lý khi bot bị tắt hoặc lỗi
-atexit.register(on_exit)
+#atexit.register(on_exit)
 
 #@Luna.on_message(filters.command("tatbotgame"))
 #@atexit.register
