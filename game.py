@@ -48,6 +48,13 @@ bot = Client(
     ":taxu:",
     bot_token=bot_token2,
 )
+print(
+        """
+-----------------
+| Taxu khởi động! |
+-----------------
+"""
+    )
 
 bot_id = int(bot_token.split(":")[0])
 
