@@ -842,8 +842,8 @@ async def list(_, message: Message):
 
 #################################
 
-#def on_exit():
-  #save_balance_to_file()
+def on_exit():
+  save_balance_to_file()
 
 # Xử lý khi bot bị tắt hoặc lỗi
 atexit.register(save_balance_to_file)
