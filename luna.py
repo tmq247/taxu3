@@ -142,13 +142,13 @@ def send_dice(chat_id):
     #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
     response = Luna.send_dice(chat_id, "🎲") #🎲
     #print(response.dice.value)
-    #result = 
-    while response.dice.value >= 4:
-        response.delete()
-        response = Luna.send_dice(group_id, "🎲")
-        result = response.dice.value
-        print(result)
-        return result 
+    result = response.dice.value
+    #while response.dice.value >= 4:
+        #response.delete()
+        #response = Luna.send_dice(group_id, "🎲")
+        #result = response.dice.value
+        #print(result)
+    return result 
     
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
