@@ -608,7 +608,7 @@ def list(_, message: Message):
 
 def on_exit():
     save_balance_to_file()
-    bot.send_message(group_id3, "Bot Game đã tắt")
+    Luna.send_message(group_id3, "Bot Game đã tắt")
     print("Bot Game đã tắt")
 
 # Xử lý khi bot bị tắt hoặc lỗi
