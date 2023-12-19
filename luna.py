@@ -118,6 +118,7 @@ def get_user_info(user_id):
 
 #######################################################
 load_balance_from_file()
+xem_bot()
 # Function to send a dice and get its value
 def send_dice(chat_id):
     response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
