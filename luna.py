@@ -126,8 +126,11 @@ def send_dice(_, message: Message):
     chat_id = message.chat.id
     #result = [send_dice(chat_id) for _ in range(3)]
     #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
-    response = Luna.send_dice(chat_id, "🎲", 1) #🎲
+    response = Luna.send_dice(chat_id, "🎲") #🎲
     print({response.dice.value})
+    while m.dice.value == 2:
+        await response.delete()
+        response = await client.send_dice(chat_id, "🎲")
     #if response.status_code == 200:
         #data = response.json()
         #if 'result' in data and 'dice' in data['result']:
