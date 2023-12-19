@@ -346,7 +346,7 @@ def start_game(message, grid):
     
     result = [send_dice(group_id) for _ in range(3)]
     total_score = sum(result)
-    while total_score >= 4:
+    while total_score >= 11:
         result = [send_dice(group_id) for _ in range(3)]
     print(result)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
