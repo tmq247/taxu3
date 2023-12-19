@@ -119,6 +119,17 @@ def get_user_info(user_id):
     return None
 
 #######################################################
+@Luna.on_message(filters.command("xx"))
+def send_dice2(chat_id):
+    chat_id = message.chat.id
+    response = [Luna.send_dice(chat_id, "🎲") for _ in range(3)]
+    result = response.dice.value
+    print(result)
+    total_score = sum(result)
+    while total_score >= 11:
+        response.delete()
+        #response = Luna.send_dice(group_id, "🎲")
+        response = [Luna.send_dice(chat_id, "🎲") for _ in range(3)]
 
 # Function to send a dice and get its value
 #@Luna.on_message(filters.command("xx"))
@@ -328,10 +339,15 @@ def start_game(message, grid):
     idtext4 = text4.id
     time.sleep(3)  # Simulating dice rolling
     
-    result = [send_dice(group_id) for _ in range(3)]
+    #send_dice = (Luna.send_dice(group_id, "🎲")) #🎲
+    #print(response.dice.value)
+    #result = response.dice.value
+    response = [Luna.send_dice(group_id, "🎲") for _ in range(3)]
+    result = response.dice.value
+    print(result)
     total_score = sum(result)
     while total_score >= 11:
-        response.delete()
+        result.delete()
         #response = Luna.send_dice(group_id, "🎲")
         result = [send_dice(group_id) for _ in range(3)]
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
