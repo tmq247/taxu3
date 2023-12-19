@@ -655,7 +655,7 @@ def dong(_, message):
     save_balance_to_file()
     Luna.send_message(group_id3, "Tắt Bot Game")
     Luna.stop()
-    loop.stop()
+    #loop.stop()
                                           
         
 ######################################################
