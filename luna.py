@@ -120,7 +120,7 @@ def get_user_info(user_id):
 
 #######################################################
 @Luna.on_message(filters.command("xx"))
-def send_dice2(chat_id):
+def send_dice2(_, message: Message):
     chat_id = message.chat.id
     response = [Luna.send_dice(chat_id, "🎲") for _ in range(3)]
     result = response.dice.value
