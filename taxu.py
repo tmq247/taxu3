@@ -622,8 +622,10 @@ async def process_withdraw_amountrut(diemrut, user_id):
       await bot.send_message(group_id, f"""{user.mention} đã rút điểm thành công. Xin chúc mừng🥳🥳🥳 (yêu cầu sẽ được sử lý trong vòng 15 phút )""")
     else:
       await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
+      del rut[user_id]
   else:
     await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
+    del rut[user_id]
 
 
 
@@ -798,8 +800,10 @@ async def process_withdraw_amountnap(diemnap, user_id):
       del nap[user_id]
     else:
       await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
+      del nap[user_id]
   else:
     await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
+    del nap[user_id]
 
 
 @bot.on_message(filters.command("diem"))
