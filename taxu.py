@@ -856,7 +856,7 @@ def dong(_, message):
     bot.send_message(group_id3, "Tắt Bot điểm")
     print("Bot điểm đã tắt")
     bot.stop()
-    loop.stop()
+    #loop.stop()
 
 ##################################
 async def main2():
