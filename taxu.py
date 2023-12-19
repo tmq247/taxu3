@@ -168,8 +168,9 @@ async def process_naptien_gitcode(user_id, gitcode, message):
         # Check if the user's balance exists in the dictionary, initialize it if not
         if user_id not in user_balance:
             user_balance[user_id] = 0
-            #save_balance_to_file()
         user_balance[user_id] += amount
+        save_balance_to_file()
+        load_balance_from_file()
         remove_gitcode(gitcode)
         del gitcode_amounts[gitcode]
         await message.reply_text(f"Nhập Giftcode Thành Công!\nSố điểm của bạn là: {user_balance[user_id]:,}đ.\n💹Chúc Bạn May Mắn Nhé💖")
@@ -294,7 +295,7 @@ async def update_balance_cong(diem, user_id, message):
     balance_change = int(diem)
     current_balance = user_balance.get(user_id, 0)
     new_balance = current_balance + balance_change
-    user_balance[user_id] = new_balance
+    user_balance[user_id] += new_balance
     save_balance_to_file()
     load_balance_from_file()
     notification_message = f"""
@@ -349,7 +350,7 @@ async def update_balance_tru(diem, user_id, message):
     if current_balance < balance_change:
         return await bot.send_message(group_id3, f"{user.mention} không đủ điểm để trừ")
     new_balance = current_balance - balance_change
-    user_balance[user_id] = new_balance
+    user_balance[user_id] -= new_balance
     save_balance_to_file()
     load_balance_from_file()
     #save_balance_to_file()
@@ -843,6 +844,7 @@ async def check_balance(_, message: Message):
     
 @bot.on_message(filters.command("listdata"))
 async def list(_, message: Message):
+    #load_balance_from_file()
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
         #ls = f"user_state: {user_state}"
