@@ -147,7 +147,7 @@ def send_dice(chat_id):
         response.delete()
         response = Luna.send_dice(group_id, "🎲")
         result = response.dice.value
-        return result #None
+        return result 
     
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
@@ -344,7 +344,7 @@ def start_game(message, grid):
 
     
     result = [send_dice(group_id) for _ in range(3)]
-    total_score = sum(result)
+    total_score = sum(float(result))
     print(result)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
