@@ -1,4 +1,4 @@
-import re
+    import re
 import os
 from asyncio import gather, get_event_loop, sleep
 
@@ -122,15 +122,17 @@ def get_user_info(user_id):
 @Luna.on_message(filters.command("xx"))
 def send_dice2(_, message: Message):
     chat_id = message.chat.id
-    response = [Luna.send_dice(chat_id, "🎲") for _ in range(3)]
-    result = response.dice.value
+    response = Luna.send_dice(chat_id, "🎲") 
+    tx = response.dice.value
+    print(tx)
+    result = [response for _ in range(3)]
     print(result)
     total_score = sum(result)
     print(total_score)
     while total_score >= 11:
-        response.delete()
+        tx.delete()
         #response = Luna.send_dice(group_id, "🎲")
-        response = [Luna.send_dice(chat_id, "🎲") for _ in range(3)]
+        result = [response for _ in range(3)]
         total_score = sum(result)
         print(total_score)
 
