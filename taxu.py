@@ -850,7 +850,7 @@ atexit.register(save_balance_to_file)
 
 @bot.on_message(filters.command("tatbotdiem"))
 @atexit.register
-def dong(message):
+def dong(_, message):
     #chat_id = message.chat.id
     save_balance_to_file()
     bot.send_message(group_id3, "Tắt Bot điểm")
