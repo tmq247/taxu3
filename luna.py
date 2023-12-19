@@ -119,7 +119,7 @@ def get_user_info(user_id):
     return None
 
 #######################################################
-#@Luna.on_message(filters.command("xx"))
+@Luna.on_message(filters.command("xx"))
 def send_dice2(_, message: Message):
     chat_id = message.chat.id
     response = (Luna.send_dice(chat_id, "🎲") for _ in range(3))
@@ -138,13 +138,14 @@ def send_dice2(_, message: Message):
         
 
 # Function to send a dice and get its value
-def send_dice(chat_id):
+def send_dice(chat_id, set):
     #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
     response = Luna.send_dice(chat_id, "🎲") #🎲
     #print(response.dice.value)
     result = response.dice.value
     #while response.dice.value >= 4:
-    response.delete()
+    if set == 1
+        response.delete()
         #response = Luna.send_dice(group_id, "🎲")
         #result = response.dice.value
         #print(result)
@@ -343,11 +344,12 @@ def start_game(message, grid):
     idtext4 = text4.id
     time.sleep(3)  # Simulating dice rolling
 
-    
-    result = [send_dice(group_id) for _ in range(3)]
+    set = 0
+    result = [send_dice(group_id, set) for _ in range(3)]
     total_score = sum(result)
     while total_score >= 11:
-        result = [send_dice(group_id) for _ in range(3)]
+        set = 1
+        result = [send_dice(group_id, set) for _ in range(3)]
     print(result)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
