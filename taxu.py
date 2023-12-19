@@ -796,8 +796,8 @@ async def process_withdraw_amountnap(diemnap, user_id):
 
 @bot.on_message(filters.command("diem"))
 async def check_balance(_, message: Message):
-    check_balance(_, message)
-    #load_balance_from_file()
+    await check_balance(_, message)
+    load_balance_from_file()
     #xem_bot()
     from_user = message.from_user#
     if len(message.text.split()) == 1 and not message.reply_to_message:
@@ -832,7 +832,7 @@ async def check_balance(_, message: Message):
 # Hàm kiểm tra số dư
 #@bot.on_message(filters.command("diem"))
 async def check_balance(_, message: Message):
-  load_balance_from_file()
+  #load_balance_from_file()
   user_id = message.from_user.id
   balance = user_balance.get(user_id, 0)
   await bot.send_message(user_id, f"""
