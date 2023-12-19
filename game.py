@@ -471,7 +471,7 @@ def show_main_menu(_, message: Message):
         mo_bot(user_id)
         print(bot_trangthai)
   # Check if the user is already in the user_balance dictionary
-    xem_bot()
+    #xem_bot()
     if user_id not in user_balance:
         user_balance[user_id] = 0  # Set initial balance to 0 for new users
         save_balance_to_file()  # Save user balances to the text file
@@ -1325,6 +1325,7 @@ async def process_withdraw_amountnap(diemnap, user_id):
 🔊Tài Khoản: {napmomo_account}🔚
 
 🔊Nội Dung: napdiem_{user.id} 🔚
+
 
 🔊Min Nạp: 10.000k Min Rút: 100.000k
 🔊Min Nạp: 10.000 - 3.000.000🔚
