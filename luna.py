@@ -646,11 +646,11 @@ atexit.register(save_balance_to_file)
 
 @Luna.on_message(filters.command("tatbotgame"))
 @atexit.register
-async def dong(message):
+def dong(message):
     #chat_id = message.chat.id
     save_balance_to_file()
-    await Luna.send_message(group_id3, "Tắt Bot Game")
-    await Luna.stop()
+    Luna.send_message(group_id3, "Tắt Bot Game")
+    Luna.stop()
                                           
         
 ######################################################
