@@ -97,7 +97,6 @@ def mo_bot(user_id):
         bot_trangthai[user_id] = trangthai
         with open("bot.txt", "a") as f:
             f.write(f"{user_id} {trangthai}\n")
-        return user_id
     
 
 # Function to read Gitcodes from the file
@@ -1439,9 +1438,6 @@ async def main():
     user_state.clear()
     rut.clear()
     nap.clear()
-    user_bet_history.clear()
-    user_withdraw_history.clear()
-    napuser_withdraw_history.clear()
     used_gitcodes.clear()
     gitcode_amounts.clear()
     user_pending_gitcodes.clear()
