@@ -121,8 +121,8 @@ def get_user_info(user_id):
 #######################################################
 
 # Function to send a dice and get its value
-@Luna.on_message(filters.command("xx"))
-def send_dice(_, message: Message):
+#@Luna.on_message(filters.command("xx"))
+def send_dice(chat_id):
     chat_id = message.chat.id
     response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
     #response = Luna.send_dice(chat_id, "🎲") #🎲
