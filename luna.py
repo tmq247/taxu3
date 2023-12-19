@@ -124,18 +124,15 @@ def get_user_info(user_id):
 @Luna.on_message(filters.command("xx"))
 def send_dice(_, message: Message):
     chat_id = message.chat.id
-    #result = [send_dice(chat_id) for _ in range(3)]
-    #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
-    response = Luna.send_dice(chat_id, "🎲") #🎲
+    response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
+    #response = Luna.send_dice(chat_id, "🎲") #🎲
     print({response.dice.value})
-    while sum(response.dice.value) >= 11:
-        response.delete()
-        response = Luna.send_dice(chat_id, "🎲")
-    #if response.status_code == 200:
-        #data = response.json()
-        #if 'result' in data and 'dice' in data['result']:
-            #return data['result']['dice']['value']
-    #return None
+        if response.status_code == 200:
+        data = response.json()
+        if 'result' in data and 'dice' in data['result']:
+            print(data['result']['dice']['value'])
+            return data['result']['dice']['value']
+    return None
     
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
@@ -332,6 +329,10 @@ def start_game(message, grid):
     
     result = [send_dice(group_id) for _ in range(3)]
     total_score = sum(result)
+    while total_score >= 11:
+        result.delete()
+        #response = Luna.send_dice(group_id, "🎲")
+        result = [send_dice(group_id) for _ in range(3)]
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
