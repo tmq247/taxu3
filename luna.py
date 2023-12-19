@@ -144,7 +144,7 @@ def send_dice(chat_id):
     #print(response.dice.value)
     result = response.dice.value
     #while response.dice.value >= 4:
-        #response.delete()
+    response.delete()
         #response = Luna.send_dice(group_id, "🎲")
         #result = response.dice.value
         #print(result)
@@ -346,6 +346,8 @@ def start_game(message, grid):
     
     result = [send_dice(group_id) for _ in range(3)]
     total_score = sum(result)
+    while total_score >= 4:
+        result = [send_dice(group_id) for _ in range(3)]
     print(result)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
