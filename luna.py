@@ -126,10 +126,13 @@ def send_dice2(chat_id):
     result = response.dice.value
     print(result)
     total_score = sum(result)
+    print(total_score)
     while total_score >= 11:
         response.delete()
         #response = Luna.send_dice(group_id, "🎲")
         response = [Luna.send_dice(chat_id, "🎲") for _ in range(3)]
+        total_score = sum(result)
+        print(total_score)
 
 # Function to send a dice and get its value
 #@Luna.on_message(filters.command("xx"))
