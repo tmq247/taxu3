@@ -68,15 +68,15 @@ def mo_bot(user_id):
         return
     if user_id not in bot_trangthai:
         bot_trangthai[user_id] = trangthai
-        with open(bot_FILE, "a") as f:
+        with open("bot.txt", "a") as f:
             f.write(f"{user_id} {trangthai}\n")
         return user_id
     
 
 # Function to read Gitcodes from the file
 def xem_bot():
-    if os.path.exists("bot_FILE"):
-        with open(bot_FILE, "r") as f:
+    if os.path.exists("bot.txt"):
+        with open("bot.txt", "r") as f:
             for line in f:
                 user_id, trangthai  = line.strip().split()
                 bot_trangthai[user_id] = trangthai
@@ -134,6 +134,7 @@ def calculate_tai_xiu(total_score):
 
 @Luna.on_message(filters.command("tx"))
 def start_taixiu(_, message: Message):
+    xem_bot()
     chat_id = message.chat.id
     grid = chat_id
     if chat_id != group_id:
@@ -201,12 +202,14 @@ def game_timer(message, grid, grtrangthai):
 
 @Luna.on_message(filters.command(["t", "x"]) & filters.text)
 def handle_message(_, message: Message):
-    load_balance_from_file()
+    #load_balance_from_file()
     chat_id = message.chat.id
     user_id = message.from_user.id
     #user_id = Luna.get_users(from_user).id
     grid = chat_id
     xem_bot()
+    if chat_id != group_id:
+        return Luna.send_message(chat_id, "Vào nhóm t.me/sanhallwin để chơi GAME.")
     if user_id not in bot_trangthai:
         nut = [
         [
@@ -219,8 +222,6 @@ def handle_message(_, message: Message):
         return Luna.send_message(chat_id, "Đợi 10s để đặt cược ván tiếp theo.")
     
     # Check if the message is from the group chat
-    if chat_id != group_id:
-        return Luna.send_message(chat_id, "Vào nhóm để chơi GAME : t.me/sanhallwin")
     if chat_id == group_id:
         # Check if the message is a valid bet
         if message.text and message.text.upper() in ['/T ALL', '/X ALL'] or (message.text and message.text.upper()[1] in ['T', 'X'] and message.text[3:].isdigit()): 
@@ -244,8 +245,7 @@ def handle_message(_, message: Message):
 
 # Function to confirm the bet and check user balance
 def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
-    from_user = message.from_user.id
-    user_id = int(Luna.get_users(from_user).id)
+    #load_balance_from_file()
     if bet_type == 'T':
         cua_cuoc = '⚫️Tài'
     else:
@@ -254,6 +254,8 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
     
     # Check if the user_id is present in user_balance dictionary
     if user_id in user_balance:
+        if bet_amount <= 0:
+            Luna.send_message(user_id, "Bạn không đủ điểm để đặt cược, vui lòng nạp điểm.")
         # Check user balance
         if user_balance[user_id] >= bet_amount:
             try:
@@ -273,11 +275,13 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
                 Luna.send_message(user_id, request_message)
                 Luna.send_message(group_id, request_message)
                 Luna.send_message(group_id2, text)
-                save_balance_to_file()
+            
             except Exception as e:
                 print("Error fetching user info:", e)
                 Luna.send_message(group_id3, f"Lỗi:{e}")
                 Luna.send_message(group_id, f"Lỗi:{ten_ncuoc.mention} chưa khởi động Bot @alltowin_bot, hãy khởi động bot và đặt cược lại.")
+
+        save_balance_to_file()
         else:
             Luna.send_message(group_id, "Không đủ số dư để đặt cược. Vui lòng kiểm tra lại số dư của bạn.")
     else:
@@ -291,6 +295,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
 
 # Function to start the dice game
 def start_game(message, grid):
+    #load_balance_from_file()
     grtrangthai2 = 1
     print(mo_game,2)
     mo_game[grid]['tthai'] += grtrangthai2
@@ -321,24 +326,24 @@ def start_game(message, grid):
     ls_cau(result)
     Luna.send_message(channel_id, kq)
     # Determine the winner and calculate total winnings
-    tien_thang = 0
+    #tien_thang = 0
     total_win = 0
-    load_balance_from_file()
     for user_id in user_bets:
         if sum(result) >= 11 and user_bets[user_id]['T'] > 0:
             total_win += int(user_bets[user_id]['T'] * tile_thang)
             winner[user_id] = []
             winner[user_id] += [int(user_bets[user_id]['T'] * tile_thang)] 
-            tien_thang = user_bets[user_id]['T'] * tile_thang
-            user_balance[user_id] += (int(tien_thang))
+            #tien_thang = user_bets[user_id]['T'] * tile_thang
+            user_balance[user_id] += (int(user_bets[user_id]['T'] * tile_thang))
 
         elif sum(result) < 11 and user_bets[user_id]['X'] > 0:
             total_win += int(user_bets[user_id]['X'] * tile_thang)
             winner[user_id] = []
             winner[user_id] += [int(user_bets[user_id]['X'] * tile_thang)]
-            tien_thang = user_bets[user_id]['X'] * tile_thang
-            user_balance[user_id] += (int(tien_thang))
+            #tien_thang = user_bets[user_id]['X'] * tile_thang
+            user_balance[user_id] += (int(user_bets[user_id]['X'] * tile_thang))
             
+    save_balance_to_file()        
     
     for user_id, diem in winner.items():
         balance = user_balance.get(user_id, 0)
@@ -358,7 +363,8 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     """  
     Luna.send_message(group_id, kq, reply_markup=reply_markup)
     Luna.send_message(group_id2, kq1)
-    save_balance_to_file()
+    
+    
     user_bets.clear()
     winner.clear()
     mo_game.clear()
@@ -368,7 +374,7 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
 
 @Luna.on_message(filters.command("diem"))
 async def check_balance(_, message: Message):
-    load_balance_from_file()
+    #load_balance_from_file()
     xem_bot()
     from_user = message.from_user#
     if len(message.text.split()) == 1 and not message.reply_to_message:
@@ -418,6 +424,7 @@ def ls_cau(result):
 
 @Luna.on_message(filters.command("soicau"))
 def soicau_taixiu(_, message: Message):
+    xem_bot()
     chat_id = message.chat.id
     #load_cau_from_file()
     soicau = [
@@ -439,11 +446,12 @@ def soicau_taixiu(_, message: Message):
 @Luna.on_message(filters.command("start"))
 def show_main_menu(_, message: Message):
     user_id = message.from_user.id
-    load_balance_from_file()
+    #load_balance_from_file()
     if user_id not in bot_trangthai and filters.private:
         mo_bot(user_id)
         print(bot_trangthai)
   # Check if the user is already in the user_balance dictionary
+    xem_bot()
     if user_id not in user_balance:
         user_balance[user_id] = 0  # Set initial balance to 0 for new users
         save_balance_to_file()  # Save user balances to the text file
@@ -517,7 +525,7 @@ def listdiem(_, message: Message):
 
 @Luna.on_message(filters.command("topdiem"))
 def top_diem(_, message: Message):
-    load_balance_from_file()
+    #load_balance_from_file()
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
         with open("id.txt", "r", encoding='utf-8') as f:
@@ -575,10 +583,10 @@ def list(_, message: Message):
 
 ################################
 
-@Luna.on_message(filters.command("tangdiem"))
+#@Luna.on_message(filters.command("tangdiem"))
 async def chuyentien_money(_, message: Message):
     from_user = message.from_user.id
-    load_balance_from_file()
+    #load_balance_from_file()
     if len(message.text.split()) != 3 or len(message.text.split()) != 2 :
         if len(message.text.split()) == 3:
             user_id, amount = await extract_user_and_reason(message)
@@ -628,18 +636,19 @@ async def chuyentien_money(_, message: Message):
 
 #################################
 
-#def on_exit():
-  #save_balance_to_file()
+def on_exit():
+  save_balance_to_file()
 
 # Xử lý khi bot bị tắt hoặc lỗi
-#atexit.register(save_balance_to_file)
+atexit.register(save_balance_to_file())
 
-@Luna.on_message(filters.command("tatbot"))
+@Luna.on_message(filters.command("tatbotgame"))
 @atexit.register
-async def dong(_, message: Message):
-    chat_id = message.chat.id
-    #save_balance_to_file()
-    await Luna.send_message(chat_id, "Tắt Bot Game")
+async def dong():
+    #chat_id = message.chat.id
+    save_balance_to_file()
+    await Luna.send_message(group_id3, "Tắt Bot Game")
+    await Luna.stop()
                                           
         
 ######################################################
@@ -657,8 +666,6 @@ async def main():
     topdiem.clear()
     user_bets.clear()
     winner.clear()
-    user_balance.clear()
-    bot_trangthai.clear()
     await Luna.send_message(group_id3, "Bot Game đã mở")
     await idle()
 
