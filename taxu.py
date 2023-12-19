@@ -892,7 +892,7 @@ def on_exit():
     print("Bot điểm đã tắt")
 
 # Xử lý khi bot bị tắt hoặc lỗi
-atexit.register(save_balance_to_file)
+atexit.register(on_exit)
 
 #@bot.on_message(filters.command("tatbotdiem"))
 #@atexit.register
