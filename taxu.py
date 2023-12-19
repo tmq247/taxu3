@@ -841,7 +841,7 @@ async def list(_, message: Message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
         #ls = f"user_state: {user_state}"
-        ls += f"rut: {rut}"
+        ls = f"rut: {rut}"
         ls += f"nap: {nap}"
         ls += f"user_balance: {user_balance}"
         #ls += f"user_bet_history: {user_bet_history}"
