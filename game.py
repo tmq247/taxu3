@@ -1419,7 +1419,9 @@ async def dong(_, message: Message):
         
 ######################################################
 async def main():
-    Luna.start()
+    apps = (bot, Luna)
+    await compose(apps)
+    #Luna.start()
     print(
         """
 -----------------
@@ -1427,7 +1429,7 @@ async def main():
 -----------------
 """
     )
-  await bot.start()
+  #await bot.start()
     print(
         """
 -----------------
