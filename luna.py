@@ -378,7 +378,7 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     time.sleep(10)
     Luna.delete_messages(group_id, idtext4)
 
-#@Luna.on_message(filters.command("diem"))
+@Luna.on_message(filters.command("diem"))
 async def check_balance(_, message: Message):
     #load_balance_from_file()
     from_user = message.from_user#
