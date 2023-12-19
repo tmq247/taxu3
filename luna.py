@@ -147,7 +147,7 @@ def send_dice(chat_id):
             response.delete()
             response = Luna.send_dice(group_id, "🎲")
             result = response.dice.value
-        return result #None
+            return result #None
     
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
