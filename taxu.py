@@ -294,7 +294,7 @@ async def update_balance_cong(diem, user_id, message):
     balance_change = int(diem)
     current_balance = user_balance.get(user_id, 0)
     new_balance = current_balance + balance_change
-    user_balance[user_id] += new_balance
+    user_balance[user_id] = new_balance
     save_balance_to_file()
     load_balance_from_file()
     notification_message = f"""
@@ -349,7 +349,7 @@ async def update_balance_tru(diem, user_id, message):
     if current_balance < balance_change:
         return await bot.send_message(group_id3, f"{user.mention} không đủ điểm để trừ")
     new_balance = current_balance - balance_change
-    user_balance[user_id] -= new_balance
+    user_balance[user_id] = new_balance
     save_balance_to_file()
     load_balance_from_file()
     #save_balance_to_file()
@@ -832,7 +832,7 @@ async def check_balance2(_, message: Message):
 # Hàm kiểm tra số dư
 #@bot.on_message(filters.command("diem"))
 async def check_balance(_, message: Message):
-  #load_balance_from_file()
+  load_balance_from_file()
   user_id = message.from_user.id
   balance = user_balance.get(user_id, 0)
   await bot.send_message(group_id2, f"""
