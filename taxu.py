@@ -795,7 +795,7 @@ async def process_withdraw_amountnap(diemnap, user_id):
 
 
 @bot.on_message(filters.command("diem"))
-async def check_balance(_, message: Message):
+async def check_balance2(_, message: Message):
     await check_balance(_, message)
     load_balance_from_file()
     #xem_bot()
