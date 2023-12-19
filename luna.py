@@ -144,7 +144,7 @@ def send_dice(chat_id, set):
     #print(response.dice.value)
     result = response.dice.value
     #while response.dice.value >= 4:
-    if set == 1
+    if set == 1:
         response.delete()
         #response = Luna.send_dice(group_id, "🎲")
         #result = response.dice.value
