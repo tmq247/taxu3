@@ -40,8 +40,6 @@ else:
 Luna = Client(
     ":luna:",
     bot_token=bot_token,
-    api_id=api_id,
-    api_hash=api_hash,
 )
 
 bot_id = int(bot_token.split(":")[0])
@@ -49,8 +47,6 @@ bot_id = int(bot_token.split(":")[0])
 bot = Client(
     ":taxu:",
     bot_token=bot_token2,
-    api_id=api_id,
-    api_hash=api_hash,
 )
 
 bot_id = int(bot_token.split(":")[0])
@@ -1435,6 +1431,8 @@ async def main():
 | Taxu khởi động! |
 -----------------
 """)
+    await Luna.send_message(group_id3, "Bot Game đã mở")
+    await bot.send_message(group_id3, "bot Điểm đã mở")
     user_state.clear()
     rut.clear()
     nap.clear()
@@ -1443,13 +1441,13 @@ async def main():
     user_pending_gitcodes.clear()
     user_game_state.clear()
     user_bets.clear()
-    await bot.send_message(group_id3, "bot Điểm đã mở")
+    
     luu_cau.clear()
     mo_game.clear()
     topdiem.clear()
     user_bets.clear()
     winner.clear()
-    await Luna.send_message(group_id3, "Bot Game đã mở")
+    
     await idle()
 
 
