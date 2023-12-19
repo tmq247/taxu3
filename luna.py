@@ -141,12 +141,13 @@ def send_dice2(_, message: Message):
 def send_dice(chat_id):
     #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
     response = Luna.send_dice(chat_id, "🎲") #🎲
-    print(response.dice.value)
+    #print(response.dice.value)
     #result = 
     while response.dice.value >= 4:
         response.delete()
         response = Luna.send_dice(group_id, "🎲")
         result = response.dice.value
+        print(result)
         return result 
     
 # Hàm kiểm Tài/Xỉu
@@ -344,7 +345,7 @@ def start_game(message, grid):
 
     
     result = [send_dice(group_id) for _ in range(3)]
-    total_score = sum(float(result))
+    total_score = sum(result)
     print(result)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
