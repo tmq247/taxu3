@@ -123,7 +123,7 @@ def get_user_info(user_id):
 def send_dice2(_, message: Message):
     chat_id = message.chat.id
     response = (Luna.send_dice(chat_id, "🎲") for _ in range(3))
-    tx = response.dice.value
+    tx = [response.dice.value]
     print(tx)
     result = [tx]
     print(result)
