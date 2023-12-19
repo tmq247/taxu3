@@ -464,7 +464,7 @@ def soicau_taixiu(_, message: Message):
         Luna.send_message(chat_id, scau, reply_markup=reply_markup)
 
 @Luna.on_message(filters.command("start"))
-def show_main_menu(_, message: Message):
+async def show_main_menu(_, message: Message):
     user_id = message.from_user.id
     #load_balance_from_file()
     if user_id not in bot_trangthai and filters.private:
@@ -506,7 +506,7 @@ def show_main_menu(_, message: Message):
 
 <b> LƯU Ý : HÃY BẤM VÀO 2 NÚT BÊN DƯỚI, ĐỂ CÓ THỂ CHƠI GAME<b>
 """
-    Luna.send_photo(message.chat.id,
+    await Luna.send_photo(message.chat.id,
                  photo_url,
                  caption=caption,
                  reply_markup=reply_markup)
