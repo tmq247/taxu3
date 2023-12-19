@@ -882,7 +882,7 @@ async def list(_, message: Message):
 
 def on_exit():
     save_balance_to_file()
-    await bot.send_message(group_id3, "Tắt Bot điểm")
+    bot.send_message(group_id3, "Bot điểm đã tắt")
     print("Bot điểm đã tắt")
 
 # Xử lý khi bot bị tắt hoặc lỗi
