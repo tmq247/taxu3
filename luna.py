@@ -131,7 +131,7 @@ def send_dice(chat_id):
         data = response.json()
         if 'result' in data and 'dice' in data['result']:
             print(data['result']['dice']['value'])
-            return data['result']['dice']['value']
+            return data['result']['dice']['value'], response
     return None
     
 # Hàm kiểm Tài/Xỉu
@@ -330,7 +330,7 @@ def start_game(message, grid):
     result = [send_dice(group_id) for _ in range(3)]
     total_score = sum(result)
     while total_score >= 11:
-        result.delete()
+        response.delete()
         #response = Luna.send_dice(group_id, "🎲")
         result = [send_dice(group_id) for _ in range(3)]
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
