@@ -798,7 +798,7 @@ async def process_withdraw_amountnap(diemnap, user_id):
 async def check_balance(_, message: Message):
     check_balance(_, message)
     #load_balance_from_file()
-    xem_bot()
+    #xem_bot()
     from_user = message.from_user#
     if len(message.text.split()) == 1 and not message.reply_to_message:
         if from_user.id not in user_balance:
