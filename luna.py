@@ -121,15 +121,17 @@ def get_user_info(user_id):
 #######################################################
 
 # Function to send a dice and get its value
+@Luna.on_message(filters.command("xx"))
 def send_dice(chat_id):
+    #result = [send_dice(group_id) for _ in range(3)]
     #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
-    response = Luna.send_dice(chat_id, "🎲")
+    response = Luna.send_dice(chat_id, "1") #🎲
     print({response.dice.value})
     #if response.status_code == 200:
         #data = response.json()
         #if 'result' in data and 'dice' in data['result']:
             #return data['result']['dice']['value']
-    return None
+    #return None
     
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
