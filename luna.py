@@ -124,15 +124,16 @@ def get_user_info(user_id):
 #@Luna.on_message(filters.command("xx"))
 def send_dice(chat_id):
     #chat_id = message.chat.id
-    response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
-    #response = Luna.send_dice(chat_id, "🎲") #🎲
-    #print({response.dice.value})
-    if response.status_code == 200:
-        data = response.json()
-        if 'result' in data and 'dice' in data['result']:
-            print(data['result']['dice']['value'])
-            return data['result']['dice']['value'], response
-    return None
+    #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
+    response = Luna.send_dice(chat_id, "🎲") #🎲
+    print(response.dice.value)
+    result = response.dice.value
+    #if response.status_code == 200:
+        #data = response.json()
+        #if 'result' in data and 'dice' in data['result']:
+            #print(data['result']['dice']['value'])
+            return data['result']['dice']['value']
+    return result #None
     
 # Hàm kiểm Tài/Xỉu
 def calculate_tai_xiu(total_score):
