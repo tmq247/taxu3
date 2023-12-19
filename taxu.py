@@ -421,18 +421,6 @@ LƯU Ý: BẤM VÀO NÚT bot GAME VÀ NÚT vào nhóm bên dưới để chơi G
     
     #await bot.send_message(message.chat.id, "Khởi động bot GAME và vào nhóm bên dưới để chơi GAME", reply_markup=reply_markup)
 
-   
-# Hàm kiểm tra số dư
-@bot.on_message(filters.command("diem"))
-async def check_balance(_, message: Message):
-  load_balance_from_file()
-  user_id = message.from_user.id
-  balance = user_balance.get(user_id, 0)
-  await bot.send_message(user_id, f"""
-👤 Tên tài khoản: {message.from_user.mention}
-💳 ID Tài khoản: {user_id}
-💰 Số dư của bạn: {balance:,} đ
-        """)
 
 client = bot
 @bot.on_message(filters.command("rut"))
@@ -808,6 +796,7 @@ async def process_withdraw_amountnap(diemnap, user_id):
 
 @bot.on_message(filters.command("diem"))
 async def check_balance(_, message: Message):
+    async def check_balance(_, message: Message)
     #load_balance_from_file()
     xem_bot()
     from_user = message.from_user#
@@ -840,6 +829,18 @@ async def check_balance(_, message: Message):
         await bot.send_message(message.chat.id, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
         await bot.send_message(group_id2, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
 
+# Hàm kiểm tra số dư
+#@bot.on_message(filters.command("diem"))
+async def check_balance(_, message: Message):
+  load_balance_from_file()
+  user_id = message.from_user.id
+  balance = user_balance.get(user_id, 0)
+  await bot.send_message(user_id, f"""
+👤 Tên tài khoản: {message.from_user.mention}
+💳 ID Tài khoản: {user_id}
+💰 Số dư của bạn: {balance:,} đ
+        """)
+    
 @bot.on_message(filters.command("listdata"))
 async def list(_, message: Message):
     chat_id = message.chat.id
