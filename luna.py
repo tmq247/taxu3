@@ -345,7 +345,7 @@ def start_game(message, grid):
 
     
     result = [send_dice(group_id) for _ in range(3)]
-    print(result, response)
+    print(result)
     total_score = sum(result)
     print(result)
     while total_score >= 11:
