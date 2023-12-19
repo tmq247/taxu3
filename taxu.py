@@ -850,12 +850,12 @@ atexit.register(save_balance_to_file)
 
 @bot.on_message(filters.command("tatbotdiem"))
 @atexit.register
-def dong(_, message):
+async def dong(_, message):
     #chat_id = message.chat.id
     save_balance_to_file()
-    bot.send_message(group_id3, "Tắt Bot điểm")
+    await bot.send_message(group_id3, "Tắt Bot điểm")
     print("Bot điểm đã tắt")
-    bot.stop()
+    await bot.stop()
     #loop.stop()
 
 ##################################
