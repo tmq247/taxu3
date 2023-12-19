@@ -142,8 +142,8 @@ def send_dice(chat_id):
     #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
     response = Luna.send_dice(chat_id, "🎲") #🎲
     print(response.dice.value)
-    result = response.dice.value
-        while result >= 4:
+    #result = 
+        while response.dice.value >= 4:
             response.delete()
             response = Luna.send_dice(group_id, "🎲")
             result = response.dice.value
