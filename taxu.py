@@ -801,23 +801,61 @@ async def process_withdraw_amountnap(diemnap, user_id):
   else:
     await bot.send_message(user_id, "Lỗi!!! Vui lòng thử lại.")
 
+
+@bot.on_message(filters.command("diem"))
+async def check_balance(_, message: Message):
+    #load_balance_from_file()
+    xem_bot()
+    from_user = message.from_user#
+    if len(message.text.split()) == 1 and not message.reply_to_message:
+        if from_user.id not in user_balance:
+            return await bot.send_message(message.chat.id, f"{from_user.mention} chưa khởi động bot. Vui lòng khởi động bot.")
+        balance = user_balance.get(from_user.id, 0)
+        await bot.send_message(message.chat.id, f"👤 Số điểm của {from_user.mention} là {balance:,} điểm 💰")
+        await bot.send_message(group_id2, f"👤 Số điểm của {from_user.mention} là {balance:,} điểm 💰")
+        return
+    if len(message.text.split()) == 1 and message.reply_to_message: 
+        user_id, username = await extract_user_and_reason(message)#
+        user = await bot.get_users(user_id)#
+        if not user_id: #
+            return await message.reply_text("không tìm thấy người này")
+        if user_id not in user_balance:
+            return bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot. Vui lòng khởi động bot.")
+        balance = user_balance.get(user_id, 0)
+        await bot.send_message(message.chat.id, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
+        await bot.send_message(group_id2, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
+        return
+    else:
+        user_id, username = await extract_user_and_reason(message)#
+        user = await bot.get_users(user_id)#
+        if not user_id: #
+            return await message.reply_text("không tìm thấy người này")
+        if user_id not in user_balance:
+            return bot.send_message(message.chat.id, f"{user.mention} chưa khởi động bot. Vui lòng khởi động bot.")
+        balance = user_balance.get(user_id, 0)
+        await bot.send_message(message.chat.id, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
+        await bot.send_message(group_id2, f"👤 Số điểm của {user.mention} là {balance:,} điểm 💰")
+
 @bot.on_message(filters.command("listdata"))
 async def list(_, message: Message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
-        ls = f"user_state: {user_state}"
+        #ls = f"user_state: {user_state}"
         ls += f"rut: {rut}"
         ls += f"nap: {nap}"
         ls += f"user_balance: {user_balance}"
-        ls += f"user_bet_history: {user_bet_history}"
-        ls += f"user_withdraw_history: {user_withdraw_history}"
-        ls += f"napuser_withdraw_history: {napuser_withdraw_history}"
+        #ls += f"user_bet_history: {user_bet_history}"
+        #ls += f"user_withdraw_history: {user_withdraw_history}"
+        #ls += f"napuser_withdraw_history: {napuser_withdraw_history}"
         ls += f"used_gitcodes: {used_gitcodes}"
         ls += f"gitcode_amounts: {gitcode_amounts}"
         ls += f"user_pending_gitcodes: {user_pending_gitcodes}"
-        ls += f"user_game_state: {user_game_state}"
+        #ls += f"user_game_state: {user_game_state}"
         ls += f"user_balances: {user_balances}"
-        ls += f"user_bets: {user_bets}"
+        #ls += f"user_bets: {user_bets}"
+        await bot.send_message(chat_id, ls)
+        save_balance_to_file()
+        load_balance_from_file()
         await bot.send_message(chat_id, ls)
 
 @bot.on_message(filters.command("xoalist"))
