@@ -122,24 +122,22 @@ def get_user_info(user_id):
 @Luna.on_message(filters.command("xx"))
 def send_dice2(_, message: Message):
     chat_id = message.chat.id
-    response = Luna.send_dice(chat_id, "🎲") 
-    tx = response.dice.value
-    print(tx)
-    result = [response for _ in range(3)]
+    #response = Luna.send_dice(chat_id, "🎲") 
+    #tx = response.dice.value
+    #print(tx)
+    result = [response.dice.value = Luna.send_dice(chat_id, "🎲") for _ in range(3)]
     print(result)
     total_score = sum(result)
     print(total_score)
     while total_score >= 11:
-        tx.delete()
+        response.delete()
         #response = Luna.send_dice(group_id, "🎲")
         result = [response for _ in range(3)]
         total_score = sum(result)
         print(total_score)
 
 # Function to send a dice and get its value
-#@Luna.on_message(filters.command("xx"))
 def send_dice(chat_id):
-    #chat_id = message.chat.id
     #response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
     response = Luna.send_dice(chat_id, "🎲") #🎲
     print(response.dice.value)
