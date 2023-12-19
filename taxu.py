@@ -835,7 +835,7 @@ async def check_balance(_, message: Message):
   #load_balance_from_file()
   user_id = message.from_user.id
   balance = user_balance.get(user_id, 0)
-  await bot.send_message(user_id, f"""
+  await bot.send_message(group_id2, f"""
 👤 Tên tài khoản: {message.from_user.mention}
 💳 ID Tài khoản: {user_id}
 💰 Số dư của bạn: {balance:,} đ
