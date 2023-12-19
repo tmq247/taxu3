@@ -143,15 +143,10 @@ def send_dice(chat_id):
     response = Luna.send_dice(chat_id, "🎲") #🎲
     print(response.dice.value)
     result = response.dice.value
-    #if response.status_code == 200:
         while result >= 4:
             response.delete()
             response = Luna.send_dice(group_id, "🎲")
             result = response.dice.value
-        #data = response.json()
-        #if 'result' in data and 'dice' in data['result']:
-            #print(data['result']['dice']['value'])
-            #return data['result']['dice']['value']
         return result #None
     
 # Hàm kiểm Tài/Xỉu
@@ -322,7 +317,6 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         Luna.send_message(group_id, f"Người chơi chưa khởi động Luna, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
 
 # Function to start the dice game
-@Luna.on_message(filters.command("xx"))
 def start_game(message, grid):
     #load_balance_from_file()
     grtrangthai2 = 1
@@ -350,13 +344,8 @@ def start_game(message, grid):
 
     
     result = [send_dice(group_id) for _ in range(3)]
-    print(result)
     total_score = sum(result)
     print(result)
-    while total_score >= 11:
-        #result.delete()
-        #response = Luna.send_dice(group_id, "🎲")
-        result = [send_dice(group_id) for _ in range(3)]
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
