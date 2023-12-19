@@ -378,14 +378,13 @@ Tổng thua: {total_bet_T + total_bet_X - total_win:,}đ
     time.sleep(10)
     Luna.delete_messages(group_id, idtext4)
 
-@Luna.on_message(filters.command("diem"))
+#@Luna.on_message(filters.command("diem"))
 async def check_balance(_, message: Message):
     #load_balance_from_file()
-    xem_bot()
     from_user = message.from_user#
     if len(message.text.split()) == 1 and not message.reply_to_message:
         if from_user.id not in user_balance:
-            return Luna.send_message(message.chat.id, f"{from_user.mention} chưa khởi động bot. Vui lòng khởi động bot.")
+            return await Luna.send_message(message.chat.id, f"{from_user.mention} chưa khởi động bot. Vui lòng khởi động bot.")
         balance = user_balance.get(from_user.id, 0)
         await Luna.send_message(message.chat.id, f"👤 Số điểm của {from_user.mention} là {balance:,} điểm 💰")
         await Luna.send_message(group_id2, f"👤 Số điểm của {from_user.mention} là {balance:,} điểm 💰")
@@ -522,12 +521,24 @@ LƯU Ý: BẤM VÀO 2 NÚT BÊN DƯỚI ĐỂ CHƠI GAME.
     reply_markup = InlineKeyboardMarkup(nut)
     Luna.send_message(message.chat.id, text, reply_markup=reply_markup)
 
-@Luna.on_message(filters.command("listdiem"))
+@Luna.on_message(filters.command("listdata"))
 def listdiem(_, message: Message):
     #chat_id = message.chat.id
     with open("id.txt", "r") as f:
         a = f.read()
         Luna.send_message(group_id2, f"{a}")
+        #ls = f"luu_cau: {luu_cau}"
+        #ls += f"mo_game: {mo_game}"
+        #ls += f"topdiem: {topdiem}"
+        #ls += f"user_bets: {user_bets}"
+        #ls += f"winner: {winner}"
+        ls += f"user_balance: {user_balance}"
+        #ls += f"bot_trangthai: {bot_trangthai}"
+        Luna.send_message(chat_id, ls)
+        save_balance_to_file()
+        load_balance_from_file()
+        Luna.send_message(chat_id, ls)
+    
 
 @Luna.on_message(filters.command("topdiem"))
 def top_diem(_, message: Message):
@@ -535,7 +546,7 @@ def top_diem(_, message: Message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
         with open("id.txt", "r", encoding='utf-8') as f:
-            lines = f.read().splitlines()
+            lines = f.read().split()
             top = f"Top 10 điểm cao nhất:\n"
             for line in lines:
                 user_id, diem_str = line.strip().split()
@@ -555,12 +566,13 @@ def top_diem(_, message: Message):
         
                 
             Luna.send_message(chat_id, top)
+            
         #for user_id, balance in user_balance.items():
             #topdiem = []
             #topdiem += [user_id], [balance]
         #Luna.send_message(group_id2, f"{topdiem}")
 
-@Luna.on_message(filters.command("listdata"))
+#@Luna.on_message(filters.command("listdata"))
 def list(_, message: Message):
     chat_id = message.chat.id
     if chat_id == group_id2 or group_id3:
@@ -572,6 +584,7 @@ def list(_, message: Message):
         ls += f"user_balance: {user_balance}"
         ls += f"bot_trangthai: {bot_trangthai}"
         Luna.send_message(chat_id, ls)
+        
 
 @Luna.on_message(filters.command("xoalist"))
 def list(_, message: Message):
