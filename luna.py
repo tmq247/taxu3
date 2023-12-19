@@ -275,7 +275,6 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
                 request_message = f"""{diemcuoc} \nCược đã được chấp nhận."""
                 #requests.get(f"https://api.telegram.org/bot{bot_token2}/sendMessage?chat_id={user_id}&text={request_message}")
                 #requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={group_id2}&text={text}")
-                print(user_id)
                 Luna.send_message(user_id, request_message)
                 Luna.send_message(group_id, request_message)
                 Luna.send_message(group_id2, text)
@@ -610,10 +609,10 @@ def list(_, message: Message):
 def on_exit():
     save_balance_to_file()
     bot.send_message(group_id3, "Bot Game đã tắt")
-    print("Bot game đã tắt")
+    print("Bot Game đã tắt")
 
 # Xử lý khi bot bị tắt hoặc lỗi
-atexit.register(save_balance_to_file)
+atexit.register(on_exit)
 
 #@Luna.on_message(filters.command("tatbotgame"))
 #@atexit.register
