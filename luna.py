@@ -343,8 +343,9 @@ def start_game(message, grid):
     idtext4 = text4.id
     time.sleep(3)  # Simulating dice rolling
 
-    print(result, response)
+    
     result = [send_dice(group_id) for _ in range(3)]
+    print(result, response)
     total_score = sum(result)
     print(result)
     while total_score >= 11:
