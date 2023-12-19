@@ -657,8 +657,8 @@ async def chuyentien_money(_, message: Message):
 
 def on_exit():
     save_balance_to_file()
-    bot.send_message(group_id3, "Tắt Game điểm")
-    print("Bot điểm đã tắt")
+    bot.send_message(group_id3, "Bot Game đã tắt")
+    print("Bot game đã tắt")
 
 # Xử lý khi bot bị tắt hoặc lỗi
 atexit.register(save_balance_to_file)
