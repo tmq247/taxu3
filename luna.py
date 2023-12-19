@@ -68,7 +68,7 @@ def mo_bot(user_id):
         return
     if user_id not in bot_trangthai:
         bot_trangthai[user_id] = trangthai
-        with open("bot.txt", "a") as f:
+        with open("bot.txt", "w") as f:
             f.write(f"{user_id} {trangthai}\n")
         return user_id
     
@@ -118,7 +118,7 @@ def get_user_info(user_id):
 
 #######################################################
 load_balance_from_file()
-xem_bot()
+#xem_bot()
 # Function to send a dice and get its value
 def send_dice(chat_id):
     response = requests.get(f'https://api.telegram.org/bot{bot_token}/sendDice?chat_id={chat_id}')
