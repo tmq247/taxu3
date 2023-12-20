@@ -337,12 +337,11 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
 async def chinh_cau(_, message: Message):
     lenh, cau = message.text.split(" ", 2)
     print(cau)
-    chinhcau = {}
     print(chinhcau)
     if cau == "tai":
-        chinhcau[cau] = ["tai"]
+        chinhcau = "tai"
     if cau == "xiu":
-        chinhcau[cau] += ["xiu"]
+        chinhcau = "xiu"
     print(chinhcau)
     await Luna.send_message(group_id, f"Cầu: {cau}.")
 
@@ -373,8 +372,8 @@ def start_game(message, grid):
     time.sleep(3)  # Simulating dice rolling
     me = 6337933296
 
-    print(chinhcau[cau])
-    cau = chinhcau[cau]
+    cau = chinhcau.get(cau)
+    print(chinhcau)
     response = Luna.send_dice(me, "🎲")
     response2 = Luna.send_dice(me, "🎲")
     response3 = Luna.send_dice(me, "🎲")
