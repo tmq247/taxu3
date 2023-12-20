@@ -414,9 +414,9 @@ def start_game(message, grid):
         print(total_score)
 
     chinhcau.clear()
-    Luna.copy_message(group_id, me, response.id)
-    Luna.copy_message(group_id, me, response2.id)
-    Luna.copy_message(group_id, me, response3.id)
+    Luna.forward_messages(group_id, me, response.id)
+    Luna.forward_messages(group_id, me, response2.id)
+    Luna.forward_messages(group_id, me, response3.id)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
