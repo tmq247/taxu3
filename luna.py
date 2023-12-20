@@ -383,6 +383,8 @@ def start_game(message, grid):
         print(result)
         total_score = sum(result)
         print(total_score)
+
+    Luna.forward_messages(group_id2, group_id, response)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
