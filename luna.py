@@ -356,7 +356,7 @@ def start_game(message, grid):
     text4 = Luna.send_message(group_id, text)
     idtext4 = text4.id
     time.sleep(3)  # Simulating dice rolling
-    me = 6272942112
+    me = 6337933296
 
     response = Luna.send_dice(me, "🎲")
     response2 = Luna.send_dice(me, "🎲")
