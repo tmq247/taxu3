@@ -334,7 +334,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         Luna.send_message(group_id, f"Người chơi chưa khởi động Luna, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
 
 @Luna.on_message(filters.command([chinhcau]) & filters.text)
-def chinh_cau(_, message: Message):
+async def chinh_cau(_, message: Message):
     user_id, cau = await extract_user_and_reason(message)
     chinhcau = []
     chinhcau += cau
