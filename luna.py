@@ -369,6 +369,7 @@ def start_game(message, grid):
     print(result)
     total_score = sum(result)
     print(total_score)
+    
     while total_score >= 11:
         response.delete()
         response2.delete()
@@ -385,7 +386,7 @@ def start_game(message, grid):
         total_score = sum(result)
         print(total_score)
 
-    Luna.forward_messages(group_id, me, [response.id, response2.id, response3.id])
+    Luna.forward_messages(group_id, drop_author=True, me, [response.id, response2.id, response3.id])
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
