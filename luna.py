@@ -371,6 +371,7 @@ def start_game(message, grid):
     time.sleep(3)  # Simulating dice rolling
     me = 6337933296
 
+    chinh_cau()
     print(chinhcau)
     cau = chinhcau.get(0)
     print(chinhcau)
