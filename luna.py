@@ -371,7 +371,8 @@ def start_game(message, grid):
     time.sleep(3)  # Simulating dice rolling
     me = 6337933296
 
-    cau = chinhcau.get(cau)
+    print(chinhcau)
+    cau = chinhcau.get(0)
     print(chinhcau)
     response = Luna.send_dice(me, "🎲")
     response2 = Luna.send_dice(me, "🎲")
