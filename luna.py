@@ -220,14 +220,14 @@ def game_timer(message, grid, grtrangthai):
         ],]
     reply_markup = InlineKeyboardMarkup(nut)
     text1 = Luna.send_message(group_id, "Bắt đầu ván mới! Có 90 giây để đặt cược\n LƯU Ý : HÃY BẤM VÀO 2 NÚT BÊN DƯỚI, ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
-    time.sleep(30)
+    #time.sleep(30)
     text2 = Luna.send_message(group_id, "Còn 60s để đặt cược.")
     
-    time.sleep(20)  # Wait for 120 seconds
+    #time.sleep(20)  # Wait for 120 seconds
     text3 = Luna.send_message(group_id, "Còn 40s để đặt cược.")
     Luna.delete_messages(grid, text2.id)
 
-    time.sleep(30)  # Wait for 120 seconds
+    #time.sleep(30)  # Wait for 120 seconds
     text4 = Luna.send_message(group_id, "Còn 10s để đặt cược.")
     Luna.delete_messages(grid, text3.id)
     time.sleep(10)  # Wait for 120 seconds
@@ -357,13 +357,32 @@ def start_game(message, grid):
     idtext4 = text4.id
     time.sleep(3)  # Simulating dice rolling
 
-    set = 0
-    result = [send_dice(group_id, set) for _ in range(3)]
-    total_score = sum(result)
-    while total_score >= 11:
-        set = 1
-        result = [send_dice(group_id, set) for _ in range(3)]
+    response = Luna.send_dice(chat_id, "🎲")
+    response2 = Luna.send_dice(chat_id, "🎲")
+    response3 = Luna.send_dice(chat_id, "🎲")
+    tx = response.dice.value
+    tx2 = response2.dice.value
+    tx3 = response3.dice.value
+    print(tx, tx2, tx3)
+    result = [tx, tx2, tx3]
     print(result)
+    total_score = sum(result)
+    print(total_score)
+    while total_score >= 11:
+        response.delete()
+        response2.delete()
+        response3.delete()
+        response = Luna.send_dice(chat_id, "🎲")
+        response2 = Luna.send_dice(chat_id, "🎲")
+        response3 = Luna.send_dice(chat_id, "🎲")
+        tx = response.dice.value
+        tx2 = response2.dice.value
+        tx3 = response3.dice.value
+        print(tx, tx2, tx3)
+        result = [tx, tx2, tx3]
+        print(result)
+        total_score = sum(result)
+        print(total_score)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
