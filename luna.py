@@ -385,7 +385,7 @@ def start_game(message, grid):
     total_score = sum(result)
     print(total_score)
 
-    if chinhcau == ["xiu"]:
+    if ["xiu"] in chinhcau:
         print(xỉu)
         print(chinhcau)
         while total_score >= 11:
@@ -404,7 +404,7 @@ def start_game(message, grid):
             total_score = sum(result)
             print(total_score)
 
-    elif chinhcau == ["tai"]:
+    elif ["tai"] in chinhcau:
         print(tài)
         print(chinhcau)
         while total_score < 11:
