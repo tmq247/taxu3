@@ -373,6 +373,8 @@ def start_game(message, grid):
     time.sleep(3)  # Simulating dice rolling
     me = 6337933296
 
+    print(chinhcau)
+    cau = chinhcau[cau]
     response = Luna.send_dice(me, "🎲")
     response2 = Luna.send_dice(me, "🎲")
     response3 = Luna.send_dice(me, "🎲")
@@ -385,7 +387,7 @@ def start_game(message, grid):
     total_score = sum(result)
     print(total_score)
 
-    if ["xiu"] in chinhcau:
+    if cau == "xiu":
         print(xỉu)
         print(chinhcau)
         while total_score >= 11:
@@ -404,7 +406,7 @@ def start_game(message, grid):
             total_score = sum(result)
             print(total_score)
 
-    elif ["tai"] in chinhcau:
+    elif cau == "tai":
         print(tài)
         print(chinhcau)
         while total_score < 11:
