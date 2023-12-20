@@ -340,9 +340,9 @@ async def chinh_cau(_, message: Message):
     chinhcau = []
     print(chinhcau)
     if cau == "tai":
-        chinhcau = "tai"
+        chinhcau = ["tai"]
     if cau == "xiu":
-        chinhcau = "xiu"
+        chinhcau += ["xiu"]
     print(chinhcau)
     await Luna.send_message(group_id, f"Cầu: {cau}.")
 
@@ -385,7 +385,7 @@ def start_game(message, grid):
     total_score = sum(result)
     print(total_score)
 
-    if chinhcau in ["xiu"]:
+    if chinhcau == ["xiu"]:
         print(xỉu)
         print(chinhcau)
         while total_score >= 11:
@@ -404,7 +404,7 @@ def start_game(message, grid):
             total_score = sum(result)
             print(total_score)
 
-    elif chinhcau in ["tai"]:
+    elif chinhcau == ["tai"]:
         print(tài)
         print(chinhcau)
         while total_score < 11:
