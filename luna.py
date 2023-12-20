@@ -398,20 +398,20 @@ def start_game(message, grid):
 
     elif chinhcau == "tai":
         while total_score < 11:
-        response.delete()
-        response2.delete()
-        response3.delete()
-        response = Luna.send_dice(me, "🎲")
-        response2 = Luna.send_dice(me, "🎲")
-        response3 = Luna.send_dice(me, "🎲")
-        tx = response.dice.value
-        tx2 = response2.dice.value
-        tx3 = response3.dice.value
-        print(tx, tx2, tx3)
-        result = [tx, tx2, tx3]
-        print(result)
-        total_score = sum(result)
-        print(total_score)
+            response.delete()
+            response2.delete()
+            response3.delete()
+            response = Luna.send_dice(me, "🎲")
+            response2 = Luna.send_dice(me, "🎲")
+            response3 = Luna.send_dice(me, "🎲")
+            tx = response.dice.value
+            tx2 = response2.dice.value
+            tx3 = response3.dice.value
+            print(tx, tx2, tx3)
+            result = [tx, tx2, tx3]
+            print(result)
+            total_score = sum(result)
+            print(total_score)
 
     chinhcau.clear()
     Luna.forward_messages(group_id, me, response.id)
