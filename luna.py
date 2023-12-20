@@ -363,9 +363,6 @@ def chinh_cau(_, message: Message):
     luu_chinhcau(cau)
     Luna.send_message(group_id, f"Cầu: {cau}.")
 
-def loadchinhcau()
-    chinhcau = 
-
 # Function to start the dice game
 def start_game(message, grid):
     #load_balance_from_file()
