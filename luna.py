@@ -337,6 +337,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
 async def chinh_cau(_, message: Message):
     lenh, cau = message.text.split(" ", 2)
     print(cau)
+    chinhcau = []
     chinhcau += [cau]
     print(chinhcau)
     await Luna.send_message(group_id, f"Cầu: {cau}.")
