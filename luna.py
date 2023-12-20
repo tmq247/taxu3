@@ -338,6 +338,7 @@ async def chinh_cau(_, message: Message):
     lenh, cau = message.text.split(" ", 2)
     print(cau)
     chinhcau = {cau}
+    print(chinhcau)
     if cau == "tai":
         chinhcau = "tai"
     if cau == "xiu":
