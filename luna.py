@@ -381,8 +381,9 @@ def start_game(message, grid):
     total_score = sum(result)
     print(total_score)
 
-    if chinhcau == "xiu":
+    if chinhcau in "xiu":
         print(xỉu)
+        print(chinhcau)
         while total_score >= 11:
             response.delete()
             response2.delete()
@@ -399,8 +400,9 @@ def start_game(message, grid):
             total_score = sum(result)
             print(total_score)
 
-    elif chinhcau == "tai":
+    elif chinhcau in "tai":
         print(tài)
+        print(chinhcau)
         while total_score < 11:
             response.delete()
             response2.delete()
