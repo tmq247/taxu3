@@ -338,7 +338,10 @@ async def chinh_cau(_, message: Message):
     lenh, cau = message.text.split(" ", 2)
     print(cau)
     chinhcau = []
-    chinhcau += [cau]
+    if cau == "tai"
+        chinhcau += "tai"
+    if cau == "xiu"
+        chinhcau = "xiu"
     print(chinhcau)
     await Luna.send_message(group_id, f"Cầu: {cau}.")
 
