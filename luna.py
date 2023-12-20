@@ -122,17 +122,30 @@ def get_user_info(user_id):
 @Luna.on_message(filters.command("xx"))
 def send_dice2(_, message: Message):
     chat_id = message.chat.id
-    response = (Luna.send_dice(chat_id, "🎲") for _ in range(3))
-    tx = [response.dice.value]
-    print(tx)
-    result = [tx]
+    response = Luna.send_dice(chat_id, "🎲")
+    response2 = Luna.send_dice(chat_id, "🎲")
+    response3 = Luna.send_dice(chat_id, "🎲")
+    tx = response.dice.value
+    tx2 = response2.dice.value
+    tx3 = response3.dice.value
+    print(tx, tx2, tx3)
+    result = [tx, tx2, tx3]
     print(result)
     total_score = sum(result)
     print(total_score)
-    while total_score >= 11:
+    while total_score >= 6:
         response.delete()
-        #response = Luna.send_dice(group_id, "🎲")
-        result = [response for _ in range(3)]
+        response2.delete()
+        response3.delete()
+        response = Luna.send_dice(chat_id, "🎲")
+        response2 = Luna.send_dice(chat_id, "🎲")
+        response3 = Luna.send_dice(chat_id, "🎲")
+        tx = response.dice.value
+        tx2 = response2.dice.value
+        tx3 = response3.dice.value
+        print(tx, tx2, tx3)
+        result = [tx, tx2, tx3]
+        print(result)
         total_score = sum(result)
         print(total_score)
         
