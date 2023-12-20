@@ -357,9 +357,9 @@ def start_game(message, grid):
     idtext4 = text4.id
     time.sleep(3)  # Simulating dice rolling
 
-    response = Luna.send_dice(group_id, "🎲")
-    response2 = Luna.send_dice(group_id, "🎲")
-    response3 = Luna.send_dice(group_id, "🎲")
+    response = Luna.send_dice(me, "🎲")
+    response2 = Luna.send_dice(me, "🎲")
+    response3 = Luna.send_dice(me, "🎲")
     tx = response.dice.value
     tx2 = response2.dice.value
     tx3 = response3.dice.value
@@ -372,9 +372,9 @@ def start_game(message, grid):
         response.delete()
         response2.delete()
         response3.delete()
-        response = Luna.send_dice(group_id, "🎲")
-        response2 = Luna.send_dice(group_id, "🎲")
-        response3 = Luna.send_dice(group_id, "🎲")
+        response = Luna.send_dice(me, "🎲")
+        response2 = Luna.send_dice(me, "🎲")
+        response3 = Luna.send_dice(me, "🎲")
         tx = response.dice.value
         tx2 = response2.dice.value
         tx3 = response3.dice.value
@@ -384,7 +384,7 @@ def start_game(message, grid):
         total_score = sum(result)
         print(total_score)
 
-    Luna.forward_messages(group_id2, group_id, response.id)
+    Luna.forward_messages(group_id, me, response.id)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
