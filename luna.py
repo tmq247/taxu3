@@ -339,6 +339,7 @@ async def chinh_cau(_, message: Message):
     chinhcau = []
     chinhcau += cau
     print(chinhcau)
+    await Luna.send_message(group_id, f"Cầu: {cau}.")
 
 # Function to start the dice game
 def start_game(message, grid):
