@@ -336,8 +336,9 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
 @Luna.on_message(filters.command("chinhcau"))
 async def chinh_cau(_, message: Message):
     lenh, cau = message.text.split(" ", 2)
-    chinhcau[lenh] = []
-    chinhcau[lenh] += cau
+    print(cau)
+    chinhcau = []
+    chinhcau += cau
     print(chinhcau)
     await Luna.send_message(group_id, f"Cầu: {cau}.")
 
@@ -380,7 +381,7 @@ def start_game(message, grid):
     total_score = sum(result)
     print(total_score)
 
-    if chinhcau[lenh] == "xiu":
+    if chinhcau == "xiu":
         while total_score >= 11:
             response.delete()
             response2.delete()
@@ -397,7 +398,7 @@ def start_game(message, grid):
             total_score = sum(result)
             print(total_score)
 
-    elif chinhcau[lenh] == "tai":
+    elif chinhcau == "tai":
         while total_score < 11:
             response.delete()
             response2.delete()
