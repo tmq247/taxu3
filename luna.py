@@ -335,7 +335,7 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
 
 @Luna.on_message(filters.command("chinhcau"))
 async def chinh_cau(_, message: Message):
-    user_id, cau = await extract_user_and_reason(message)
+    lenh, cau = message.text.split(" ", 2)
     chinhcau = []
     chinhcau += cau
     print(chinhcau)
