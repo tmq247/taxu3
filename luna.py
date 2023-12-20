@@ -58,7 +58,7 @@ winner = {}
 user_balance = {}
 
 #########################
-
+chinhcau = {}
 bot_trangthai = {}
 
 # Add these variables for Gitcode handling
@@ -333,6 +333,13 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         reply_markup = InlineKeyboardMarkup(soicau)
         Luna.send_message(group_id, f"Người chơi chưa khởi động Luna, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
 
+@Luna.on_message(filters.command([chinhcau]) & filters.text)
+def chinh_cau(_, message: Message):
+    user_id, cau = await extract_user_and_reason(message)
+    chinhcau = []
+    chinhcau += cau
+    print(chinhcau)
+
 # Function to start the dice game
 def start_game(message, grid):
     #load_balance_from_file()
@@ -371,8 +378,26 @@ def start_game(message, grid):
     print(result)
     total_score = sum(result)
     print(total_score)
-    
-    while total_score >= 11:
+
+    if chinhcau == "xiu":
+        while total_score >= 11:
+            response.delete()
+            response2.delete()
+            response3.delete()
+            response = Luna.send_dice(me, "🎲")
+            response2 = Luna.send_dice(me, "🎲")
+            response3 = Luna.send_dice(me, "🎲")
+            tx = response.dice.value
+            tx2 = response2.dice.value
+            tx3 = response3.dice.value
+            print(tx, tx2, tx3)
+            result = [tx, tx2, tx3]
+            print(result)
+            total_score = sum(result)
+            print(total_score)
+
+    elif chinhcau == "tai":
+        while total_score < 11:
         response.delete()
         response2.delete()
         response3.delete()
@@ -388,6 +413,7 @@ def start_game(message, grid):
         total_score = sum(result)
         print(total_score)
 
+    chinhcau.clear()
     Luna.copy_message(group_id, me, response.id)
     Luna.copy_message(group_id, me, response2.id)
     Luna.copy_message(group_id, me, response3.id)
