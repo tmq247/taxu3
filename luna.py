@@ -120,6 +120,30 @@ def get_user_info(user_id):
     print("Error fetching user info:", e)
     return None
 
+##############################################
+
+def luu_chinhcau(cau):
+    with open("chinhcau.txt", "a") as f:
+        f.write(f"{cau}\n")
+    
+
+# Function to read Gitcodes from the file
+def xem_cau():
+    with open("chinhcau.txt", "r") as f:
+        for line in f:
+            cau  = line.strip().split()
+            chinhcau = cau
+xem_cau()
+
+# Function to remove a used Gitcode
+def xoa_cau():
+    with open(grid_FILE, "r") as f:
+        lines = f.readlines()
+    with open(grid_FILE, "w") as f:
+        for line in lines:
+            if not line.startswith():
+                f.write(line)
+
 #######################################################
 @Luna.on_message(filters.command("xx"))
 def send_dice2(_, message: Message):
@@ -334,17 +358,13 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
         Luna.send_message(group_id, f"Người chơi chưa khởi động Luna, vui lòng khởi động bot và thử lại. \nHÃY VÀO 2 BOT BÊN DƯỚI, KHỞI ĐỘNG BOT ĐỂ CÓ THỂ CHƠI GAME.", reply_markup=reply_markup)
 
 @Luna.on_message(filters.command("chinhcau"))
-async def chinh_cau(_, message: Message):
+def chinh_cau(_, message: Message):
     lenh, cau = message.text.split(" ", 2)
-    print(cau)
-    chinhcau = {cau}
-    print(chinhcau)
-    if cau == "tai":
-        chinhcau = "tai"
-    if cau == "xiu":
-        chinhcau = "xiu"
-    print(chinhcau)
-    await Luna.send_message(group_id, f"Cầu: {cau}.")
+    luu_chinhcau(cau)
+    Luna.send_message(group_id, f"Cầu: {cau}.")
+
+def loadchinhcau()
+    chinhcau = 
 
 # Function to start the dice game
 def start_game(message, grid):
@@ -373,8 +393,10 @@ def start_game(message, grid):
     time.sleep(3)  # Simulating dice rolling
     me = 6337933296
 
-    
+    xem_cau()
     print(chinhcau)
+    cau = chinhcau
+    print(cau)
     response = Luna.send_dice(me, "🎲")
     response2 = Luna.send_dice(me, "🎲")
     response3 = Luna.send_dice(me, "🎲")
@@ -387,7 +409,7 @@ def start_game(message, grid):
     total_score = sum(result)
     print(total_score)
 
-    if chinhcau in ["xiu"]:
+    if cau == "xiu":
         print(xỉu)
         print(chinhcau)
         while total_score >= 11:
@@ -406,7 +428,7 @@ def start_game(message, grid):
             total_score = sum(result)
             print(total_score)
 
-    elif chinhcau in ["tai"]:
+    elif cau == "tai":
         print(tài)
         print(chinhcau)
         while total_score < 11:
