@@ -136,9 +136,9 @@ def xem_cau():
 
 # Function to remove a used Gitcode
 def xoa_cau():
-    with open(grid_FILE, "r") as f:
+    with open("chinhcau.txt", "r") as f:
         lines = f.readlines()
-    with open(grid_FILE, "w") as f:
+    with open("chinhcau.txt", "w") as f:
         for line in lines:
             if not line.startswith():
                 f.write(line)
