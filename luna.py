@@ -131,7 +131,7 @@ def luu_chinhcau(cau):
 def xem_cau():
     with open("chinhcau.txt", "r") as f:
         for line in f:
-            cau  = line.strip().split()
+            cau  = line.split()
             chinhcau = cau
 
 # Function to remove a used Gitcode
@@ -444,6 +444,7 @@ def start_game(message, grid):
             print(total_score)
 
     chinhcau.clear()
+    xoa_cau()
     Luna.forward_messages(group_id, me, response.id)
     Luna.forward_messages(group_id, me, response2.id)
     Luna.forward_messages(group_id, me, response3.id)
