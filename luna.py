@@ -133,7 +133,7 @@ def send_dice2(_, message: Message):
     print(result)
     total_score = sum(result)
     print(total_score)
-    while total_score >= 6:
+    while total_score >= 11:
         response.delete()
         response2.delete()
         response3.delete()
