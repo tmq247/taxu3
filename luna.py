@@ -133,7 +133,6 @@ def xem_cau():
         for line in f:
             cau  = line.strip().split()
             chinhcau = cau
-xem_cau()
 
 # Function to remove a used Gitcode
 def xoa_cau():
