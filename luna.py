@@ -608,9 +608,9 @@ def listdiem(_, message: Message):
     with open("id.txt", "r") as f:
         a = f.read()
         for line in a:
-            user_id, diem = line.strip().split()
+            diem = line.strip().split()
             #print(user_id: diem\n)
-            #print(diem)
+            print(diem)
             b = sorted(line, diem)
             print(b)
         #Luna.send_message(group_id2, f"{b}")
