@@ -367,15 +367,18 @@ def confirm_bet(user_id, bet_type, bet_amount, ten_ncuoc, message):
 @Luna.on_message(filters.command("chinhcau"))
 def chinh_cau(_, message: Message):
     lenh, cau = message.text.split(" ", 2)
-    chinhcau[group_id] = {"cầu": 0}
-    if cau == "tai":
-        ccau = 1
-        chinhcau[group_id]["cầu"] += ccau
-
-    if cau == "xiu":
-        ccau = 2
-        chinhcau[group_id]["cầu"] += ccau
-    Luna.send_message(group_id, f"Cầu: {chinhcau}.")
+    user_id = message.from_user.id
+    if user_id == admin or admin2
+        chinhcau[group_id] = {"cầu": 0}
+        if cau == "tai":
+            ccau = 1
+            chinhcau[group_id]["cầu"] += ccau
+    
+        if cau == "xiu":
+            ccau = 2
+            chinhcau[group_id]["cầu"] += ccau
+        Luna.send_message(group_id, f"{chinhcau}")
+    return
 
 # Function to start the dice game
 def start_game(message, grid):
