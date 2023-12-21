@@ -607,6 +607,7 @@ def listdiem(_, message: Message):
     chat_id = message.chat.id
     with open("id.txt", "r") as f:
         a = f.read()
+        print(len(a))
         for line in a:
             print(line)
             print(len(line))
