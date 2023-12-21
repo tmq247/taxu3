@@ -611,7 +611,7 @@ def listdiem(_, message: Message):
             diem = line.strip().split()
             #print(user_id: diem\n)
             print(diem)
-            b = sorted(line.split(), diem)
+            b = sorted(line)
             print(b)
         #Luna.send_message(group_id2, f"{b}")
         #ls = f"user_balance: {user_balance}"
