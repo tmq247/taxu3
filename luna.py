@@ -427,9 +427,9 @@ def start_game(message, grid):
             response.delete()
             response2.delete()
             response3.delete()
-            response = xx.send_dice(me, "🎲")
-            response2 = xx.send_dice(me, "🎲")
-            response3 = xx.send_dice(me, "🎲")
+            response = xx.send_dice(group_id, "🎲")
+            response2 = xx.send_dice(group_id, "🎲")
+            response3 = xx.send_dice(group_id, "🎲")
             tx = response.dice.value
             tx2 = response2.dice.value
             tx3 = response3.dice.value
@@ -446,9 +446,9 @@ def start_game(message, grid):
             response.delete()
             response2.delete()
             response3.delete()
-            response = xx.send_dice(me, "🎲")
-            response2 = xx.send_dice(me, "🎲")
-            response3 = xx.send_dice(me, "🎲")
+            response = xx.send_dice(group_id, "🎲")
+            response2 = xx.send_dice(group_id, "🎲")
+            response3 = xx.send_dice(group_id, "🎲")
             tx = response.dice.value
             tx2 = response2.dice.value
             tx3 = response3.dice.value
@@ -459,9 +459,9 @@ def start_game(message, grid):
             print(total_score)
 
     chinhcau.clear()
-    xx.forward_messages(group_id, me, response.id)
-    xx.forward_messages(group_id, me, response2.id)
-    xx.forward_messages(group_id, me, response3.id)
+    #xx.forward_messages(group_id, me, response.id)
+    #xx.forward_messages(group_id, me, response2.id)
+    #xx.forward_messages(group_id, me, response3.id)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
