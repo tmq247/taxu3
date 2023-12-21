@@ -413,7 +413,7 @@ def start_game(message, grid):
     print(total_score)
 
     if chinhcau[group_id]["cầu"] == 2:
-        print(xỉu)
+        print("xỉu")
         print(chinhcau)
         while total_score >= 11:
             response.delete()
@@ -432,7 +432,7 @@ def start_game(message, grid):
             print(total_score)
 
     elif chinhcau[group_id]["cầu"] == 1:
-        print(tài)
+        print("tài")
         print(chinhcau)
         while total_score < 11:
             response.delete()
