@@ -608,14 +608,7 @@ def listdiem(_, message: Message):
     with open("id.txt", "r") as f:
         a = f.read()
         Luna.send_message(group_id2, f"{sorted(a)}")
-        #ls = f"luu_cau: {luu_cau}"
-        #ls += f"mo_game: {mo_game}"
-        #ls += f"topdiem: {topdiem}"
-        #ls += f"user_bets: {user_bets}"
-        #ls += f"winner: {winner}"
-        ls = f"user_balance: {user_balance}"
-        #ls += f"bot_trangthai: {bot_trangthai}"
-        Luna.send_message(chat_id, ls)
+        ls = f"user_balance: {user_balance}""
         Luna.send_message(chat_id, ls)
     
 
