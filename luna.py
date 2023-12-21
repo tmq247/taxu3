@@ -768,7 +768,8 @@ def dong(_, message):
     Luna.stop()
     #loop.stop()
                                           
-        
+loop = get_event_loop()
+loop.run_until_complete(main())        
 ######################################################
 async def main():
     await Luna.start()
@@ -785,8 +786,9 @@ async def main():
     user_bets.clear()
     winner.clear()
     await Luna.send_message(group_id3, "Bot Game đã mở")
-    await idle()
+    await xx.start()
+    await xx.send_message(group_id3, "Userbot Game đã mở")
+    #await idle()
 
 
-loop = get_event_loop()
-loop.run_until_complete(main())
+
