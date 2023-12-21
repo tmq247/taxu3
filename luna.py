@@ -608,6 +608,7 @@ def listdiem(_, message: Message):
     with open("id.txt", "r") as f:
         a = f.read()
         for line in a:
+            print(line)
             print(len(line))
             diem = line.strip().split()
             #print(user_id)
