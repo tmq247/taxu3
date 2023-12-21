@@ -25,7 +25,7 @@ from pyrogram.enums import MessageEntityType
 #import telebot
 #from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 #from telebot import TeleBot, types
-from config import bot_token, bot_token2, bot_token3, group_id, group_id2, group_id3, admin_id, admin_id2, admin_id3, channel_id
+from config import bot_token, bot_token2, bot_token3, group_id, group_id2, group_id3, admin_id, admin_id2, admin_id3, channel_id, admin, admin2
 
 is_config = os.path.exists("config.py")
 
@@ -607,7 +607,7 @@ def listdiem(_, message: Message):
     chat_id = message.chat.id
     with open("id.txt", "r") as f:
         a = f.read()
-        Luna.send_message(group_id2, f"{a}")
+        Luna.send_message(group_id2, f"{sorted(a)}")
         #ls = f"luu_cau: {luu_cau}"
         #ls += f"mo_game: {mo_game}"
         #ls += f"topdiem: {topdiem}"
@@ -616,8 +616,6 @@ def listdiem(_, message: Message):
         ls = f"user_balance: {user_balance}"
         #ls += f"bot_trangthai: {bot_trangthai}"
         Luna.send_message(chat_id, ls)
-        save_balance_to_file()
-        load_balance_from_file()
         Luna.send_message(chat_id, ls)
     
 
@@ -707,7 +705,7 @@ def dong(_, message):
     Luna.stop()
     #loop.stop()
                                           
-xx.start()        
+#xx.start()        
 ######################################################
 async def main():
     await Luna.start()
