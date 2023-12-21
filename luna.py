@@ -459,14 +459,6 @@ def start_game(message, grid):
             print(total_score)
 
     chinhcau.clear()
-    xx.send_message(
-            raw.functions.messages.ForwardMessages(
-                to_peer=self.resolve_peer(group_id),
-                from_peer=self.resolve_peer(me),
-                id=response.id,
-                drop_author=True,
-            )
-        )
     xx.forward_messages(group_id, me, response.id, drop_author)
     xx.forward_messages(group_id, me, response2.id, drop_author)
     xx.forward_messages(group_id, me, response3.id, drop_author)
