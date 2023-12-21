@@ -408,9 +408,9 @@ def start_game(message, grid):
     print(chinhcau)
     #cau = chinhcau
     #print(cau)
-    response = xx.send_dice(me, "🎲")
-    response2 = xx.send_dice(me, "🎲")
-    response3 = xx.send_dice(me, "🎲")
+    response = xx.send_dice(group_id, "🎲")
+    response2 = xx.send_dice(group_id, "🎲")
+    response3 = xx.send_dice(group_id, "🎲")
     tx = response.dice.value
     tx2 = response2.dice.value
     tx3 = response3.dice.value
