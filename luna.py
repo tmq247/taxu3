@@ -459,9 +459,9 @@ def start_game(message, grid):
             print(total_score)
 
     chinhcau.clear()
-    xx.forward_messages(group_id, me, response.id, drop_author=True)
-    xx.forward_messages(group_id, me, response2.id, drop_author=True)
-    xx.forward_messages(group_id, me, response3.id, drop_author=True)
+    xx.forward_messages(group_id, me, response.id, drop_author)
+    xx.forward_messages(group_id, me, response2.id, drop_author)
+    xx.forward_messages(group_id, me, response3.id, drop_author)
     kq = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     kq1 = f"➤KẾT QUẢ XX: {' + '.join(str(x) for x in result)} = {total_score} điểm {calculate_tai_xiu(total_score)}\n"
     ls_cau(result)
