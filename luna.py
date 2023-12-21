@@ -412,7 +412,7 @@ def start_game(message, grid):
     total_score = sum(result)
     print(total_score)
 
-    if group_id in chinhcau[group_id] and chinhcau[group_id]["cầu"] == 2:
+    if chinhcau[group_id]["cầu"] == 2:
         print(xỉu)
         print(chinhcau)
         while total_score >= 11:
@@ -431,7 +431,7 @@ def start_game(message, grid):
             total_score = sum(result)
             print(total_score)
 
-    elif group_id in chinhcau[group_id] and chinhcau[group_id]["cầu"] == 1:
+    elif chinhcau[group_id]["cầu"] == 1:
         print(tài)
         print(chinhcau)
         while total_score < 11:
