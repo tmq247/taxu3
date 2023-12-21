@@ -606,9 +606,13 @@ LƯU Ý: BẤM VÀO 2 NÚT BÊN DƯỚI ĐỂ CHƠI GAME.
 def listdiem(_, message: Message):
     chat_id = message.chat.id
     with open("id.txt", "r") as f:
-        a = f.read()
-        b = sorted(a)
-        print(b)
+        a = f.read().split()
+        for line in a:
+            user_id, diem = line.strip().split()
+            #print(user_id: diem\n)
+            #print(diem)
+            b = sorted(line, diem)
+            print(b)
         #Luna.send_message(group_id2, f"{b}")
         #ls = f"user_balance: {user_balance}"
         #Luna.send_message(chat_id, ls)
