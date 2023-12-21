@@ -444,7 +444,7 @@ def start_game(message, grid):
             print(total_score)
 
     chinhcau.clear()
-    xoa_cau()
+    #xoa_cau()
     Luna.forward_messages(group_id, me, response.id)
     Luna.forward_messages(group_id, me, response2.id)
     Luna.forward_messages(group_id, me, response3.id)
