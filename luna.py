@@ -606,9 +606,9 @@ LƯU Ý: BẤM VÀO 2 NÚT BÊN DƯỚI ĐỂ CHƠI GAME.
 def listdiem(_, message: Message):
     chat_id = message.chat.id
     with open("id.txt", "r") as f:
-        a = f.read().split()
+        a = f.read()
         for line in a:
-            user_id, diem = line.strip().split()
+            user_id diem = line.strip().split()
             #print(user_id: diem\n)
             #print(diem)
             b = sorted(line, diem)
