@@ -43,6 +43,14 @@ Luna = Client(
     api_hash=api_hash,
 )
 
+xx = Client(
+    ":xx:",
+    bot_token=bot_token,
+    api_id=api_id2,
+    api_hash=api_hash2,
+    session_string=session_string,
+)
+
 bot_id = int(bot_token.split(":")[0])
 
 ###############
