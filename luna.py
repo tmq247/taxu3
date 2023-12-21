@@ -361,12 +361,12 @@ def chinh_cau(_, message: Message):
     lenh, cau = message.text.split(" ", 2)
     chinhcau[group_id] = {"cầu", 0}
     if cau == "tai":
-        cau = 1
-        chinhcau[group_id]["cầu"] += cau
+        ccau = 1
+        chinhcau[group_id]["cầu"] += ccau
 
     if cau == "xiu":
-        cau = 2
-        chinhcau[group_id]["cầu"] += cau
+        ccau = 2
+        chinhcau[group_id]["cầu"] += ccau
     Luna.send_message(group_id, f"Cầu: {chinhcau}.")
 
 # Function to start the dice game
