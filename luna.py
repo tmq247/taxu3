@@ -607,7 +607,7 @@ def listdiem(_, message: Message):
     chat_id = message.chat.id
     with open("id.txt", "r") as f:
         a = f.read()
-        for user_id, diem in a.items():
+        for user_id, diem in a.split(" ", 2):
             #diem = line.strip().split()
             #print(user_id: diem\n)
             print(diem)
