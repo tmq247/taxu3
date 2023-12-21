@@ -402,7 +402,7 @@ def start_game(message, grid):
     text4 = Luna.send_message(group_id, text)
     idtext4 = text4.id
     time.sleep(3)  # Simulating dice rolling
-    #me = 6337933296
+    me = 6591795745
 
     #xem_cau()
     print(chinhcau)
