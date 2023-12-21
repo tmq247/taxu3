@@ -607,7 +607,7 @@ def listdiem(_, message: Message):
     chat_id = message.chat.id
     with open("id.txt", "r") as f:
         a = f.read()
-        Luna.send_message(group_id2, f"{sorted((a)[10])}")
+        Luna.send_message(group_id2, f"{a}")
         ls = f"user_balance: {user_balance}"
         #Luna.send_message(chat_id, ls)
     
