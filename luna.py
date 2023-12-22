@@ -627,28 +627,14 @@ def listdiem(_, message: Message):
 def top_diem(_, message: Message):
     #load_balance_from_file()
     chat_id = message.chat.id
-    if chat_id == group_id2 or group_id3:
-        with open("id.txt", "r", encoding='utf-8') as f:
-            lines = f.read().split()
-            top = f"Top 10 điểm cao nhất:\n"
-            for line in lines:
-                user_id, diem_str = line.strip().split()
-                diem = float(diem_str)
-                diem = int(diem)
-                if diem > 0:
-                    topdiem[user_id] = diem
-                    #topdiem += {user_id}
-                    #topdiem += {diem}
-                    #user_id, diem = topdiem.get()
-                        
-                    #user_id, diem = topdiem.split()
-                    td = sorted(topdiem, key=diem)
-                    top += f"""{td}\n"""
+    if chat_id == group_id2 or chat_id == group_id3:
+          top = f"Top 10 điểm cao nhất:\n"
+          for user_id, diem in user_balance.get():
+              td = sorted(user_balance, diem)
+              top += f"""{td}\n"""
                     #topdiem[int(user_id)] += (int(diem))
                     # = "/n".join(reversed(diem))
-        
-                
-            Luna.send_message(chat_id, top)
+          Luna.send_message(chat_id, top)
             
         #for user_id, balance in user_balance.items():
             #topdiem = []
