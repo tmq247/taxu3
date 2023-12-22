@@ -631,7 +631,7 @@ def top_diem(_, message: Message):
           top = f"Top 10 điểm cao nhất:\n"
           
           diem = user_balance.get(admin, 0)
-          td = sorted(user_balance, diem)
+          td = sorted(user_balance, key=diem)
           top += f"""{td}\n"""
                     #topdiem[int(user_id)] += (int(diem))
                     # = "/n".join(reversed(diem))
