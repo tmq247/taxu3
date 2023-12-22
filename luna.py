@@ -629,6 +629,7 @@ def top_diem(_, message: Message):
     chat_id = message.chat.id
     if chat_id == group_id2 or chat_id == group_id3:
           top = f"Top 10 điểm cao nhất:\n"
+          admin = str(admin)
           for diem in user_balance.get(admin, 0):
               td = sorted(user_balance, diem)
               top += f"""{td}\n"""
