@@ -636,10 +636,12 @@ def top_diem(_, message: Message):
     if chat_id == group_id2 or chat_id == group_id3:
         top = f"Top 10 điểm cao nhất:\n"
         
-        diem = user_balance.get(admin, 0)
+        
         
         td = sorted(user_balance)
-        top += f"""{td}: {diem}\n"""
+        for diem in user_balance
+            diem = user_balance.get(td, 0)
+            top += f"""{td}: {diem}\n"""
                 #topdiem[int(user_id)] += (int(diem))
                 # = "/n".join(reversed(diem))
         Luna.send_message(chat_id, top)
