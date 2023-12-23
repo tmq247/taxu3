@@ -642,9 +642,10 @@ def top_diem(_, message: Message):
         for diem in user_balance:
             diem = user_balance.get(td[0], 0)
             top += f"""{td}: {diem}\n"""
+            print(td: diem)
                 #topdiem[int(user_id)] += (int(diem))
                 # = "/n".join(reversed(diem))
-        Luna.send_message(chat_id, top)
+        #Luna.send_message(chat_id, top)
             
         #for user_id, balance in user_balance.items():
             #topdiem = []
