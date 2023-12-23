@@ -639,7 +639,7 @@ def top_diem(_, message: Message):
         
         
         td = sorted(user_balance)
-        for diem in user_balance
+        for diem in user_balance:
             diem = user_balance.get(td, 0)
             top += f"""{td}: {diem}\n"""
                 #topdiem[int(user_id)] += (int(diem))
