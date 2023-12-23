@@ -638,7 +638,7 @@ def top_diem(_, message: Message):
         
         diem = user_balance.get(admin, 0)
         
-        td = sorted(user_balance[1])
+        td = sorted(user_balance)
         top += f"""{td}\n"""
                 #topdiem[int(user_id)] += (int(diem))
                 # = "/n".join(reversed(diem))
