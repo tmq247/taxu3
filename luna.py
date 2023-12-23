@@ -639,7 +639,7 @@ def top_diem(_, message: Message):
         diem = user_balance.get(admin, 0)
         
         td = sorted(user_balance)
-        top += f"""{td}\n"""
+        top += f"""{td}: {diem}\n"""
                 #topdiem[int(user_id)] += (int(diem))
                 # = "/n".join(reversed(diem))
         Luna.send_message(chat_id, top)
