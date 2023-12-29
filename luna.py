@@ -619,8 +619,8 @@ def listdiem(_, message: Message):
                 balance = int(balance)
             topdiem[int(user_id)] = {"diem": 0}
             topdiem[int(user_id)]["diem"] += balance
-        td = sorted(topdiem, diem)
-        print(td)
+        td = sorted(topdiem, key=diem)
+        print(td[:10)
     
 
 @Luna.on_message(filters.command("topdiem"))
