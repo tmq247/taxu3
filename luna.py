@@ -618,7 +618,7 @@ def listdiem(_, message: Message):
             if balance.is_integer():
                 balance = int(balance)
             topdiem[int(user_id)] = {"diem": 0}
-            topdiem[user_id]["diem"] = balance
+            topdiem[user_id]["diem"] += balance
         td = sorted(topdiem, diem)
         print(td)
     
