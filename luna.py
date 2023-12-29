@@ -617,8 +617,8 @@ def listdiem(_, message: Message):
             balance = balance_str
             #if balance.is_integer():
                 #balance = int(balance)
-            topdiem = {"user_id": user_id, "diem": 0}
-            topdiem["user_id"]["diem"] = user_id, balance
+            topdiem[user_id] = {"diem": 0}
+            topdiem[user_id]["diem"] = balance
         print(topdiem)
         td = sorted(topdiem, key=lambda x: x["diem"], reversed=True)
         print(td[:10])
