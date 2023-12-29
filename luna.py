@@ -633,7 +633,7 @@ def top_diem(_, message: Message):
         
         
         
-        td = sorted(user_balance, diem = user_balance.get(":", 0))
+        td = sort(user_balance, key=lambda x: x[1], reversed=True)
         for diem in user_balance:
             diem = user_balance.get(td[0], 0)
             top += f"""{td}: {diem}\n"""
