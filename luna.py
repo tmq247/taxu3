@@ -618,10 +618,10 @@ def listdiem(_, message: Message):
             #if balance.is_integer():
                 #balance = int(balance)
             
-            topdiem[user_id] = {"diem": 0}
-            topdiem[user_id]["diem"] = balance
+            #topdiem[user_id] = {"diem": 0}
+            topdiem[user_id] = balance
         print(topdiem)
-        td = sorted(topdiem, key=lambda x: x["diem"])
+        td = sorted(topdiem, key=lambda x: x[1])
         print(td[:10])
     
 
