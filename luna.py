@@ -616,7 +616,7 @@ def listdiem(_, message: Message):
             user_id, balance_str = line.strip().split()
             balance = float(balance_str)
             if balance.is_integer():
-                balance = int(balance)
+                #balance = int(balance)
             topdiem[int(user_id)] = {"diem": 0}
             topdiem[int(user_id)]["diem"] += balance
         print(topdiem)
