@@ -619,7 +619,7 @@ def listdiem(_, message: Message):
                 balance = int(balance)
             topdiem[int(user_id)] = {"diem": 0}
             topdiem[int(user_id)]["diem"] += balance
-        td = sorted(topdiem, key=diem)
+        td = sorted(topdiem, key="diem")
         print(td[:10])
     
 
