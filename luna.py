@@ -614,7 +614,7 @@ def listdiem(_, message: Message):
     with open("id.txt", "r") as f:
         for line in f:
             user_id, balance_str = line.strip().split()
-            balance = float(balance_str)
+            balance = balance_str
             #if balance.is_integer():
                 #balance = int(balance)
             topdiem[int(user_id)] = {"diem": 0}
